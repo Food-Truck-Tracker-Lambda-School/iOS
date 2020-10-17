@@ -10,7 +10,20 @@ import UIKit
 
 class UserController {
     
+    enum UserType {
+        case diner
+        case owner
+    }
+    
     let dataLoader: NetworkDataLoader
+    
+    var bearer: Bearer?
+    var currentUser: User? {
+        didSet {
+            setUserRole()
+        }
+    }
+    var userRole: UserType?
     
     init(dataLoader: NetworkDataLoader = URLSession.shared) {
         self.dataLoader = dataLoader
@@ -19,9 +32,6 @@ class UserController {
     private let baseURL = URL(string: "https://foodtrucktrackers.herokuapp.com/api/")!
     private lazy var registerURL = baseURL.appendingPathComponent("auth/register")
     private lazy var loginURL = baseURL.appendingPathComponent("auth/login")
-    
-    var bearer: Bearer?
-    var currentUser: User?
     
     private func postRequest(for url: URL) -> URLRequest {
         var request = URLRequest(url: url)
@@ -44,17 +54,11 @@ class UserController {
             }
             request = postRequest(for: url)
             request.httpBody = jsonData
-            dataLoader.dataRequest(with: request) { data, response, error in
+            dataLoader.dataRequest(with: request) { data, _, error in
                 if let error = error {
                     NSLog("Login failed with error: \(error)")
                     completion(.failure(.failedLogin))
                     return
-                }
-                guard let response = response as? HTTPURLResponse,
-                    response.statusCode == 200 else {
-                        NSLog("Login was unsuccesful")
-                        completion(.failure(.failedLogin))
-                        return
                 }
                 guard let data = data else {
                     NSLog("Data was not received")
@@ -72,7 +76,16 @@ class UserController {
             }
         } catch {
             NSLog("Error encoding user: \(error)")
-            completion(.failure(.failedLogin))
+            completion(.failure(.failedEncoding))
+        }
+    }
+    
+    private func setUserRole() {
+        switch currentUser?.roleId {
+        case 2:
+            userRole = .owner
+        default:
+            userRole = .diner
         }
     }
     

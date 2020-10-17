@@ -9,13 +9,13 @@ import Foundation
 
 let validUserJSON = """
 {
-  id: 1,
-  username: 'bilbo',
-  roleId: '1',
-  name: 'gandalf',
-  phoneNumber: 3608675309,
-  email: 'bagend@shire.me',
-  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6Im1lcnJ5IiwiaWF0IjoxNjAyODI0NzY1LCJleHAiOjE2MDI5MTExNjV9.72QcurVABMnlGP0COF08bEB05NE_SbzJrfvw7-HKhYo',
+  "id": 1,
+  "username": "bilbo",
+  "roleId": 1,
+  "name": null,
+  "phoneNumber": null,
+  "email": "bagend@shire.me",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6ImJpbGJvIiwiaWF0IjoxNjAyOTY2MDEwLCJleHAiOjE2MDMwNTI0MTB9.eYb4_8K2RS0I8QMMSfVcIJemPLtt5CiY05_8B1nl9p4"
 }
 """.data(using: .utf8)!
 
