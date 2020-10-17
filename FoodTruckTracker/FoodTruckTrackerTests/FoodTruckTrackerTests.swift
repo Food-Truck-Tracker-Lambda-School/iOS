@@ -14,17 +14,16 @@ class FoodTruckTrackerTests: XCTestCase {
         let mock = MockLoader()
         mock.data = validUserJSON
         
-        let controller = UserController(dataLoader: mock)
+        let controller = APIController(dataLoader: mock)
         let resultsExpectation = expectation(description: "Wait for registration results")
         
         let user = User(username: "bilbo", password: "baggins", roleId: 1, email: "bagend@shire.me")
-        
         
         controller.signIn(existingAccount: nil, newAccount: user) { result in
             resultsExpectation.fulfill()
             XCTAssertEqual(result, .success(true))
         }
-        
+
         wait(for: [resultsExpectation], timeout: 2)
         
         XCTAssertNotNil(controller.currentUser)
@@ -35,7 +34,7 @@ class FoodTruckTrackerTests: XCTestCase {
         let mock = MockLoader()
         mock.data = validUserJSON
         
-        let controller = UserController(dataLoader: mock)
+        let controller = APIController(dataLoader: mock)
         let resultsExpectation = expectation(description: "Wait for login results")
         
         let user = ReturningUser(username: "bilbo", password: "baggins")
@@ -54,8 +53,8 @@ class FoodTruckTrackerTests: XCTestCase {
         let mock = MockLoader()
         mock.data = validUserJSON
         
-        let controller = UserController(dataLoader: mock)
-        let resultsExpectation = expectation(description: "Wait for login results")
+        let controller = APIController(dataLoader: mock)
+        let resultsExpectation = expectation(description: "Wait for results")
         
         let user = ReturningUser(username: "bilbo", password: "baggins")
                 
@@ -66,6 +65,61 @@ class FoodTruckTrackerTests: XCTestCase {
         
         wait(for: [resultsExpectation], timeout: 2)
         XCTAssertEqual(controller.userRole, .diner)
+    }
+    
+    func testFetchAllTrucksWithoutTokenShouldReturnNoResults() {
+        let mock = MockLoader()
+        mock.data = validTrucksJSON
+        
+        var truckArray: [TruckListing] = []
+        var errorCode: NetworkError?
+        
+        let controller = APIController(dataLoader: mock)
+        let resultsExpectation = expectation(description: "Wait for truck results")
+        
+        controller.fetchAllTrucks { result in
+            switch result {
+            case .success(let trucks):
+                truckArray = trucks
+            case .failure(let error):
+                errorCode = error
+            }
+            resultsExpectation.fulfill()
+        }
+        
+        wait(for: [resultsExpectation], timeout: 2)
+        XCTAssertEqual(errorCode, .noToken)
+        XCTAssertEqual(truckArray.count, 0)
+    }
+    
+    func testFetchAllTrucksWithTokenShouldReturnResults() {
+        let mock = MockLoader()
+        mock.data = validTrucksJSON
+        
+        var truckArray: [TruckListing] = []
+        var errorCode: NetworkError?
+        
+        let controller = APIController(dataLoader: mock)
+        
+        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6ImJpbGJvIiwiaWF0IjoxNjAyOTY2MDEwLCJleHAiOjE2MDMwNTI0MTB9.eYb4_8K2RS0I8QMMSfVcIJemPLtt5CiY05_8B1nl9p4"
+        controller.bearer = Bearer(id: 1, token: token)
+        
+        let resultsExpectation = expectation(description: "Wait for truck results")
+        
+        controller.fetchAllTrucks { result in
+            switch result {
+            case .success(let trucks):
+                truckArray = trucks
+            case .failure(let error):
+                errorCode = error
+            }
+            resultsExpectation.fulfill()
+        }
+        
+        wait(for: [resultsExpectation], timeout: 2)
+        XCTAssertNil(errorCode)
+        XCTAssertNotEqual(truckArray.count, 0)
+        XCTAssertEqual(truckArray[1].cuisine, "Cuban")
     }
     
 }

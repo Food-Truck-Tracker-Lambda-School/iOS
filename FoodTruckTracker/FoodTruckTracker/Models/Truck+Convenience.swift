@@ -8,21 +8,6 @@
 import Foundation
 import CoreData
 
-enum Cuisine: String, CaseIterable {
-    case other = "Other"
-    case african = "African"
-    case american = "American"
-    case asian = "Asian"
-    case cuban = "Cuban"
-    case european = "European"
-    case mexican = "Mexican"
-    case middleEastern = "Middle Eastern"
-    case southAmerican = "South American"
-    case bakery = "Bakery"
-    case breakfast = "Breakfast"
-    case treats = "Treats"
-}
-
 extension Truck {
     
     var truckRepresentation: TruckRepresentation? {
