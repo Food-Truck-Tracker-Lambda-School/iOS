@@ -53,7 +53,7 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
         let addressL = "3801 E 10th ave Hialeah Fl, 33010"
         print("New Address \(addressL)")
         
-        self.reverseGeocode(address: addressL, completion: { (placemark) in
+        self.reverseGeocode(address: addressL, completion: { placemark in
             
             let destinationPlacemark = MKPlacemark(coordinate: (placemark.location?.coordinate)!)
             
@@ -64,11 +64,11 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
         
     }
     
-    private func reverseGeocode(address: String, completion: @escaping(CLPlacemark) -> ()) {
+    private func reverseGeocode(address: String, completion: @escaping(CLPlacemark) -> Void) {
         
         let geoCoder = CLGeocoder()
         
-        geoCoder.geocodeAddressString(address) { (placemarks, error) in
+        geoCoder.geocodeAddressString(address) { placemarks, error in
             
             if let error = error {
                 print(error.localizedDescription)
