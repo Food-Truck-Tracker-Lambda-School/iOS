@@ -8,8 +8,10 @@
 import Foundation
 
 struct MenuItem: Codable {
-    var identifier: Int
+    var id: Int
     var name: String
     var price: Double
     var description: String
+    var photos: [Photo] = []
+    var ratings: [Int] = []
 }

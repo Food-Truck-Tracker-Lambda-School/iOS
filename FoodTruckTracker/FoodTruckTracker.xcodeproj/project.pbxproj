@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A51A5BC253CE552001D0325 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5BB253CE552001D0325 /* Photo.swift */; };
 		1A54F762253BDC2B00D02C2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A64013D2537B91800D029DD /* AppDelegate.swift */; };
 		1A54F766253BDC4D00D02C2C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A64013F2537B91800D029DD /* SceneDelegate.swift */; };
 		1A54F76A253BDC6400D02C2C /* FoodTruckTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1A64017B2537BEC300D029DD /* FoodTruckTracker.xcdatamodeld */; };
@@ -61,6 +62,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A51A5BB253CE552001D0325 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		1A64013A2537B91800D029DD /* FoodTruckTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodTruckTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A64013D2537B91800D029DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A64013F2537B91800D029DD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				1A6401AE253946A800D029DD /* Bearer.swift */,
 				1A6401B3253A3E8800D029DD /* TruckListing.swift */,
 				1A6401BD253B5E6900D029DD /* MenuItem.swift */,
+				1A51A5BB253CE552001D0325 /* Photo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A51A5BC253CE552001D0325 /* Photo.swift in Sources */,
 				1A54F772253BDC7600D02C2C /* TruckRepresentation.swift in Sources */,
 				1A54F76E253BDC6D00D02C2C /* Truck+Convenience.swift in Sources */,
 				1A54F76A253BDC6400D02C2C /* FoodTruckTracker.xcdatamodeld in Sources */,

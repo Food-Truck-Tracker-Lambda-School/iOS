@@ -22,21 +22,20 @@ extension Truck {
     
     @discardableResult convenience init(identifier: Int,
                                         name: String,
-                                        cuisine: Cuisine,
+                                        cuisine: String,
                                         imageString: String,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.identifier = Int16(identifier)
         self.name = name
-        self.cuisine = cuisine.rawValue
+        self.cuisine = cuisine
         self.imageString = imageString
     }
     
     @discardableResult convenience init?(truckRepresentation: TruckRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        guard let cuisine = Cuisine(rawValue: truckRepresentation.cuisine) else { return nil }
         self.init(identifier: truckRepresentation.identifier,
                   name: truckRepresentation.name,
-                  cuisine: cuisine,
+                  cuisine: truckRepresentation.cuisine,
                   imageString: truckRepresentation.imageString,
                   context: context)
     }

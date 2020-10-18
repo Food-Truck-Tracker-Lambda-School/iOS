@@ -54,7 +54,7 @@ let validTruckData = """
   }
 """.data(using: .utf8)!
 
-let validTruckMenu = """
+let validOperatorMenu = """
 [
     {
       "id": 1,
@@ -71,7 +71,7 @@ let validTruckMenu = """
 ]
 """.data(using: .utf8)!
 
-let validMenuItem = """
+let validTruckMenu = """
 [
   {
     "id": 1,
