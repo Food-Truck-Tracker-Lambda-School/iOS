@@ -33,7 +33,7 @@ class APIController {
     private let baseURL = URL(string: "https://foodtrucktrackers.herokuapp.com/api/")!
     private lazy var registerURL = baseURL.appendingPathComponent("auth/register")
     private lazy var loginURL = baseURL.appendingPathComponent("auth/login")
-    private lazy var trucksURL = baseURL.appendingPathComponent("trucks")
+    private lazy var trucksURL = baseURL.appendingPathComponent("trucks/")
     
     // MARK: - Functions - Public
     
@@ -120,6 +120,48 @@ class APIController {
         }
     }
     
+    /// use fetchTruckRatings to fetch an array [Int] of ratings for a particular truck
+    /// - Parameters:
+    ///   - truckId: TruckListing.identifier or TruckRepresentation.identifier
+    ///   - completion: returns [Int] - all the ratings for a truck
+    func fetchTruckRatings(truckId: Int, completion: @escaping (Result<[Int], NetworkError>) -> Void) {
+        guard let bearer = bearer else {
+            completion(.failure(.noToken))
+            return
+        }
+        let truckURL = trucksURL.appendingPathComponent("\(truckId)/ratings")
+        let requestURL = truckURL.appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.get.rawValue
+        request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
+        dataLoader.dataRequest(with: request) { data, response, error in
+            if let error = error {
+                NSLog("Error receiving rating data: \(error)")
+                completion(.failure(.tryAgain))
+                return
+            }
+            if let response = response as? HTTPURLResponse,
+                response.statusCode == 401 {
+                NSLog("Error: no bearer token")
+                completion(.failure(.noToken))
+                return
+            }
+            guard let data = data else {
+                NSLog("No data received from fetchTruckRatings")
+                completion(.failure(.noData))
+                return
+            }
+            do {
+                let ratings = try JSONDecoder().decode([Int].self, from: data)
+                completion(.success(ratings))
+            } catch {
+                NSLog("Error decoding rating data: \(error)")
+                completion(.failure(.failedDecoding))
+            }
+        }
+
+    }
+    
     func fetchImage(at urlString: String, completion: @escaping (Result<UIImage, NetworkError>) -> Void) {
         let imageURL = URL(string: urlString)!
         var request = URLRequest(url: imageURL)
@@ -152,6 +194,41 @@ class APIController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         return request
     }
+    
+//    private func getDataRequest<DataType: Codable>(for request: URLRequest, dataType: DataType) {
+//        guard let bearer = bearer else {
+//            completion(.failure(.noToken))
+//            return
+//        }
+//        var getRequest = request
+//        getRequest.httpMethod = HTTPMethod.get.rawValue
+//        getRequest.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
+//        dataLoader.dataRequest(with: request) { data, response, error in
+//            if let error = error {
+//                NSLog("Error receiving data: \(error)")
+//                completion(.failure(.tryAgain))
+//                return
+//            }
+//            if let response = response as? HTTPURLResponse,
+//                response.statusCode == 401 {
+//                NSLog("Error: no bearer token")
+//                completion(.failure(.noToken))
+//                return
+//            }
+//            guard let data = data else {
+//                NSLog("No data received")
+//                completion(.failure(.noData))
+//                return
+//            }
+//            do {
+//                let ratings = try JSONDecoder().decode(dataType.self, from: data)
+//                completion(.success(results))
+//            } catch {
+//                NSLog("Error decoding data: \(error)")
+//                completion(.failure(.failedDecoding))
+//            }
+//        }
+//    }
     
     /// Called in didSet for currentUser to set UserRole to either diner or owner
     private func setUserRole() {
