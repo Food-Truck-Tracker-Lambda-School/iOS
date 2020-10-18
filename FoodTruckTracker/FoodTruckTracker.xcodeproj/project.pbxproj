@@ -21,6 +21,19 @@
 		1A6401912537C3C900D029DD /* Operator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6401902537C3C900D029DD /* Operator.swift */; };
 		1A6401962537C3D700D029DD /* Diner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6401952537C3D700D029DD /* Diner.swift */; };
 		1A64019E2537C57000D029DD /* TruckController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A64019D2537C57000D029DD /* TruckController.swift */; };
+		86018DC125394CEA00469110 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86018DC025394CEA00469110 /* MenuTableViewCell.swift */; };
+		86018DC9253A0DD100469110 /* MenuTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86018DC8253A0DD100469110 /* MenuTableVC.swift */; };
+		86018DCE253A226E00469110 /* TruckDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86018DCD253A226E00469110 /* TruckDetailVC.swift */; };
+		86018DD3253A23DF00469110 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86018DD2253A23DF00469110 /* SearchVC.swift */; };
+		86018DD8253A250500469110 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86018DD7253A250500469110 /* ProfileVC.swift */; };
+		86018DE5253A370200469110 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86018DE4253A370200469110 /* ProfileTableViewCell.swift */; };
+		86018DEA253A3A0E00469110 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86018DE9253A3A0E00469110 /* SignUpVC.swift */; };
+		86018DF2253B6F4A00469110 /* MenuDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86018DF1253B6F4900469110 /* MenuDetailVC.swift */; };
+		86018DF8253B72FE00469110 /* MenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86018DF7253B72FE00469110 /* MenuCollectionViewCell.swift */; };
+		86018E1E253BA86500469110 /* CreateTruckVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86018E1D253BA86500469110 /* CreateTruckVC.swift */; };
+		86018E28253BAA8900469110 /* CreateMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86018E27253BAA8900469110 /* CreateMenuVC.swift */; };
+		86018E30253BB35D00469110 /* createMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86018E2F253BB35D00469110 /* createMenuTableViewCell.swift */; };
+		864D88BD2537F13200000196 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D88BC2537F13200000196 /* LoginVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +74,19 @@
 		1A6401902537C3C900D029DD /* Operator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operator.swift; sourceTree = "<group>"; };
 		1A6401952537C3D700D029DD /* Diner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diner.swift; sourceTree = "<group>"; };
 		1A64019D2537C57000D029DD /* TruckController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TruckController.swift; sourceTree = "<group>"; };
+		86018DC025394CEA00469110 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
+		86018DC8253A0DD100469110 /* MenuTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableVC.swift; sourceTree = "<group>"; };
+		86018DCD253A226E00469110 /* TruckDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TruckDetailVC.swift; sourceTree = "<group>"; };
+		86018DD2253A23DF00469110 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
+		86018DD7253A250500469110 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		86018DE4253A370200469110 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
+		86018DE9253A3A0E00469110 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
+		86018DF1253B6F4900469110 /* MenuDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailVC.swift; sourceTree = "<group>"; };
+		86018DF7253B72FE00469110 /* MenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCollectionViewCell.swift; sourceTree = "<group>"; };
+		86018E1D253BA86500469110 /* CreateTruckVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTruckVC.swift; sourceTree = "<group>"; };
+		86018E27253BAA8900469110 /* CreateMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMenuVC.swift; sourceTree = "<group>"; };
+		86018E2F253BB35D00469110 /* createMenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createMenuTableViewCell.swift; sourceTree = "<group>"; };
+		864D88BC2537F13200000196 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +139,9 @@
 			children = (
 				1A64017A2537BE9100D029DD /* Models */,
 				1A64019C2537C55500D029DD /* ModelControllers */,
+				86018DBF25394CAA00469110 /* TableView Cell */,
+				86018DF6253B72D500469110 /* CollectionView Cell */,
+				864D88BB2537F0FD00000196 /* View Controllers */,
 				1A64019B2537C4C800D029DD /* Storyboards */,
 				1A64019A2537C42600D029DD /* Resources */,
 			);
@@ -176,6 +205,40 @@
 				1A64019D2537C57000D029DD /* TruckController.swift */,
 			);
 			path = ModelControllers;
+			sourceTree = "<group>";
+		};
+		86018DBF25394CAA00469110 /* TableView Cell */ = {
+			isa = PBXGroup;
+			children = (
+				86018DC025394CEA00469110 /* MenuTableViewCell.swift */,
+				86018DE4253A370200469110 /* ProfileTableViewCell.swift */,
+				86018E2F253BB35D00469110 /* createMenuTableViewCell.swift */,
+			);
+			path = "TableView Cell";
+			sourceTree = "<group>";
+		};
+		86018DF6253B72D500469110 /* CollectionView Cell */ = {
+			isa = PBXGroup;
+			children = (
+				86018DF7253B72FE00469110 /* MenuCollectionViewCell.swift */,
+			);
+			path = "CollectionView Cell";
+			sourceTree = "<group>";
+		};
+		864D88BB2537F0FD00000196 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				864D88BC2537F13200000196 /* LoginVC.swift */,
+				86018DC8253A0DD100469110 /* MenuTableVC.swift */,
+				86018DCD253A226E00469110 /* TruckDetailVC.swift */,
+				86018DD2253A23DF00469110 /* SearchVC.swift */,
+				86018DD7253A250500469110 /* ProfileVC.swift */,
+				86018DE9253A3A0E00469110 /* SignUpVC.swift */,
+				86018DF1253B6F4900469110 /* MenuDetailVC.swift */,
+				86018E1D253BA86500469110 /* CreateTruckVC.swift */,
+				86018E27253BAA8900469110 /* CreateMenuVC.swift */,
+			);
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -329,15 +392,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86018DD8253A250500469110 /* ProfileVC.swift in Sources */,
 				1A6401962537C3D700D029DD /* Diner.swift in Sources */,
 				1A6401872537BF3C00D029DD /* Truck+Convenience.swift in Sources */,
 				1A64013E2537B91800D029DD /* AppDelegate.swift in Sources */,
+				86018E1E253BA86500469110 /* CreateTruckVC.swift in Sources */,
 				1A64017D2537BEC300D029DD /* FoodTruckTracker.xcdatamodeld in Sources */,
+				864D88BD2537F13200000196 /* LoginVC.swift in Sources */,
 				1A6401402537B91800D029DD /* SceneDelegate.swift in Sources */,
+				86018E30253BB35D00469110 /* createMenuTableViewCell.swift in Sources */,
+				86018DD3253A23DF00469110 /* SearchVC.swift in Sources */,
+				86018E28253BAA8900469110 /* CreateMenuVC.swift in Sources */,
+				86018DF8253B72FE00469110 /* MenuCollectionViewCell.swift in Sources */,
 				1A6401912537C3C900D029DD /* Operator.swift in Sources */,
+				86018DE5253A370200469110 /* ProfileTableViewCell.swift in Sources */,
 				1A64019E2537C57000D029DD /* TruckController.swift in Sources */,
 				1A64018C2537BF5900D029DD /* TruckRepresentation.swift in Sources */,
+				86018DF2253B6F4A00469110 /* MenuDetailVC.swift in Sources */,
 				1A6401822537BEE000D029DD /* CoreDataStack.swift in Sources */,
+				86018DCE253A226E00469110 /* TruckDetailVC.swift in Sources */,
+				86018DC9253A0DD100469110 /* MenuTableVC.swift in Sources */,
+				86018DC125394CEA00469110 /* MenuTableViewCell.swift in Sources */,
+				86018DEA253A3A0E00469110 /* SignUpVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,8 +590,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 739A4FRA34;
-				INFOPLIST_FILE = FoodTruckTracker/Info.plist;
+				DEVELOPMENT_TEAM = Q2395UCK67;
+				INFOPLIST_FILE = FoodTruckTracker/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -523,7 +599,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.CoraJacobson.FoodTruckTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -533,8 +609,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 739A4FRA34;
-				INFOPLIST_FILE = FoodTruckTracker/Info.plist;
+				DEVELOPMENT_TEAM = Q2395UCK67;
+				INFOPLIST_FILE = FoodTruckTracker/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -542,7 +618,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.CoraJacobson.FoodTruckTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
