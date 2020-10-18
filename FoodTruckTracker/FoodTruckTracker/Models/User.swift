@@ -2,7 +2,7 @@
 //  User.swift
 //  FoodTruckTracker
 //
-//  Created by Cora Jacobson on 10/14/20.
+//  Created by Cora Jacobson on 10/17/20.
 //
 
 import Foundation
