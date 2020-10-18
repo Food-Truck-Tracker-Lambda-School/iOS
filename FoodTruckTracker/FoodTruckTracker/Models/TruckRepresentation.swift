@@ -8,7 +8,8 @@
 import Foundation
 
 struct TruckRepresentation: Codable {
-    
-    var identifier: String
-    
+    var identifier: Int
+    var name: String
+    var cuisine: String
+    var imageString: String
 }

@@ -11,23 +11,33 @@ import CoreData
 extension Truck {
     
     var truckRepresentation: TruckRepresentation? {
-        // add guard let statement
-        TruckRepresentation( // add attributes
-            identifier: identifier?.uuidString ?? "")
+        guard let name = name,
+              let cuisine = cuisine,
+              let imageString = imageString else { return nil }
+        return TruckRepresentation(identifier: Int(identifier),
+                                   name: name,
+                                   cuisine: cuisine,
+                                   imageString: imageString)
     }
     
-    @discardableResult convenience init( // add attributes
-                                        identifier: UUID = UUID(),
+    @discardableResult convenience init(identifier: Int,
+                                        name: String,
+                                        cuisine: Cuisine,
+                                        imageString: String,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
-        self.identifier = identifier
-        // add attributes
+        self.identifier = Int16(identifier)
+        self.name = name
+        self.cuisine = cuisine.rawValue
+        self.imageString = imageString
     }
     
     @discardableResult convenience init?(truckRepresentation: TruckRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        guard let identifier = UUID(uuidString: truckRepresentation.identifier) else { return nil }
-        self.init( // add attributes
-                  identifier: identifier,
+        guard let cuisine = Cuisine(rawValue: truckRepresentation.cuisine) else { return nil }
+        self.init(identifier: truckRepresentation.identifier,
+                  name: truckRepresentation.name,
+                  cuisine: cuisine,
+                  imageString: truckRepresentation.imageString,
                   context: context)
     }
     
