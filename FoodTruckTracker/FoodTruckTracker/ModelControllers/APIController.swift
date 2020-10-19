@@ -39,7 +39,7 @@ class APIController {
     
     // MARK: - Functions - Public
     
-        // MARK: - User Functions - Register/Login, Diner Favorites, Owner Trucks
+    // MARK: - User Functions - Register/Login, Diner Favorites/Owner Trucks
     
     /// Use signIn function to either login an existing user or register and login a new user; configured to also use MockData for testing
     /// - Parameters:
@@ -134,7 +134,7 @@ class APIController {
         }
     }
     
-        // MARK: - Truck Functions - GET Requests
+    // MARK: - Truck Functions - GET Requests
     
     /// Use fetchAllTrucks to fetch an array of all trucks from the server
     /// - Parameter completion: returns an array of trucks
@@ -265,6 +265,61 @@ class APIController {
         task.resume()
         }
     
+    // MARK: - Truck Functions - POST Requests
+    
+    /// creates a new truck; only for owners
+    /// - Parameters:
+    ///   - truck: accepts a TruckListing - initialize using only name, location, and cuisineId
+    ///   - completion: successful result fetches and syncs users trucks
+    func createTruck(truck: TruckListing, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+        guard let bearer = bearer,
+              userRole == .owner else { return }
+        let url = ownerURL.appendingPathComponent("\(bearer.id)/trucks")
+        postDataTask(url: url, postData: truck) { result in
+            switch result {
+            case .success(true):
+                self.getFavorites { _ in }
+                completion(.success(true))
+            case .failure(.failedEncoding):
+                completion(.failure(.failedEncoding))
+            case .failure(.failedResponse):
+                completion(.failure(.failedResponse))
+            default:
+                completion(.failure(.tryAgain))
+            }
+        }
+    }
+    
+    /// creates a MenuItem; only for owners
+    /// - Parameters:
+    ///   - item: accepts a MenuItem - initialize using only name, price, and description
+    ///   - completion: successful result returns the updated menu
+    func createMenuItem(item: MenuItem, truck: TruckListing, completion: @escaping (Result<[MenuItem], NetworkError>) -> Void) {
+        guard let bearer = bearer,
+              userRole == .owner,
+              let truckId = truck.identifier else { return }
+        let url = ownerURL.appendingPathComponent("\(bearer.id)/trucks/\(truckId)/menu")
+        postDataTask(url: url, postData: item) { result in
+            switch result {
+            case .success(true):
+                self.fetchTruckMenu(truckId: truckId) { results in
+                    switch results {
+                    case .success(let menu):
+                        completion(.success(menu))
+                    default:
+                        completion(.failure(.otherError))
+                    }
+                }
+            case .failure(.failedEncoding):
+                completion(.failure(.failedEncoding))
+            case .failure(.failedResponse):
+                completion(.failure(.failedResponse))
+            default:
+                completion(.failure(.tryAgain))
+            }
+        }
+    }
+    
     // MARK: - Functions - Private
     
     /// Called in signIn to set up a post request
@@ -275,6 +330,41 @@ class APIController {
         request.httpMethod = HTTPMethod.post.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         return request
+    }
+    
+    /// performs a POST data task, using generics to accept any Codable data struct
+    /// - Parameters:
+    ///   - url: accepts a url
+    ///   - postData: accepts any codable data type
+    ///   - completion: result is either success or a network error
+    private func postDataTask<PostData: Codable>(url: URL, postData: PostData, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+        guard let bearer = bearer else { return }
+        var request = URLRequest(url: url)
+        var jsonData: Data
+        do {
+            jsonData = try JSONEncoder().encode(postData)
+            request.httpBody = jsonData
+            request.httpMethod = HTTPMethod.post.rawValue
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
+            dataLoader.dataRequest(with: request) { _, response, error in
+                if let error = error {
+                    NSLog("Post failed with error: \(error)")
+                    completion(.failure(.otherError))
+                    return
+                }
+                guard let response = response as? HTTPURLResponse,
+                    response.statusCode == 200  else {
+                    NSLog("Error: failed response")
+                    completion(.failure(.failedResponse))
+                    return
+                }
+                completion(.success(true))
+            }
+        } catch {
+            NSLog("Error encoding data: \(error)")
+            completion(.failure(.failedEncoding))
+        }
     }
     
     /// Sets up a get request using a url and an optional urlPathComponent
@@ -305,7 +395,7 @@ class APIController {
         }
     }
     
-    /// called in getDinerFavorites and getOwnerTrucks to sync favorites with CoreData
+    /// called in getFavorites to sync favorites with CoreData
     /// - Parameter trucks: accepts an array [TruckListing]
     /// - Throws: CoreDataStack.shared.save is a throwing function
     private func syncTrucksWithCoreData(trucks: [TruckListing]) throws {
@@ -325,7 +415,7 @@ class APIController {
                     trucksToCreate.removeValue(forKey: id)
                 }
                 for listing in trucksToCreate.values {
-                    let representation = convertListingToRepresentation(listing: listing)
+                    guard let representation = convertListingToRepresentation(listing: listing) else { continue }
                     Truck(truckRepresentation: representation, context: context)
                 }
             } catch {
@@ -340,19 +430,20 @@ class APIController {
     ///   - truck: accepts a truck from the array of existing trucks
     ///   - listing: accepts a listing from the array of truck listings
     private func update(truck: Truck, listing: TruckListing) {
+        guard let cuisine = listing.cuisine else { return }
         truck.name = listing.name
-        truck.cuisine = listing.cuisine
+        truck.cuisine = cuisine
         truck.imageString = listing.imageString
     }
     
     /// called in syncTrucksWithCoreData to convert a listing to a representation
     /// - Parameter listing: accepts a listing from the array of truck listings
     /// - Returns: returns a TruckRepresentation that can be used to create a Truck for CoreData
-    private func convertListingToRepresentation(listing: TruckListing) -> TruckRepresentation {
-        let identifier = listing.identifier
+    private func convertListingToRepresentation(listing: TruckListing) -> TruckRepresentation? {
+        guard let identifier = listing.identifier,
+              let cuisine = listing.cuisine else { return nil }
         let name = listing.name
-        let cuisine = listing.cuisine
-        let imageString = listing.imageString
+        let imageString = listing.imageString ?? ""
         return TruckRepresentation(identifier: identifier, name: name, cuisine: cuisine, imageString: imageString)
     }
     
