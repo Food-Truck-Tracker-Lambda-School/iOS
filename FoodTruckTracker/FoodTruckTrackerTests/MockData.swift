@@ -103,3 +103,7 @@ let validTruckRatings = """
   1
 ]
 """.data(using: .utf8)!
+
+let emptyArray = """
+[]
+""".data(using: .utf8)!
