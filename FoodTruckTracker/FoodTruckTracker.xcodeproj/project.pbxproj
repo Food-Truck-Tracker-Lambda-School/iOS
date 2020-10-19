@@ -41,6 +41,13 @@
 		86018E28253BAA8900469110 /* CreateMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86018E27253BAA8900469110 /* CreateMenuVC.swift */; };
 		86018E30253BB35D00469110 /* createMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86018E2F253BB35D00469110 /* createMenuTableViewCell.swift */; };
 		864D88BD2537F13200000196 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D88BC2537F13200000196 /* LoginVC.swift */; };
+		86599A67253CF3A2002D47DC /* FTAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86599A66253CF3A2002D47DC /* FTAlert.swift */; };
+		86599A74253D012E002D47DC /* FTAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86599A73253D012E002D47DC /* FTAlertVC.swift */; };
+		86599A7F253D01F1002D47DC /* FTBodyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86599A7E253D01F1002D47DC /* FTBodyLabel.swift */; };
+		86599A87253D0227002D47DC /* FTTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86599A86253D0227002D47DC /* FTTitleLabel.swift */; };
+		86599A8C253D025E002D47DC /* FTSecondaryTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86599A8B253D025E002D47DC /* FTSecondaryTitleLabel.swift */; };
+		86599A92253D02A7002D47DC /* FTButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86599A91253D02A7002D47DC /* FTButton.swift */; };
+		86599A9B253D1318002D47DC /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86599A9A253D1318002D47DC /* UIColor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +108,13 @@
 		86018E27253BAA8900469110 /* CreateMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMenuVC.swift; sourceTree = "<group>"; };
 		86018E2F253BB35D00469110 /* createMenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createMenuTableViewCell.swift; sourceTree = "<group>"; };
 		864D88BC2537F13200000196 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		86599A66253CF3A2002D47DC /* FTAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTAlert.swift; sourceTree = "<group>"; };
+		86599A73253D012E002D47DC /* FTAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTAlertVC.swift; sourceTree = "<group>"; };
+		86599A7E253D01F1002D47DC /* FTBodyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTBodyLabel.swift; sourceTree = "<group>"; };
+		86599A86253D0227002D47DC /* FTTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTTitleLabel.swift; sourceTree = "<group>"; };
+		86599A8B253D025E002D47DC /* FTSecondaryTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTSecondaryTitleLabel.swift; sourceTree = "<group>"; };
+		86599A91253D02A7002D47DC /* FTButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTButton.swift; sourceTree = "<group>"; };
+		86599A9A253D1318002D47DC /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +151,9 @@
 		1A64013C2537B91800D029DD /* FoodTruckTracker */ = {
 			isa = PBXGroup;
 			children = (
+				86599A62253CE58E002D47DC /* Custom UI */,
 				1A6401CA253B680000D029DD /* Helpers */,
+				86599A99253D12F2002D47DC /* Extension */,
 				1A64017A2537BE9100D029DD /* Models */,
 				1A64019C2537C55500D029DD /* ModelControllers */,
 				86018DBF25394CAA00469110 /* TableView Cell */,
@@ -254,6 +270,43 @@
 				86018E27253BAA8900469110 /* CreateMenuVC.swift */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		86599A62253CE58E002D47DC /* Custom UI */ = {
+			isa = PBXGroup;
+			children = (
+				86599A90253D0278002D47DC /* UI Button */,
+				86599A78253D0176002D47DC /* UI Label */,
+				86599A66253CF3A2002D47DC /* FTAlert.swift */,
+				86599A73253D012E002D47DC /* FTAlertVC.swift */,
+			);
+			path = "Custom UI";
+			sourceTree = "<group>";
+		};
+		86599A78253D0176002D47DC /* UI Label */ = {
+			isa = PBXGroup;
+			children = (
+				86599A7E253D01F1002D47DC /* FTBodyLabel.swift */,
+				86599A86253D0227002D47DC /* FTTitleLabel.swift */,
+				86599A8B253D025E002D47DC /* FTSecondaryTitleLabel.swift */,
+			);
+			path = "UI Label";
+			sourceTree = "<group>";
+		};
+		86599A90253D0278002D47DC /* UI Button */ = {
+			isa = PBXGroup;
+			children = (
+				86599A91253D02A7002D47DC /* FTButton.swift */,
+			);
+			path = "UI Button";
+			sourceTree = "<group>";
+		};
+		86599A99253D12F2002D47DC /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				86599A9A253D1318002D47DC /* UIColor.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -409,11 +462,14 @@
 				1A54F76E253BDC6D00D02C2C /* Truck+Convenience.swift in Sources */,
 				1A54F76A253BDC6400D02C2C /* FoodTruckTracker.xcdatamodeld in Sources */,
 				1A54F766253BDC4D00D02C2C /* SceneDelegate.swift in Sources */,
+				86599A87253D0227002D47DC /* FTTitleLabel.swift in Sources */,
 				1A54F762253BDC2B00D02C2C /* AppDelegate.swift in Sources */,
 				86018DD8253A250500469110 /* ProfileVC.swift in Sources */,
+				86599A92253D02A7002D47DC /* FTButton.swift in Sources */,
 				86018E1E253BA86500469110 /* CreateTruckVC.swift in Sources */,
 				864D88BD2537F13200000196 /* LoginVC.swift in Sources */,
 				86018E30253BB35D00469110 /* createMenuTableViewCell.swift in Sources */,
+				86599A74253D012E002D47DC /* FTAlertVC.swift in Sources */,
 				86018DD3253A23DF00469110 /* SearchVC.swift in Sources */,
 				86018E28253BAA8900469110 /* CreateMenuVC.swift in Sources */,
 				86018DF8253B72FE00469110 /* MenuCollectionViewCell.swift in Sources */,
@@ -425,10 +481,14 @@
 				1A6401E0253B7C8600D029DD /* NetworkDataLoader.swift in Sources */,
 				1A6401C6253B64A100D029DD /* APIController.swift in Sources */,
 				1A6401BE253B5E6900D029DD /* MenuItem.swift in Sources */,
+				86599A9B253D1318002D47DC /* UIColor.swift in Sources */,
 				1A6401CC253B682000D029DD /* Constants.swift in Sources */,
 				1A6401E5253B7CC000D029DD /* URLSession+NetworkDataLoader.swift in Sources */,
+				86599A67253CF3A2002D47DC /* FTAlert.swift in Sources */,
 				1A6401822537BEE000D029DD /* CoreDataStack.swift in Sources */,
+				86599A8C253D025E002D47DC /* FTSecondaryTitleLabel.swift in Sources */,
 				86018DCE253A226E00469110 /* TruckDetailVC.swift in Sources */,
+				86599A7F253D01F1002D47DC /* FTBodyLabel.swift in Sources */,
 				86018DC9253A0DD100469110 /* MenuTableVC.swift in Sources */,
 				86018DC125394CEA00469110 /* MenuTableViewCell.swift in Sources */,
 				86018DEA253A3A0E00469110 /* SignUpVC.swift in Sources */,

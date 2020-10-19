@@ -16,7 +16,7 @@ class APIController {
 
     let dataLoader: NetworkDataLoader
     
-    var bearer: Bearer?
+    var bearer: Bearer? 
     var currentUser: User? {
         didSet {
             setUserRole()

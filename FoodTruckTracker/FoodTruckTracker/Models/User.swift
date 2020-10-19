@@ -10,7 +10,7 @@ import Foundation
 struct User: Codable {
     let username: String
     let password: String?
-    let roleId: Int
+    let roleId: Int?
     let email: String
 }
 
