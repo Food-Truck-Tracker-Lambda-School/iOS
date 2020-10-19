@@ -27,9 +27,9 @@ enum NetworkError: Error {
     case otherError
 }
 
-enum UserType {
-    case diner
-    case owner
+enum UserType: Int {
+    case diner = 1
+    case owner = 2
 }
 
 enum Cuisine: String, CaseIterable {

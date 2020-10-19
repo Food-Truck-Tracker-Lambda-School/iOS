@@ -17,6 +17,9 @@ class ProfileTableViewCell: UITableViewCell {
     // MARK: - Properties
     static let resuseIdentifier = "ProfileTableCell"
     
+    
+    
+    
 
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -18,12 +18,37 @@ class LoginVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+   
+        
     }
     
+
+    
     @IBAction func loginButton(_ sender: UIButton) {
-    }
+        presentFTAlertOnMainThread(title: "No Information", message: "Please provide an username and password to Login", buttonTitle: "Ok")
+        
+        guard let username = usernameTextField.text, !username.isEmpty,
+              let password = passwordTexxtField.text, !password.isEmpty else {
+            // Alert
+            return
+        }
+        
+        let user = ReturningUser(username: username, password: password)
+        
+        APIController.shared.signIn(existingAccount: user, newAccount: nil) { (result) in
+            
+            switch result {
+            case .success(let success):
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "LoginGoToTabBarSegue", sender: nil)
+                }
+            case .failure(let error):
+                print("Failed to Login \(error)")
+                self.presentFTAlertOnMainThread(title: "Wrong User", message: "Please provide the correct user information.", buttonTitle: "Ok")
+            }
+        }
+        
+    }//
     
 
 }//
