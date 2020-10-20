@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1A51A5BC253CE552001D0325 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5BB253CE552001D0325 /* Photo.swift */; };
+		1A51A5D8253F3FE0001D0325 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5D7253F3FE0001D0325 /* Rating.swift */; };
 		1A54F762253BDC2B00D02C2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A64013D2537B91800D029DD /* AppDelegate.swift */; };
 		1A54F766253BDC4D00D02C2C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A64013F2537B91800D029DD /* SceneDelegate.swift */; };
 		1A54F76A253BDC6400D02C2C /* FoodTruckTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1A64017B2537BEC300D029DD /* FoodTruckTracker.xcdatamodeld */; };
@@ -70,6 +71,7 @@
 
 /* Begin PBXFileReference section */
 		1A51A5BB253CE552001D0325 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		1A51A5D7253F3FE0001D0325 /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		1A64013A2537B91800D029DD /* FoodTruckTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodTruckTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A64013D2537B91800D029DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A64013F2537B91800D029DD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				1A6401B3253A3E8800D029DD /* TruckListing.swift */,
 				1A6401BD253B5E6900D029DD /* MenuItem.swift */,
 				1A51A5BB253CE552001D0325 /* Photo.swift */,
+				1A51A5D7253F3FE0001D0325 /* Rating.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				1A6401E0253B7C8600D029DD /* NetworkDataLoader.swift in Sources */,
 				1A6401C6253B64A100D029DD /* APIController.swift in Sources */,
 				1A6401BE253B5E6900D029DD /* MenuItem.swift in Sources */,
+				1A51A5D8253F3FE0001D0325 /* Rating.swift in Sources */,
 				86599A9B253D1318002D47DC /* UIColor.swift in Sources */,
 				1A6401CC253B682000D029DD /* Constants.swift in Sources */,
 				1A6401E5253B7CC000D029DD /* URLSession+NetworkDataLoader.swift in Sources */,

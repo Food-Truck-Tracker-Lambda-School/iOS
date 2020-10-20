@@ -61,7 +61,7 @@ struct TruckListing: Codable {
         cuisineId = try container.decode(Int.self, forKey: .cuisineId)
         cuisine = Cuisine.allCases[cuisineId].rawValue
         photoId = try container.decode(Int.self, forKey: .photoId)
-        imageString = try container.decodeIfPresent(String.self, forKey: .photoUrl)
+        imageString = try container.decodeIfPresent(String.self, forKey: .photoUrl) ?? ""
         ratings = try container.decodeIfPresent([Int].self, forKey: .ratings) ?? []
     }
     

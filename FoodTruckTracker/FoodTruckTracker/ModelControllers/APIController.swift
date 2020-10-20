@@ -45,7 +45,7 @@ class APIController {
     
     // MARK: - Functions - Public
     
-    // MARK: - User Functions - Register/Login, Diner Favorites/Owner Trucks
+    // MARK: - User Functions - Register/Login, Diner Favorites/Owner Trucks, Post Rating
     
     /// Use signIn function to either login an existing user or register and login a new user; configured to also use MockData for testing
     /// - Parameters:
@@ -66,10 +66,16 @@ class APIController {
             }
             request = postRequest(for: url)
             request.httpBody = jsonData
-            dataLoader.dataRequest(with: request) { data, _, error in
+            dataLoader.dataRequest(with: request) { data, response, error in
                 if let error = error {
                     NSLog("Login failed with error: \(error)")
                     completion(.failure(.failedLogin))
+                    return
+                }
+                if let response = response as? HTTPURLResponse,
+                   200...210 ~= response.statusCode {
+                    NSLog("Error: failed response")
+                    completion(.failure(.failedResponse))
                     return
                 }
                 guard let data = data else {
@@ -186,6 +192,34 @@ class APIController {
         }
     }
     
+    /// posts a rating to either a TruckListing or a MenuItem
+    /// - Parameters:
+    ///   - rating: accepts an integer between 1 and 5
+    ///   - truckId: accepts TruckListing.identifier
+    ///   - itemId: accepts optional MenuItem.id, set to nil for truck ratings
+    ///   - completion: completion provided for any necessary UI updates
+    func postRating(rating: Int, truckId: Int, itemId: Int?, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+        guard let bearer = bearer,
+              userRole == .diner,
+              1...5 ~= rating else { return }
+        var url = trucksURL
+        let rating = Rating(userId: bearer.id, rating: rating)
+        if let itemId = itemId {
+            url = url.appendingPathComponent("\(truckId)/menu/\(itemId)/ratings")
+        } else {
+            url = url.appendingPathComponent("\(truckId)/ratings")
+        }
+        postDataTask(url: url, postData: rating) { result in
+            switch result {
+            case .success(true):
+                completion(.success(true))
+            default:
+                NSLog("Failed to post rating")
+                completion(.failure(.otherError))
+            }
+        }
+    }
+    
     // MARK: - Truck Functions - GET Requests
     
     /// Use fetchAllTrucks to fetch an array of all trucks from the server
@@ -202,9 +236,9 @@ class APIController {
                 return
             }
             if let response = response as? HTTPURLResponse,
-                response.statusCode == 401 {
-                NSLog("Error: no bearer token")
-                completion(.failure(.noToken))
+                response.statusCode != 200 {
+                NSLog("Error: failed response \(response)")
+                completion(.failure(.failedResponse))
                 return
             }
             guard let data = data else {
@@ -222,12 +256,18 @@ class APIController {
         }
     }
     
-    /// use fetchTruckRatings to fetch an array [Int] of ratings for a particular truck
+    /// use fetchRatings to fetch an array [Int] of ratings for a particular truck or menu item
     /// - Parameters:
     ///   - truckId: TruckListing.identifier or TruckRepresentation.identifier
+    ///   - itemId: optional MenuItem.id, set to nil for truck ratings
     ///   - completion: returns [Int] - all the ratings for a truck
-    func fetchTruckRatings(truckId: Int, completion: @escaping (Result<[Int], NetworkError>) -> Void) {
-        let path = "\(truckId)/ratings"
+    func fetchRatings(truckId: Int, itemId: Int?, completion: @escaping (Result<[Int], NetworkError>) -> Void) {
+        var path: String
+        if let itemId = itemId {
+            path = "\(truckId)/menu/\(itemId)/ratings"
+        } else {
+            path = "\(truckId)/ratings"
+        }
         guard let request = getRequest(url: trucksURL, urlPathComponent: path) else {
             completion(.failure(.otherError))
             return
@@ -239,9 +279,9 @@ class APIController {
                 return
             }
             if let response = response as? HTTPURLResponse,
-                response.statusCode == 401 {
-                NSLog("Error: no bearer token")
-                completion(.failure(.noToken))
+                response.statusCode != 200 {
+                NSLog("Error: failed response \(response)")
+                completion(.failure(.failedResponse))
                 return
             }
             guard let data = data else {
@@ -276,9 +316,9 @@ class APIController {
                 return
             }
             if let response = response as? HTTPURLResponse,
-                response.statusCode == 401 {
-                NSLog("Error: no bearer token")
-                completion(.failure(.noToken))
+                response.statusCode != 200 {
+                NSLog("Error: failed response \(response)")
+                completion(.failure(.failedResponse))
                 return
             }
             guard let data = data else {
@@ -401,9 +441,15 @@ class APIController {
         }
     }
     
+    /// a PUT request that edits a truck in the server and updates CoreData
+    /// - Parameters:
+    ///   - truckId: accept TruckListing.identifier
+    ///   - newTruckInfo: accepts a TruckListing containing new info, identifier must match truckId
+    ///   - completion: successful result update both the server and CoreData
     func editTruck(truckId: Int, newTruckInfo: TruckListing, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
         guard let bearer = bearer,
-              userRole == .owner else { return }
+              userRole == .owner,
+              truckId == newTruckInfo.identifier else { return }
         let url = ownerURL.appendingPathComponent("\(bearer.id)/trucks/\(truckId)")
         var request = URLRequest(url: url)
         do {
@@ -419,12 +465,12 @@ class APIController {
                     return
                 }
                 if let response = response as? HTTPURLResponse,
-                    response.statusCode >= 200,
-                    response.statusCode <= 210 {
+                   200...210 ~= response.statusCode {
                     NSLog("Error: failed response")
                     completion(.failure(.failedResponse))
                     return
                 }
+                self.getFavorites { _ in }
                 completion(.success(true))
             }
         } catch {
