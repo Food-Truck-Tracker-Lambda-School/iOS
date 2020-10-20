@@ -32,7 +32,6 @@ class ProfileVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         updateView()
-        print(fetchedResultsController.fetchedObjects?.count as Any)
     }
     
     override func viewWillAppear(_ animated: Bool) {

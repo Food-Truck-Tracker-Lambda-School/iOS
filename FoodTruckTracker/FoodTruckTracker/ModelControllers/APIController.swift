@@ -10,12 +10,12 @@ import CoreData
 
 class APIController {
     
-    
     // MARK: - Properties - Public
     
     static let shared = APIController()
 
     let dataLoader: NetworkDataLoader
+    let defaults = UserDefaults.standard
 
     var bearer: Bearer? {
         didSet {
@@ -86,6 +86,7 @@ class APIController {
                 do {
                     self.currentUser = try JSONDecoder().decode(User.self, from: data)
                     self.bearer = try JSONDecoder().decode(Bearer.self, from: data)
+                    self.checkLastUser()
                     self.getFavorites { _ in }
                     completion(.success(true))
                 } catch {
@@ -626,6 +627,28 @@ class APIController {
         let name = listing.name
         let imageString = listing.imageString ?? ""
         return TruckRepresentation(identifier: identifier, name: name, cuisine: cuisine, imageString: imageString)
+    }
+    
+    /// checks current user against last user on the device, and clears CoreData if it is a different user
+    private func checkLastUser() {
+        guard let bearer = bearer else { return }
+        let userId = bearer.id
+        let moc = CoreDataStack.shared.mainContext
+        if userId != defaults.integer(forKey: "userId") {
+            let fetchRequest: NSFetchRequest<Truck> = Truck.fetchRequest()
+            if let trucks = try? CoreDataStack.shared.mainContext.fetch(fetchRequest) {
+                for truck in trucks {
+                    moc.delete(truck)
+                }
+                do {
+                    try moc.save()
+                } catch {
+                    moc.reset()
+                    NSLog("Error saving managed object context: \(error)")
+                }
+            }
+            defaults.set(userId, forKey: "userId")
+        }
     }
     
 }
