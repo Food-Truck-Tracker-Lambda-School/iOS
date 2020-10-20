@@ -35,6 +35,11 @@ class ProfileVC: UIViewController {
         print(fetchedResultsController.fetchedObjects?.count as Any)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        APIController.shared.getFavorites { _ in }
+    }
+    
     func updateView() {
         if APIController.shared.currentUser?.roleId == 2 {
             navigationItem.rightBarButtonItem?.isEnabled = true
