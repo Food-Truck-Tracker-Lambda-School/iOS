@@ -68,28 +68,24 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         fetchedResultsController.fetchedObjects?[section].cuisine
     }
     
-//    func tableView(_ tableView: UITableView,
-//                            commit editingStyle: UITableViewCell.EditingStyle,
-//                            forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            let truck = fetchedResultsController.object(at: indexPath)
-//            APIController.shared.removeTruck(truckId: <#T##Int#>, completion: { (<#Result<Bool, NetworkError>#>) in
-//                <#code#>
-//            }) { _ in
-//                let moc = CoreDataStack.shared.mainContext
-//                moc.delete(intake)
-//                do {
-//                    try moc.save()
-//                } catch {
-//                    moc.reset()
-//                    NSLog("Error saving managed object context: \(error)")
-//                }
-//                DispatchQueue.main.async {
-//                    self.updateChart()
-//                }
-//            }
-//        }
-//    }
+    func tableView(_ tableView: UITableView,
+                            commit editingStyle: UITableViewCell.EditingStyle,
+                            forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let truck = fetchedResultsController.object(at: indexPath)
+            let truckId = Int(truck.identifier)
+            APIController.shared.removeTruck(truckId: truckId) { _ in
+                let moc = CoreDataStack.shared.mainContext
+                moc.delete(truck)
+                do {
+                    try moc.save()
+                } catch {
+                    moc.reset()
+                    NSLog("Error saving managed object context: \(error)")
+                }
+            }
+        }
+    }
     
 }//
 

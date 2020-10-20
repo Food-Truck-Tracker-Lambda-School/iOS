@@ -116,7 +116,7 @@ class FoodTruckTrackerTests: XCTestCase {
         wait(for: [resultsExpectation], timeout: 2)
         XCTAssertNil(errorCode)
         XCTAssertNotEqual(truckArray.count, 0)
-        XCTAssertEqual(truckArray[1].cuisine, "Cuban")
+        XCTAssertEqual(truckArray[1].cuisine, "African")
     }
     
     func testFetchAllTrucksWithEmptyArrayThrowsNoError() {
@@ -158,7 +158,7 @@ class FoodTruckTrackerTests: XCTestCase {
         controller.bearer = Bearer(id: 1, token: token)
         
         let resultsExpectation = expectation(description: "Wait for ratings results")
-        controller.fetchTruckRatings(truckId: 1) { result in
+        controller.fetchRatings(truckId: 1, itemId: nil) { result in
             switch result {
             case .success(let ratings):
                 ratingsArray = ratings
@@ -204,7 +204,7 @@ class FoodTruckTrackerTests: XCTestCase {
     
     func testGetFavoritesWithDiner() {
         let mock = MockLoader()
-        mock.data = validTrucksJSON
+        mock.data = validFavorites
         
         let controller = APIController(dataLoader: mock)
         let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6ImJpbGJvIiwiaWF0IjoxNjAyOTY2MDEwLCJleHAiOjE2MDMwNTI0MTB9.eYb4_8K2RS0I8QMMSfVcIJemPLtt5CiY05_8B1nl9p4"

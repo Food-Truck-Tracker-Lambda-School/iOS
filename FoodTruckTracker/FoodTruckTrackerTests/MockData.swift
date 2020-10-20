@@ -24,20 +24,52 @@ let validTrucksJSON = """
   {
     "id": 1,
     "name": "truck of today",
-    "location": "37.422161 -122.084267",
-    "departureTime": "1602876339100",
-    "cuisineId": 0,
+    "location": "here",
+    "departureTime": null,
+    "cuisineId": 1,
     "photoId": 1,
-    "photoUrl": "http://www.google.com"
+    "photoUrl": "https://cdn2.lamag.com/wp-content/uploads/sites/6/2017/03/foodtruck.jpg",
+    "ratings": []
   },
   {
     "id": 2,
-    "name": "truck of tomorrow",
-    "location": "47.639881 -122.124382",
-    "departureTime": "1602876339100",
+    "name": "truck of today",
+    "location": "here",
+    "departureTime": null,
+    "cuisineId": 1,
+    "photoId": 1,
+    "photoUrl": "https://cdn2.lamag.com/wp-content/uploads/sites/6/2017/03/foodtruck.jpg",
+    "ratings": []
+  },
+  {
+    "id": 3,
+    "name": "truck of today",
+    "location": "here",
+    "departureTime": null,
+    "cuisineId": 1,
+    "photoId": 1,
+    "photoUrl": "https://cdn2.lamag.com/wp-content/uploads/sites/6/2017/03/foodtruck.jpg",
+    "ratings": []
+  },
+  {
+    "id": 4,
+    "name": "Norlan's Cuban Cuisine",
+    "location": "here",
+    "departureTime": null,
     "cuisineId": 4,
-    "photoId": 2,
-    "photoUrl": "http://www.microsoft.com"
+    "photoId": 1,
+    "photoUrl": "https://cdn2.lamag.com/wp-content/uploads/sites/6/2017/03/foodtruck.jpg",
+    "ratings": []
+  },
+  {
+    "id": 5,
+    "name": "Norlan’s Taco Truck",
+    "location": "here",
+    "departureTime": null,
+    "cuisineId": 6,
+    "photoId": 1,
+    "photoUrl": "https://cdn2.lamag.com/wp-content/uploads/sites/6/2017/03/foodtruck.jpg",
+    "ratings": []
   }
 ]
 """.data(using: .utf8)!
