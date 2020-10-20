@@ -235,7 +235,7 @@ class FoodTruckTrackerTests: XCTestCase {
     
     func testGetFavoritesWithOwner() {
         let mock = MockLoader()
-        mock.data = validTrucksJSON
+        mock.data = validFavorites
         
         let controller = APIController(dataLoader: mock)
         let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6ImJpbGJvIiwiaWF0IjoxNjAyOTY2MDEwLCJleHAiOjE2MDMwNTI0MTB9.eYb4_8K2RS0I8QMMSfVcIJemPLtt5CiY05_8B1nl9p4"

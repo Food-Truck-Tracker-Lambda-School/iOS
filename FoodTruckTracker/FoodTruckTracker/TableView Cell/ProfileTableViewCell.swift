@@ -16,12 +16,17 @@ class ProfileTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     static let resuseIdentifier = "ProfileTableCell"
-    
+    var truck: Truck? {
+        didSet {
+            updateViews()
+        }
+    }
     
     
     private func updateViews() {
-        
-        
+        truckNameLabel.text = truck?.name
+        cuisineTypeLabel.text = truck?.cuisine
+        truckImageView.image = UIImage(named: "FoodTruckPhoto")
     }//
     
     

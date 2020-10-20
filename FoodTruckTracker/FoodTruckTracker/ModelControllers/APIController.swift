@@ -16,12 +16,13 @@ class APIController {
     static let shared = APIController()
 
     let dataLoader: NetworkDataLoader
-    
+
     var bearer: Bearer? {
         didSet {
             print(bearer as Any)
         }
     }
+
     var currentUser: User? {
         didSet {
             setUserRole()
@@ -118,23 +119,69 @@ class APIController {
                 return
             }
             if let response = response as? HTTPURLResponse,
-                response.statusCode == 401 {
-                NSLog("Error: no bearer token")
-                completion(.failure(.noToken))
+                response.statusCode != 200 {
+                NSLog("Error: failed response \(response)")
+                completion(.failure(.failedResponse))
                 return
             }
-            guard let data = data else {
-                NSLog("No data received from fetchAllTrucks")
+            guard let data = data,
+                  !data.isEmpty else {
+                NSLog("No data received from getFavorites")
                 completion(.failure(.noData))
                 return
             }
             do {
-                let trucks = try JSONDecoder().decode([TruckListing].self, from: data)
-                try self.syncTrucksWithCoreData(trucks: trucks)
+                var trucks: [TruckListing] = []
+                if let _trucks = try? JSONDecoder().decode([TruckListing].self, from: data) {
+                    trucks = _trucks
+                }
+                if !trucks.isEmpty {
+                    try self.syncTrucksWithCoreData(trucks: trucks)
+                }
                 completion(.success(true))
             } catch {
                 NSLog("Error decoding truck data: \(error)")
                 completion(.failure(.failedDecoding))
+            }
+        }
+    }
+    
+    /// adds truck to diner favorites by sending to server and updating CoreData; userRole must be diner
+    /// - Parameter truckId: accepts TruckListing.identifier
+    func addTruckToFavorites(truckId: Int) {
+        guard let bearer = bearer,
+              userRole == .diner else { return }
+        let data = ["truckId": truckId]
+        let url = dinerURL.appendingPathComponent("\(bearer.id)/favorites")
+        postDataTask(url: url, postData: data) { result in
+            switch result {
+            case .success(true):
+                self.getFavorites { _ in }
+            default:
+                NSLog("Failed to add truck to favorites")
+            }
+        }
+    }
+    
+    /// Diners - removes truck from favorites, Owners - deletes truck from server; does not address CoreData
+    /// - Parameter truckId: accepts TruckRepresentation.identifier
+    /// - Parameter completion: use completion to delete truck from CoreData in TableViewController
+    func removeTruck(truckId: Int, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+        guard let bearer = bearer else { return }
+        var url: URL
+        switch userRole {
+        case .owner:
+            url = ownerURL.appendingPathComponent("\(bearer.id)/trucks/\(truckId)")
+        default:
+            url = dinerURL.appendingPathComponent("\(bearer.id)/favorites/\(truckId)")
+        }
+        deleteDataTask(url: url) { result in
+            switch result {
+            case .success(true):
+                completion(.success(true))
+            default:
+                NSLog("Failed to remove truck")
+                completion(.failure(.otherError))
             }
         }
     }
@@ -298,11 +345,11 @@ class APIController {
     /// creates a MenuItem; only for owners
     /// - Parameters:
     ///   - item: accepts a MenuItem - initialize using only name, price, and description
+    ///   - truckId: accepts a TruckListing.identifier or TruckRepresentation.identifier
     ///   - completion: successful result returns the updated menu
-    func createMenuItem(item: MenuItem, truck: TruckListing, completion: @escaping (Result<[MenuItem], NetworkError>) -> Void) {
+    func createMenuItem(item: MenuItem, truckId: Int, completion: @escaping (Result<[MenuItem], NetworkError>) -> Void) {
         guard let bearer = bearer,
-              userRole == .owner,
-              let truckId = truck.identifier else { return }
+              userRole == .owner else { return }
         let url = ownerURL.appendingPathComponent("\(bearer.id)/trucks/\(truckId)/menu")
         postDataTask(url: url, postData: item) { result in
             switch result {
@@ -322,6 +369,67 @@ class APIController {
             default:
                 completion(.failure(.tryAgain))
             }
+        }
+    }
+    
+    // MARK: - Truck Functions - Delete Menu Item, Edit Truck
+    
+    /// deletes a MenuItem from a truck's menu; userRole must be owner
+    /// - Parameters:
+    ///   - item: accepts an item to delete
+    ///   - truckId: accepts a TruckListing.identifier or TruckRepresentation.identifier
+    /// - Returns: returns the updated menu
+    func deleteMenuItem(item: MenuItem, truckId: Int, completion: @escaping (Result<[MenuItem], NetworkError>) -> Void) {
+        guard let bearer = bearer,
+              userRole == .owner,
+              let itemId = item.id else { return }
+        let url = ownerURL.appendingPathComponent("\(bearer.id)/trucks/\(truckId)/menu/\(itemId)")
+        deleteDataTask(url: url) { result in
+            switch result {
+            case .success(true):
+                self.fetchTruckMenu(truckId: truckId) { results in
+                    switch results {
+                    case .success(let menu):
+                        completion(.success(menu))
+                    default:
+                        completion(.failure(.otherError))
+                    }
+                }
+            default:
+                completion(.failure(.tryAgain))
+            }
+        }
+    }
+    
+    func editTruck(truckId: Int, newTruckInfo: TruckListing, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+        guard let bearer = bearer,
+              userRole == .owner else { return }
+        let url = ownerURL.appendingPathComponent("\(bearer.id)/trucks/\(truckId)")
+        var request = URLRequest(url: url)
+        do {
+            let jsonData = try JSONEncoder().encode(newTruckInfo)
+            request.httpBody = jsonData
+            request.httpMethod = HTTPMethod.put.rawValue
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
+            dataLoader.dataRequest(with: request) { _, response, error in
+                if let error = error {
+                    NSLog("PUT failed with error: \(error)")
+                    completion(.failure(.otherError))
+                    return
+                }
+                if let response = response as? HTTPURLResponse,
+                    response.statusCode >= 200,
+                    response.statusCode <= 210 {
+                    NSLog("Error: failed response")
+                    completion(.failure(.failedResponse))
+                    return
+                }
+                completion(.success(true))
+            }
+        } catch {
+            NSLog("Error encoding data: \(error)")
+            completion(.failure(.failedEncoding))
         }
     }
     
@@ -351,15 +459,15 @@ class APIController {
             request.httpBody = jsonData
             request.httpMethod = HTTPMethod.post.rawValue
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.addValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
+            request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
             dataLoader.dataRequest(with: request) { _, response, error in
                 if let error = error {
                     NSLog("Post failed with error: \(error)")
                     completion(.failure(.otherError))
                     return
                 }
-                guard let response = response as? HTTPURLResponse,
-                    response.statusCode == 200  else {
+                if let response = response as? HTTPURLResponse,
+                   200...210 ~= response.statusCode {
                     NSLog("Error: failed response")
                     completion(.failure(.failedResponse))
                     return
@@ -369,6 +477,30 @@ class APIController {
         } catch {
             NSLog("Error encoding data: \(error)")
             completion(.failure(.failedEncoding))
+        }
+    }
+    
+    /// performs a DELETE data task
+    /// - Parameters:
+    ///   - url: accepts a url
+    ///   - completion: result is either success or a network error
+    private func deleteDataTask(url: URL, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+        guard let bearer = bearer else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
+        dataLoader.dataRequest(with: request) { _, response, error in
+            if let error = error {
+                NSLog("Delete failed with error: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            guard let response = response as? HTTPURLResponse,
+                  response.statusCode == 204 else {
+                completion(.failure(.failedResponse))
+                return
+            }
+            completion(.success(true))
         }
     }
     
@@ -383,8 +515,7 @@ class APIController {
         if let path = urlPathComponent {
             urlPath = url.appendingPathComponent(path)
         }
-        let requestURL = urlPath.appendingPathExtension("json")
-        var request = URLRequest(url: requestURL)
+        var request = URLRequest(url: urlPath)
         request.httpMethod = HTTPMethod.get.rawValue
         request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
         return request

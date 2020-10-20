@@ -107,3 +107,35 @@ let validTruckRatings = """
 let emptyArray = """
 []
 """.data(using: .utf8)!
+
+let validFavorites = """
+[
+  {
+    "id": 4,
+    "name": "Norlan's Cuban Cuisine",
+    "userId": 10,
+    "location": "here",
+    "departureTime": null,
+    "cuisineId": 4,
+    "photoId": 1
+  },
+  {
+    "id": 5,
+    "name": "Norlan’s Taco Truck",
+    "userId": 10,
+    "location": "here",
+    "departureTime": null,
+    "cuisineId": 6,
+    "photoId": 1
+  },
+  {
+    "id": 6,
+    "name": "Miami Muffins",
+    "userId": 10,
+    "location": "here",
+    "departureTime": null,
+    "cuisineId": 9,
+    "photoId": 1
+  }
+]
+""".data(using: .utf8)!

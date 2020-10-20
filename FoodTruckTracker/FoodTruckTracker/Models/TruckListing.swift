@@ -23,7 +23,7 @@ struct TruckListing: Codable {
     var identifier: Int?
     var name: String
     var location: String
-    var departureTime: Date = Date() + (4 * 60 * 60)
+    var departureTime: Date?
     var cuisineId: Int
     var cuisine: String?
     var photoId: Int
@@ -36,8 +36,8 @@ struct TruckListing: Codable {
          cuisineId: Int,
          cuisine: String? = nil,
          identifier: Int? = nil,
-         departureTime: Date = (Date() + (4 * 60 * 60)),
-         photoId: Int = 0,
+         departureTime: Date? = nil,
+         photoId: Int = 1,
          imageString: String? = nil,
          menu: [MenuItem] = [],
          ratings: [Int] = []) {
@@ -58,13 +58,12 @@ struct TruckListing: Codable {
         identifier = try container.decode(Int.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
         location = try container.decode(String.self, forKey: .location)
-//        departureTime = try container.decode(Date.self, forKey: .departureTime)
         cuisineId = try container.decode(Int.self, forKey: .cuisineId)
         cuisine = Cuisine.allCases[cuisineId].rawValue
         photoId = try container.decode(Int.self, forKey: .photoId)
-        imageString = try container.decode(String.self, forKey: .photoUrl)
-//        ratings = try container.decode([Int].self, forKey: .ratings)
-    } // departureTime needs decoding strategy to decode properly, ratings is still being implemented
+        imageString = try container.decodeIfPresent(String.self, forKey: .photoUrl)
+        ratings = try container.decodeIfPresent([Int].self, forKey: .ratings) ?? []
+    }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: Keys.self)
@@ -73,6 +72,5 @@ struct TruckListing: Codable {
         try container.encode(location, forKey: .location)
         try container.encode(cuisineId, forKey: .cuisineId)
         try container.encode(photoId, forKey: .photoId)
-//        try container.encode(departureTime, forKey: .departureTime)
-    } // check encoding for departureTime with UI
+    }
 }
