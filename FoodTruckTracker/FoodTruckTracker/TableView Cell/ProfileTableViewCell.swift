@@ -19,6 +19,12 @@ class ProfileTableViewCell: UITableViewCell {
     
     
     
+    private func updateViews() {
+        
+        
+    }//
+    
+    
     
 
     override func awakeFromNib() {

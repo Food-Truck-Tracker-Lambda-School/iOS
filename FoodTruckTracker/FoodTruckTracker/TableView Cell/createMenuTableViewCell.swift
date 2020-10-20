@@ -12,7 +12,8 @@ class CreateMenuTableViewCell: UITableViewCell {
     // Outlets
     @IBOutlet private weak var menuItemImageView: UIImageView!
     @IBOutlet private weak var menuItemName: UILabel!
-    @IBOutlet private weak var menuItemDescriptionLabel: UILabel!
+  
+    @IBOutlet private weak var menuDescriptionLabel: UILabel!
     @IBOutlet private weak var menuItemPriceLabel: UILabel!
     
     // MARK: - Properties

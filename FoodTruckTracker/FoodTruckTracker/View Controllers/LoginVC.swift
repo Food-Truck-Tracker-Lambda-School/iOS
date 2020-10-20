@@ -25,7 +25,7 @@ class LoginVC: UIViewController {
 
     
     @IBAction func loginButton(_ sender: UIButton) {
-        presentFTAlertOnMainThread(title: "No Information", message: "Please provide an username and password to Login", buttonTitle: "Ok")
+//        presentFTAlertOnMainThread(title: "No Information", message: "Please provide an username and password to Login", buttonTitle: "Ok")
         
         guard let username = usernameTextField.text, !username.isEmpty,
               let password = passwordTexxtField.text, !password.isEmpty else {

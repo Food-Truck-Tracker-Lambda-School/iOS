@@ -790,23 +790,15 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Truck Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9VI-tf-kt2">
-                                <rect key="frame" x="20" y="632" width="374" height="40"/>
+                                <rect key="frame" x="20" y="522" width="374" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="kux-Y4-dVq"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Cuisine Type" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kAd-xp-1mD">
-                                <rect key="frame" x="20" y="692" width="374" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="byp-nA-ZXe"/>
+                                    <constraint firstAttribute="height" constant="40" id="cmh-TM-hK4"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gcw-fW-x7E">
-                                <rect key="frame" x="20" y="752" width="374" height="60"/>
+                                <rect key="frame" x="20" y="772" width="374" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="ubM-sg-e3Q"/>
@@ -817,36 +809,40 @@
                                 </state>
                                 <connections>
                                     <action selector="createMenuButton:" destination="dLg-iO-dLg" eventType="touchUpInside" id="Wtj-TK-69A"/>
-                                    <segue destination="aOy-Yx-u1q" kind="show" id="2Oa-4b-yfh"/>
+                                    <segue destination="aOy-Yx-u1q" kind="show" identifier="TruckGoToCreateMenu" id="2Oa-4b-yfh"/>
                                 </connections>
                             </button>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KkG-8M-i7t">
+                                <rect key="frame" x="20" y="582" width="374" height="170"/>
+                            </pickerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Djm-bm-1ym"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="9VI-tf-kt2" firstAttribute="leading" secondItem="Djm-bm-1ym" secondAttribute="leading" constant="20" id="BqF-Kw-DQC"/>
                             <constraint firstItem="Djm-bm-1ym" firstAttribute="trailing" secondItem="gcw-fW-x7E" secondAttribute="trailing" constant="20" id="Brz-em-C1f"/>
-                            <constraint firstItem="gcw-fW-x7E" firstAttribute="top" secondItem="kAd-xp-1mD" secondAttribute="bottom" constant="20" id="Cje-cx-SEA"/>
-                            <constraint firstItem="Djm-bm-1ym" firstAttribute="bottom" secondItem="gcw-fW-x7E" secondAttribute="bottom" constant="50" id="Ggb-gc-hct"/>
-                            <constraint firstItem="kAd-xp-1mD" firstAttribute="leading" secondItem="Djm-bm-1ym" secondAttribute="leading" constant="20" id="VhX-P1-hOA"/>
+                            <constraint firstItem="Djm-bm-1ym" firstAttribute="trailing" secondItem="9VI-tf-kt2" secondAttribute="trailing" constant="20" id="FI0-qd-r2C"/>
+                            <constraint firstItem="gcw-fW-x7E" firstAttribute="top" secondItem="KkG-8M-i7t" secondAttribute="bottom" constant="20" id="G05-Ae-TWS"/>
+                            <constraint firstItem="Djm-bm-1ym" firstAttribute="bottom" secondItem="gcw-fW-x7E" secondAttribute="bottom" constant="30" id="Ggb-gc-hct"/>
+                            <constraint firstItem="9VI-tf-kt2" firstAttribute="leading" secondItem="Djm-bm-1ym" secondAttribute="leading" constant="20" id="Ne3-lt-Rhr"/>
+                            <constraint firstItem="KkG-8M-i7t" firstAttribute="leading" secondItem="Djm-bm-1ym" secondAttribute="leading" constant="20" id="TSo-tk-xDd"/>
                             <constraint firstItem="gcw-fW-x7E" firstAttribute="leading" secondItem="Djm-bm-1ym" secondAttribute="leading" constant="20" id="aHn-KT-pDv"/>
                             <constraint firstItem="EhB-I3-YQH" firstAttribute="top" secondItem="Djm-bm-1ym" secondAttribute="top" constant="40" id="aKs-Jb-0Zd"/>
-                            <constraint firstItem="kAd-xp-1mD" firstAttribute="top" secondItem="9VI-tf-kt2" secondAttribute="bottom" constant="20" id="dVR-Ox-fqg"/>
-                            <constraint firstItem="Djm-bm-1ym" firstAttribute="trailing" secondItem="kAd-xp-1mD" secondAttribute="trailing" constant="20" id="i6o-xa-WSf"/>
-                            <constraint firstItem="EhB-I3-YQH" firstAttribute="leading" secondItem="9VI-tf-kt2" secondAttribute="leading" id="nkQ-tH-2lB"/>
-                            <constraint firstItem="Djm-bm-1ym" firstAttribute="trailing" secondItem="9VI-tf-kt2" secondAttribute="trailing" constant="20" id="v6K-az-FRm"/>
+                            <constraint firstItem="Djm-bm-1ym" firstAttribute="trailing" secondItem="KkG-8M-i7t" secondAttribute="trailing" constant="20" id="aeT-0k-ykR"/>
+                            <constraint firstItem="9VI-tf-kt2" firstAttribute="top" secondItem="EhB-I3-YQH" secondAttribute="bottom" constant="20" id="dA6-Qp-Cp4"/>
+                            <constraint firstItem="KkG-8M-i7t" firstAttribute="top" secondItem="9VI-tf-kt2" secondAttribute="bottom" constant="20" id="lCu-Ob-8OT"/>
+                            <constraint firstItem="EhB-I3-YQH" firstAttribute="leading" secondItem="9VI-tf-kt2" secondAttribute="leading" id="y2e-0f-fJE"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="jqk-dj-qqk"/>
                     <connections>
-                        <outlet property="cuisineTypeTextField" destination="kAd-xp-1mD" id="8JJ-5F-iEM"/>
+                        <outlet property="cuisineTypePickerView" destination="KkG-8M-i7t" id="gyn-yB-EnE"/>
                         <outlet property="truckImageView" destination="EhB-I3-YQH" id="3nA-YR-kPe"/>
                         <outlet property="truckNameTextField" destination="9VI-tf-kt2" id="cVD-mA-NAq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aJz-Jh-Rbd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1693" y="2365"/>
+            <point key="canvasLocation" x="-1694.2028985507247" y="2364.5089285714284"/>
         </scene>
         <!--Create MenuVC-->
         <scene sceneID="qmP-sy-d71">
@@ -913,7 +909,7 @@
                                 <rect key="frame" x="0.0" y="293" width="414" height="520"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreateMenuCell" rowHeight="100" id="w9x-uJ-sgW" customClass="createMenuTableViewCell" customModule="FoodTruckTracker" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreateMenuCell" rowHeight="100" id="w9x-uJ-sgW" customClass="CreateMenuTableViewCell" customModule="FoodTruckTracker" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="w9x-uJ-sgW" id="0t8-cs-YDz">
@@ -965,7 +961,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="menuItemDescriptionLabel" destination="tyW-1G-zRa" id="H9E-bu-17p"/>
+                                            <outlet property="menuDescriptionLabel" destination="tyW-1G-zRa" id="oPf-zq-GSB"/>
                                             <outlet property="menuItemImageView" destination="Alq-Jk-cMp" id="B0c-Td-fb4"/>
                                             <outlet property="menuItemName" destination="P19-KS-5HW" id="zgM-TE-T4o"/>
                                             <outlet property="menuItemPriceLabel" destination="CWZ-Jd-YWm" id="BlZ-PG-27U"/>
