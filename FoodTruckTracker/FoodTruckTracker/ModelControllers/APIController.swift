@@ -119,19 +119,25 @@ class APIController {
                 return
             }
             if let response = response as? HTTPURLResponse,
-                response.statusCode == 401 {
-                NSLog("Error: no bearer token")
-                completion(.failure(.noToken))
+                response.statusCode != 200 {
+                NSLog("Error: failed response \(response)")
+                completion(.failure(.failedResponse))
                 return
             }
-            guard let data = data else {
-                NSLog("No data received from fetchAllTrucks")
+            guard let data = data,
+                  !data.isEmpty else {
+                NSLog("No data received from getFavorites")
                 completion(.failure(.noData))
                 return
             }
             do {
-                let trucks = try JSONDecoder().decode([TruckListing].self, from: data)
-                try self.syncTrucksWithCoreData(trucks: trucks)
+                var trucks: [TruckListing] = []
+                if let _trucks = try? JSONDecoder().decode([TruckListing].self, from: data) {
+                    trucks = _trucks
+                }
+                if !trucks.isEmpty {
+                    try self.syncTrucksWithCoreData(trucks: trucks)
+                }
                 completion(.success(true))
             } catch {
                 NSLog("Error decoding truck data: \(error)")
@@ -395,8 +401,36 @@ class APIController {
         }
     }
     
-    func editTruck(truckId: Int) {
-        
+    func editTruck(truckId: Int, newTruckInfo: TruckListing, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+        guard let bearer = bearer,
+              userRole == .owner else { return }
+        let url = ownerURL.appendingPathComponent("\(bearer.id)/trucks/\(truckId)")
+        var request = URLRequest(url: url)
+        do {
+            let jsonData = try JSONEncoder().encode(newTruckInfo)
+            request.httpBody = jsonData
+            request.httpMethod = HTTPMethod.put.rawValue
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
+            dataLoader.dataRequest(with: request) { _, response, error in
+                if let error = error {
+                    NSLog("PUT failed with error: \(error)")
+                    completion(.failure(.otherError))
+                    return
+                }
+                if let response = response as? HTTPURLResponse,
+                    response.statusCode >= 200,
+                    response.statusCode <= 210 {
+                    NSLog("Error: failed response")
+                    completion(.failure(.failedResponse))
+                    return
+                }
+                completion(.success(true))
+            }
+        } catch {
+            NSLog("Error encoding data: \(error)")
+            completion(.failure(.failedEncoding))
+        }
     }
     
     // MARK: - Functions - Private
@@ -425,15 +459,15 @@ class APIController {
             request.httpBody = jsonData
             request.httpMethod = HTTPMethod.post.rawValue
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.addValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
+            request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
             dataLoader.dataRequest(with: request) { _, response, error in
                 if let error = error {
                     NSLog("Post failed with error: \(error)")
                     completion(.failure(.otherError))
                     return
                 }
-                guard let response = response as? HTTPURLResponse,
-                    response.statusCode == 200  else {
+                if let response = response as? HTTPURLResponse,
+                   200...210 ~= response.statusCode {
                     NSLog("Error: failed response")
                     completion(.failure(.failedResponse))
                     return
@@ -481,8 +515,7 @@ class APIController {
         if let path = urlPathComponent {
             urlPath = url.appendingPathComponent(path)
         }
-        let requestURL = urlPath.appendingPathExtension("json")
-        var request = URLRequest(url: requestURL)
+        var request = URLRequest(url: urlPath)
         request.httpMethod = HTTPMethod.get.rawValue
         request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
         return request
