@@ -73,7 +73,7 @@ class APIController {
                     return
                 }
                 if let response = response as? HTTPURLResponse,
-                   200...210 ~= response.statusCode {
+                   !(200...210 ~= response.statusCode) {
                     NSLog("Error: failed response")
                     completion(.failure(.failedResponse))
                     return
@@ -370,7 +370,6 @@ class APIController {
         postDataTask(url: url, postData: truck) { result in
             switch result {
             case .success(true):
-                self.getFavorites { _ in }
                 completion(.success(true))
             case .failure(.failedEncoding):
                 completion(.failure(.failedEncoding))
@@ -465,7 +464,7 @@ class APIController {
                     return
                 }
                 if let response = response as? HTTPURLResponse,
-                   200...210 ~= response.statusCode {
+                   !(200...210 ~= response.statusCode) {
                     NSLog("Error: failed response")
                     completion(.failure(.failedResponse))
                     return
@@ -513,7 +512,7 @@ class APIController {
                     return
                 }
                 if let response = response as? HTTPURLResponse,
-                   200...210 ~= response.statusCode {
+                   !(200...210 ~= response.statusCode) {
                     NSLog("Error: failed response")
                     completion(.failure(.failedResponse))
                     return
