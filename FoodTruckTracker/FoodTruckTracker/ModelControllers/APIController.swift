@@ -10,13 +10,18 @@ import CoreData
 
 class APIController {
     
+    
     // MARK: - Properties - Public
     
     static let shared = APIController()
 
     let dataLoader: NetworkDataLoader
     
-    var bearer: Bearer? 
+    var bearer: Bearer? {
+        didSet {
+            print(bearer as Any)
+        }
+    }
     var currentUser: User? {
         didSet {
             setUserRole()

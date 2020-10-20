@@ -29,7 +29,7 @@ class SignUpVC: UIViewController {
     
 
     @IBAction func singUpButton(_ sender: UIButton) {
-        presentFTAlertOnMainThread(title: "Empty Textfield", message: "Need to fill out all fields to SignUp.", buttonTitle: "Ok")
+//        presentFTAlertOnMainThread(title: "Empty Textfield", message: "Need to fill out all fields to SignUp.", buttonTitle: "Ok")
         print("SingUp Got Tapped")
         guard let username = usernameTextField.text, !username.isEmpty,
            let email = emailTextField.text, !email.isEmpty,
