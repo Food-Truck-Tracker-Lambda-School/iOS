@@ -36,9 +36,11 @@ class CreateTruckVC: UIViewController {
         
         APIController.shared.createTruck(truck: truck) { (result) in
             switch result {
-            case .success(let success):
+            case .success(let success): // (let truck)
+                
                 // Perform Segue
                 DispatchQueue.main.async {
+                    // pass the truck var
                     self.performSegue(withIdentifier: "TruckGoToCreateMenu", sender: nil)
                 }
                 print("Create Truck Success \(success)")

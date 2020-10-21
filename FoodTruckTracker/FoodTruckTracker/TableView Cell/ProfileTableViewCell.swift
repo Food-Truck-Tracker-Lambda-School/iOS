@@ -14,6 +14,9 @@ class ProfileTableViewCell: UITableViewCell {
     @IBOutlet private weak var truckNameLabel: UILabel!
     @IBOutlet private weak var cuisineTypeLabel: UILabel!
     
+    @IBOutlet weak var editTruckBtn: UIButton!
+    @IBOutlet weak var editMenuBtn: UIButton!
+    
     // MARK: - Properties
     static let resuseIdentifier = "ProfileTableCell"
     var truck: Truck? {
@@ -29,6 +32,12 @@ class ProfileTableViewCell: UITableViewCell {
         truckImageView.image = UIImage(named: "FoodTruckPhoto")
     }//
     
+    
+    @IBAction func editTruckButton(_ sender: UIButton) {
+    }
+    
+    @IBAction func editMenuButton(_ sender: UIButton) {
+    }
     
     
 

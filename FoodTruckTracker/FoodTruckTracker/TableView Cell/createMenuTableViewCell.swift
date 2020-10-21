@@ -20,6 +20,21 @@ class CreateMenuTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = "CreateMenuCell"
     
+    var menuItem: MenuItem? {
+        didSet {
+            updateView()
+        }
+    }
+    
+    
+    func updateView() {
+        guard let menuItem = menuItem else { return }
+        
+        menuItemName.text = menuItem.name
+        menuDescriptionLabel.text = menuItem.description
+        menuItemPriceLabel.text = "$\(menuItem.price)"
+    }//
+    
 
     override func awakeFromNib() {
         super.awakeFromNib()
