@@ -16,8 +16,9 @@ class SearchVC: UIViewController {
     // MARK: - Properties
     fileprivate let locationManager = CLLocationManager()
     var span = MKCoordinateSpan(latitudeDelta: 0.15, longitudeDelta: 0.15)
-    var mapCenter: CLLocationCoordinate2D?
+    var userLocation: CLLocationCoordinate2D?
     var trucks: [TruckListing] = []
+    var filteredTrucks: [TruckListing] = []
     var truckPins: [MKPointAnnotation] = []
 
     // MARK: - View Lifecycle
@@ -42,6 +43,27 @@ class SearchVC: UIViewController {
         }
     }
     
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "modalFilterVC" {
+            if let filterVC = segue.destination as? FilterViewController {
+                filterVC.delegate = self
+                filterVC.trucks = trucks
+                filterVC.filteredTrucks = filteredTrucks
+                filterVC.location = userLocation
+            }
+        } else if segue.identifier == "showTrucksTableVC" {
+            if let tableVC = segue.destination as? TrucksTableViewController {
+                if !filteredTrucks.isEmpty {
+                    tableVC.filteredTrucks = filteredTrucks
+                } else {
+                    tableVC.filteredTrucks = trucks
+                }
+            }
+        }
+    }
+    
     // MARK: - Actions
     
     private func setUpMap() {
@@ -54,7 +76,13 @@ class SearchVC: UIViewController {
     }
     
     private func createArrayForMap() {
-        for truck in trucks where truck.location.count > 12 {
+        var truckArray: [TruckListing]
+        if !filteredTrucks.isEmpty {
+            truckArray = filteredTrucks
+        } else {
+            truckArray = trucks
+        }
+        for truck in truckArray where truck.location.count > 12 {
             let coordinateArray = truck.location.components(separatedBy: " ")
             if let latitude = Double(coordinateArray[0]),
                let longitude = Double(coordinateArray[1]),
@@ -68,7 +96,7 @@ class SearchVC: UIViewController {
             }
         }
         mapKit.showAnnotations(truckPins, animated: false)
-        if let mapCenter = mapCenter {
+        if let mapCenter = userLocation {
             let coordinateRegion = MKCoordinateRegion(center: mapCenter, span: span)
             mapKit.setRegion(coordinateRegion, animated: true)
         }
@@ -81,7 +109,7 @@ extension SearchVC: CLLocationManagerDelegate {
         
         let location = locations.last! as CLLocation
         let currentLocation = location.coordinate
-        mapCenter = currentLocation
+        userLocation = currentLocation
         let coordinateRegion = MKCoordinateRegion(center: currentLocation, span: span)
         mapKit.setRegion(coordinateRegion, animated: true)
         locationManager.stopUpdatingLocation()
@@ -89,5 +117,11 @@ extension SearchVC: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error.localizedDescription)
+    }
+}
+
+extension SearchVC: FilterVCDelegate {
+    func filterTrucks(filteredTrucks: [TruckListing]) {
+        self.filteredTrucks = filteredTrucks
     }
 }

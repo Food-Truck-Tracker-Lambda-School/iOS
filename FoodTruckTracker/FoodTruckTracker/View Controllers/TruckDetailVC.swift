@@ -22,7 +22,7 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
     
     // MARK: - Properties
     private let locationManager = CLLocationManager()
-    
+    var truck: TruckListing?
 
     override func viewDidLoad() {
         super.viewDidLoad()

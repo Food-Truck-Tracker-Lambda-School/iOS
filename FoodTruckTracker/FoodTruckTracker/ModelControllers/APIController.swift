@@ -257,6 +257,39 @@ class APIController {
         }
     }
     
+    func fetchLocalTrucks(latitude: String, longitude: String, radius: Int, completion: @escaping (Result<[TruckListing], NetworkError>) -> Void) {
+        let path = "trucks?latitude=$\(latitude)&longitude=$\(longitude)&radius=$\(radius)"
+        guard let request = getRequest(url: baseURL, urlPathComponent: path) else {
+            completion(.failure(.otherError))
+            return
+        }
+        dataLoader.dataRequest(with: request) { data, response, error in
+            if let error = error {
+                NSLog("Error receiving truck data: \(error)")
+                completion(.failure(.tryAgain))
+                return
+            }
+            if let response = response as? HTTPURLResponse,
+                response.statusCode != 200 {
+                NSLog("Error: failed response \(response)")
+                completion(.failure(.failedResponse))
+                return
+            }
+            guard let data = data else {
+                NSLog("No data received from fetchLocalTrucks")
+                completion(.failure(.noData))
+                return
+            }
+            do {
+                let trucks = try JSONDecoder().decode([TruckListing].self, from: data)
+                completion(.success(trucks))
+            } catch {
+                NSLog("Error decoding truck data: \(error)")
+                completion(.failure(.failedDecoding))
+            }
+        }
+    }
+    
     /// use fetchRatings to fetch an array [Int] of ratings for a particular truck or menu item
     /// - Parameters:
     ///   - truckId: TruckListing.identifier or TruckRepresentation.identifier

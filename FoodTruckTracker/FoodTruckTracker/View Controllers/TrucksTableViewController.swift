@@ -8,6 +8,10 @@
 import UIKit
 
 class TrucksTableViewController: UITableViewController {
+    
+    // MARK: - Properties
+    
+    var filteredTrucks: [TruckListing]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,26 +19,27 @@ class TrucksTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        0
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        0
+        filteredTrucks?.count ?? 0
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
+//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TruckListCell", for: indexPath) as? TruckListTableViewCell,
+//              let index = tableView.indexPath(for: cell) else { fatalError("Error") }
+//        cell.truck = filteredTrucks[index.row]
+//        return cell
+//    }
 
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
+        if segue.identifier == "showDetailVC" {
+            if let detailVC = segue.destination as? TruckDetailVC,
+               let filteredTrucks = filteredTrucks,
+               let index = tableView.indexPathForSelectedRow {
+                detailVC.truck = filteredTrucks[index.row]
+            }
+        }
     }
 
 }
