@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A4A37A52541340400593195 /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A37A42541340400593195 /* Filters.swift */; };
 		1A51A5BC253CE552001D0325 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5BB253CE552001D0325 /* Photo.swift */; };
 		1A51A5D8253F3FE0001D0325 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5D7253F3FE0001D0325 /* Rating.swift */; };
 		1A51A5DD253F81CA001D0325 /* TrucksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5DC253F81CA001D0325 /* TrucksTableViewController.swift */; };
+		1A51A5F0254079D7001D0325 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5EF254079D7001D0325 /* FilterViewController.swift */; };
 		1A54F762253BDC2B00D02C2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A64013D2537B91800D029DD /* AppDelegate.swift */; };
 		1A54F766253BDC4D00D02C2C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A64013F2537B91800D029DD /* SceneDelegate.swift */; };
 		1A54F76A253BDC6400D02C2C /* FoodTruckTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1A64017B2537BEC300D029DD /* FoodTruckTracker.xcdatamodeld */; };
@@ -74,9 +76,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A4A37A42541340400593195 /* Filters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
 		1A51A5BB253CE552001D0325 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		1A51A5D7253F3FE0001D0325 /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		1A51A5DC253F81CA001D0325 /* TrucksTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrucksTableViewController.swift; sourceTree = "<group>"; };
+		1A51A5EF254079D7001D0325 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		1A64013A2537B91800D029DD /* FoodTruckTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodTruckTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A64013D2537B91800D029DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A64013F2537B91800D029DD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -210,6 +214,7 @@
 				1A6401BD253B5E6900D029DD /* MenuItem.swift */,
 				1A51A5BB253CE552001D0325 /* Photo.swift */,
 				1A51A5D7253F3FE0001D0325 /* Rating.swift */,
+				1A4A37A42541340400593195 /* Filters.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -278,6 +283,7 @@
 				86018DC8253A0DD100469110 /* MenuTableVC.swift */,
 				86018DCD253A226E00469110 /* TruckDetailVC.swift */,
 				86018DD2253A23DF00469110 /* SearchVC.swift */,
+				1A51A5EF254079D7001D0325 /* FilterViewController.swift */,
 				1A51A5DC253F81CA001D0325 /* TrucksTableViewController.swift */,
 				86018DD7253A250500469110 /* ProfileVC.swift */,
 				86018DE9253A3A0E00469110 /* SignUpVC.swift */,
@@ -493,9 +499,11 @@
 				86599A74253D012E002D47DC /* FTAlertVC.swift in Sources */,
 				86018DD3253A23DF00469110 /* SearchVC.swift in Sources */,
 				86018E28253BAA8900469110 /* CreateMenuVC.swift in Sources */,
+				1A51A5F0254079D7001D0325 /* FilterViewController.swift in Sources */,
 				86018DF8253B72FE00469110 /* MenuCollectionViewCell.swift in Sources */,
 				86018DE5253A370200469110 /* ProfileTableViewCell.swift in Sources */,
 				86018DF2253B6F4A00469110 /* MenuDetailVC.swift in Sources */,
+				1A4A37A52541340400593195 /* Filters.swift in Sources */,
 				1A6401B4253A3E8800D029DD /* TruckListing.swift in Sources */,
 				1A640221253BD9A200D029DD /* User.swift in Sources */,
 				1A6401AF253946A800D029DD /* Bearer.swift in Sources */,

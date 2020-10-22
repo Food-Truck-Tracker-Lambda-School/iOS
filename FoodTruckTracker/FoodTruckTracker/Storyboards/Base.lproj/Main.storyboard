@@ -216,7 +216,18 @@
                             <constraint firstItem="adu-nN-k6X" firstAttribute="top" secondItem="UMU-CK-ZIA" secondAttribute="top" constant="20" id="yXE-Nu-a6H"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Search" id="DQZ-nl-H20"/>
+                    <navigationItem key="navigationItem" title="Search" id="DQZ-nl-H20">
+                        <barButtonItem key="leftBarButtonItem" title="View as List" id="Dan-u4-SNr">
+                            <connections>
+                                <segue destination="Bfy-7O-CJg" kind="show" identifier="showTrucksTableVC" id="f8M-WS-c0f"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Filter Trucks" id="wKM-8V-Dbi">
+                            <connections>
+                                <segue destination="eZO-Li-BiO" kind="presentation" identifier="modalFilterVC" id="iuz-Gs-dkI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapKit" destination="adu-nN-k6X" id="zeb-ia-Osa"/>
                     </connections>
@@ -1455,9 +1466,125 @@
             </objects>
             <point key="canvasLocation" x="430" y="1529"/>
         </scene>
+        <!--Trucks Table View Controller-->
+        <scene sceneID="lza-Ao-fxD">
+            <objects>
+                <tableViewController id="Bfy-7O-CJg" customClass="TrucksTableViewController" customModule="FoodTruckTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="0R4-J1-T14">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="lfT-BX-0MY">
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lfT-BX-0MY" id="8QS-2T-K5y">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="HfR-8i-Yaz" kind="show" identifier="showDetailVC" id="UVU-XZ-r0O"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Bfy-7O-CJg" id="Qys-zb-Emh"/>
+                            <outlet property="delegate" destination="Bfy-7O-CJg" id="LRR-ed-qfw"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="uXg-LX-ELM"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uc3-n6-Jba" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1228" y="1529"/>
+        </scene>
+        <!--Filter View Controller-->
+        <scene sceneID="uyE-2a-bLT">
+            <objects>
+                <viewController id="eZO-Li-BiO" customClass="FilterViewController" customModule="FoodTruckTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aMK-2T-UAX">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Filter by Cuisine Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IrM-gJ-7Ce">
+                                <rect key="frame" x="126" y="37" width="163" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f8a-xF-TtX">
+                                <rect key="frame" x="0.0" y="81" width="414" height="162"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Filter by Minimum Average Rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bJq-hI-7Vg">
+                                <rect key="frame" x="80" y="277" width="254" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Y7n-ET-2Qt">
+                                <rect key="frame" x="70" y="327" width="274" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Any"/>
+                                    <segment title="1"/>
+                                    <segment title="2"/>
+                                    <segment title="3"/>
+                                    <segment title="4"/>
+                                    <segment title="5"/>
+                                </segments>
+                            </segmentedControl>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="25" minValue="1" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="nIk-wr-gjN">
+                                <rect key="frame" x="47" y="465" width="321" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="radiusChanged:" destination="eZO-Li-BiO" eventType="valueChanged" id="6f7-eh-vVn"/>
+                                </connections>
+                            </slider>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfl-rV-807">
+                                <rect key="frame" x="165" y="572" width="85" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Apply Filters"/>
+                                <connections>
+                                    <action selector="applyFilters:" destination="eZO-Li-BiO" eventType="touchUpInside" id="g8m-Rt-VdD"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8lD-um-209">
+                                <rect key="frame" x="166" y="672" width="82" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Clear Filters"/>
+                                <connections>
+                                    <action selector="clearFilters" destination="eZO-Li-BiO" eventType="touchUpInside" id="xBq-6i-vuP"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Filter by Location - within 25 miles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jtU-EB-7OG">
+                                <rect key="frame" x="84" y="411" width="260" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="m96-pd-RZJ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <outlet property="distanceSlider" destination="nIk-wr-gjN" id="mGR-TM-ppe"/>
+                        <outlet property="locationLabel" destination="jtU-EB-7OG" id="7Pd-CG-B4y"/>
+                        <outlet property="pickerView" destination="f8a-xF-TtX" id="gCd-ij-7HN"/>
+                        <outlet property="ratingControl" destination="Y7n-ET-2Qt" id="z1y-JA-RQr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lwp-e2-tU4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2724.6376811594205" y="1528.7946428571429"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="eaZ-gi-HUj"/>
+        <segue reference="UVU-XZ-r0O"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="FoodTruckPhoto" width="600" height="405"/>
