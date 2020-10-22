@@ -473,7 +473,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="AZs-Mv-wLR" kind="show" id="sVo-sV-xQt"/>
+                                    <segue destination="AZs-Mv-wLR" kind="show" identifier="showMenuSegue" id="sVo-sV-xQt"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -615,6 +615,7 @@
                                             <outlet property="itemImageView" destination="log-kc-UbX" id="OX2-mv-19l"/>
                                             <outlet property="itemNameLabel" destination="lHF-la-GzC" id="8pV-id-xkL"/>
                                             <outlet property="itemPriceLabel" destination="fb2-uK-O9g" id="8ZQ-ux-IZy"/>
+                                            <segue destination="NIV-19-htB" kind="show" identifier="showMenuDetailVC" id="GPm-UU-iNa"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1475,14 +1476,37 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="lfT-BX-0MY">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TruckListCell" rowHeight="100" id="lfT-BX-0MY" customClass="TruckListTableViewCell" customModule="FoodTruckTracker" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lfT-BX-0MY" id="8QS-2T-K5y">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xUS-Jo-fbc">
+                                            <rect key="frame" x="20" y="11" width="80" height="80"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Truck Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lTf-S7-JWd">
+                                            <rect key="frame" x="108" y="11" width="113" height="24"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cuisine Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ye-52-EmV">
+                                            <rect key="frame" x="108" y="68" width="98" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="cuisineTypeLabel" destination="2Ye-52-EmV" id="mnk-Zm-D2b"/>
+                                    <outlet property="truckImageView" destination="xUS-Jo-fbc" id="FMg-B4-Yd3"/>
+                                    <outlet property="truckNameLabel" destination="lTf-S7-JWd" id="lhn-d7-KKz"/>
                                     <segue destination="HfR-8i-Yaz" kind="show" identifier="showDetailVC" id="UVU-XZ-r0O"/>
                                 </connections>
                             </tableViewCell>
@@ -1536,6 +1560,13 @@
                                     <segment title="5"/>
                                 </segments>
                             </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Filter by Location - within 25 miles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jtU-EB-7OG">
+                                <rect key="frame" x="84" y="411" width="260" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="25" minValue="1" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="nIk-wr-gjN">
                                 <rect key="frame" x="47" y="465" width="321" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1552,20 +1583,13 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8lD-um-209">
-                                <rect key="frame" x="166" y="672" width="82" height="30"/>
+                                <rect key="frame" x="166" y="640" width="82" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Clear Filters"/>
                                 <connections>
                                     <action selector="clearFilters" destination="eZO-Li-BiO" eventType="touchUpInside" id="xBq-6i-vuP"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Filter by Location - within 25 miles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jtU-EB-7OG">
-                                <rect key="frame" x="84" y="411" width="260" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="m96-pd-RZJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1584,6 +1608,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="eaZ-gi-HUj"/>
+        <segue reference="GPm-UU-iNa"/>
         <segue reference="UVU-XZ-r0O"/>
     </inferredMetricsTieBreakers>
     <resources>

@@ -62,6 +62,10 @@ class FilterViewController: UIViewController {
                 newArray = trucksByRating
             }
             if newArray.isEmpty {
+                DispatchQueue.main.async {
+                    self.clearFilters()
+                    self.presentFTAlertOnMainThread(title: "No search results", message: "Please make a different selection.", buttonTitle: "Ok")
+                }
                 return
             }
             DispatchQueue.main.async {
@@ -79,7 +83,7 @@ class FilterViewController: UIViewController {
         filteredTrucks = trucks
         filters?.cuisineId = 0
         filters?.ratingSelection = 0
-        filters?.radius = 25
+        filters?.radius = nil
         setFilters()
     }
     

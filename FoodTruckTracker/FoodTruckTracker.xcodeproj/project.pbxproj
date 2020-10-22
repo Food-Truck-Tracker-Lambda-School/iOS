@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1A4A37A52541340400593195 /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A37A42541340400593195 /* Filters.swift */; };
+		1A4A37AA2541A3CB00593195 /* TruckListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A37A92541A3CB00593195 /* TruckListTableViewCell.swift */; };
 		1A51A5BC253CE552001D0325 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5BB253CE552001D0325 /* Photo.swift */; };
 		1A51A5D8253F3FE0001D0325 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5D7253F3FE0001D0325 /* Rating.swift */; };
 		1A51A5DD253F81CA001D0325 /* TrucksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5DC253F81CA001D0325 /* TrucksTableViewController.swift */; };
@@ -77,6 +78,7 @@
 
 /* Begin PBXFileReference section */
 		1A4A37A42541340400593195 /* Filters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
+		1A4A37A92541A3CB00593195 /* TruckListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TruckListTableViewCell.swift; sourceTree = "<group>"; };
 		1A51A5BB253CE552001D0325 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		1A51A5D7253F3FE0001D0325 /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		1A51A5DC253F81CA001D0325 /* TrucksTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrucksTableViewController.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				86018DE4253A370200469110 /* ProfileTableViewCell.swift */,
 				86018E2F253BB35D00469110 /* createMenuTableViewCell.swift */,
 				86599AE1253FA045002D47DC /* EditMenuTableViewCell.swift */,
+				1A4A37A92541A3CB00593195 /* TruckListTableViewCell.swift */,
 			);
 			path = "TableView Cell";
 			sourceTree = "<group>";
@@ -524,6 +527,7 @@
 				86018DC9253A0DD100469110 /* MenuTableVC.swift in Sources */,
 				86018DC125394CEA00469110 /* MenuTableViewCell.swift in Sources */,
 				86018DEA253A3A0E00469110 /* SignUpVC.swift in Sources */,
+				1A4A37AA2541A3CB00593195 /* TruckListTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

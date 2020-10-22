@@ -9,14 +9,19 @@ import UIKit
 
 class MenuDetailVC: UIViewController {
     
-    // Outlets
+    // MARK: - Outlets
     @IBOutlet private weak var itemNameLabel: UILabel!
     @IBOutlet private weak var itemDescriptionTextView: UITextView!
     @IBOutlet private weak var avgLabel: UILabel!
     
     @IBOutlet private weak var collectionView: UICollectionView!
     
-
+    // MARK: - Properties
+    
+    var item: MenuItem?
+    
+    // MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.delegate = self
@@ -25,9 +30,6 @@ class MenuDetailVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
-
-
 } // MenuDetailVC
 
 extension MenuDetailVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
