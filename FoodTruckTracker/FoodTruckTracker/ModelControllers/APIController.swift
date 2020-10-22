@@ -199,12 +199,12 @@ class APIController {
     ///   - truckId: accepts TruckListing.identifier
     ///   - itemId: accepts optional MenuItem.id, set to nil for truck ratings
     ///   - completion: completion provided for any necessary UI updates
-    func postRating(rating: Int, truckId: Int, itemId: Int?, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+    func postRating(ratingInt: Int, truckId: Int, itemId: Int?, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
         guard let bearer = bearer,
               userRole == .diner,
-              1...5 ~= rating else { return }
+              1...5 ~= ratingInt else { return }
         var url = trucksURL
-        let rating = Rating(userId: bearer.id, rating: rating)
+        let rating = Rating(userId: bearer.id, rating: ratingInt)
         if let itemId = itemId {
             url = url.appendingPathComponent("\(truckId)/menu/\(itemId)/ratings")
         } else {

@@ -92,29 +92,37 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
     
     // MARK: - Private Functions
     
-    private func reverseGeocode(address: String, completion: @escaping(CLPlacemark) -> Void) {
-        
-        let geoCoder = CLGeocoder()
-        
-        geoCoder.geocodeAddressString(address) { placemarks, error in
-            
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            guard let placemarks = placemarks,
-                let placemark = placemarks.first else {
-                    return
-            }
-            
-            completion(placemark)
-        }
-    }
+//    private func reverseGeocode(address: String, completion: @escaping(CLPlacemark) -> Void) {
+//
+//        let geoCoder = CLGeocoder()
+//
+//        geoCoder.geocodeAddressString(address) { placemarks, error in
+//
+//            if let error = error {
+//                print(error.localizedDescription)
+//                return
+//            }
+//
+//            guard let placemarks = placemarks,
+//                let placemark = placemarks.first else {
+//                    return
+//            }
+//
+//            completion(placemark)
+//        }
+//    }
     
     private func updateViews() {
-        truckNameLabel.text = truck?.name
-        cuisineTypeLabel.text = truck?.cuisine
+        guard let truck = truck else { return }
+        truckNameLabel.text = truck.name
+        cuisineTypeLabel.text = truck.cuisine
+        let average = averageRating(truck)
+        switch average {
+        case 0:
+            avgRatingLabel.text = "N/A"
+        default:
+            avgRatingLabel.text = String(average)
+        }
     }
     
     private func createAnnotation() {
@@ -169,7 +177,7 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
             self.presentFTAlertOnMainThread(title: "Sorry!", message: "Unable to rate this truck.", buttonTitle: "Ok")
             return
         }
-        APIController.shared.postRating(rating: rating, truckId: identifer, itemId: nil) { result in
+        APIController.shared.postRating(ratingInt: rating, truckId: identifer, itemId: nil) { result in
             switch result {
             case .success(true):
                 DispatchQueue.main.async {
@@ -180,6 +188,15 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
                     self.presentFTAlertOnMainThread(title: "Sorry!", message: "Unable to rate this truck.", buttonTitle: "Ok")
                 }
             }
+        }
+    }
+    
+    private func averageRating(_ truck: TruckListing) -> Int {
+        if !truck.ratings.isEmpty {
+            let ratingSum = truck.ratings.reduce(0, +)
+            return Int(ratingSum / truck.ratings.count)
+        } else {
+            return 0
         }
     }
     
