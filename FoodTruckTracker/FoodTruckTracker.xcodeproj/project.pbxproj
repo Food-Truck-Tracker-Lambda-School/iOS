@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A4A37A52541340400593195 /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A37A42541340400593195 /* Filters.swift */; };
 		1A51A5BC253CE552001D0325 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5BB253CE552001D0325 /* Photo.swift */; };
 		1A51A5D8253F3FE0001D0325 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5D7253F3FE0001D0325 /* Rating.swift */; };
 		1A51A5DD253F81CA001D0325 /* TrucksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5DC253F81CA001D0325 /* TrucksTableViewController.swift */; };
@@ -75,6 +76,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A4A37A42541340400593195 /* Filters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
 		1A51A5BB253CE552001D0325 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		1A51A5D7253F3FE0001D0325 /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		1A51A5DC253F81CA001D0325 /* TrucksTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrucksTableViewController.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				1A6401BD253B5E6900D029DD /* MenuItem.swift */,
 				1A51A5BB253CE552001D0325 /* Photo.swift */,
 				1A51A5D7253F3FE0001D0325 /* Rating.swift */,
+				1A4A37A42541340400593195 /* Filters.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -500,6 +503,7 @@
 				86018DF8253B72FE00469110 /* MenuCollectionViewCell.swift in Sources */,
 				86018DE5253A370200469110 /* ProfileTableViewCell.swift in Sources */,
 				86018DF2253B6F4A00469110 /* MenuDetailVC.swift in Sources */,
+				1A4A37A52541340400593195 /* Filters.swift in Sources */,
 				1A6401B4253A3E8800D029DD /* TruckListing.swift in Sources */,
 				1A640221253BD9A200D029DD /* User.swift in Sources */,
 				1A6401AF253946A800D029DD /* Bearer.swift in Sources */,

@@ -18,7 +18,12 @@ class SearchVC: UIViewController {
     var span = MKCoordinateSpan(latitudeDelta: 0.15, longitudeDelta: 0.15)
     var userLocation: CLLocationCoordinate2D?
     var trucks: [TruckListing] = []
-    var filteredTrucks: [TruckListing] = []
+    var filteredTrucks: [TruckListing] = [] {
+        didSet {
+            createArrayForMap()
+        }
+    }
+    var filters = Filters()
     var truckPins: [MKPointAnnotation] = []
 
     // MARK: - View Lifecycle
@@ -50,7 +55,12 @@ class SearchVC: UIViewController {
             if let filterVC = segue.destination as? FilterViewController {
                 filterVC.delegate = self
                 filterVC.trucks = trucks
-                filterVC.filteredTrucks = filteredTrucks
+                filterVC.filters = filters
+                if !filteredTrucks.isEmpty {
+                    filterVC.filteredTrucks = filteredTrucks
+                } else {
+                    filterVC.filteredTrucks = trucks
+                }
                 filterVC.location = userLocation
             }
         } else if segue.identifier == "showTrucksTableVC" {
@@ -77,6 +87,8 @@ class SearchVC: UIViewController {
     
     private func createArrayForMap() {
         var truckArray: [TruckListing]
+        mapKit.removeAnnotations(truckPins)
+        truckPins = []
         if !filteredTrucks.isEmpty {
             truckArray = filteredTrucks
         } else {
@@ -123,5 +135,9 @@ extension SearchVC: CLLocationManagerDelegate {
 extension SearchVC: FilterVCDelegate {
     func filterTrucks(filteredTrucks: [TruckListing]) {
         self.filteredTrucks = filteredTrucks
+    }
+    
+    func setFilters(filters: Filters) {
+        self.filters = filters
     }
 }

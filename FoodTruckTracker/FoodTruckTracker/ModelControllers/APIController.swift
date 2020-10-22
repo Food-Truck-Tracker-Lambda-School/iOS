@@ -36,12 +36,12 @@ class APIController {
     
     // MARK: - Properties - Private
     
-    private let baseURL = URL(string: "https://foodtrucktrackers.herokuapp.com/api/")!
+    private let baseURL = URL(string: "https://foodtrucktrackers.herokuapp.com/api")!
     private lazy var registerURL = baseURL.appendingPathComponent("auth/register")
     private lazy var loginURL = baseURL.appendingPathComponent("auth/login")
-    private lazy var trucksURL = baseURL.appendingPathComponent("trucks/")
-    private lazy var dinerURL = baseURL.appendingPathComponent("diner/")
-    private lazy var ownerURL = baseURL.appendingPathComponent("operator/")
+    private lazy var trucksURL = baseURL.appendingPathComponent("trucks")
+    private lazy var dinerURL = baseURL.appendingPathComponent("diner")
+    private lazy var ownerURL = baseURL.appendingPathComponent("operator")
     
     // MARK: - Functions - Public
     
@@ -258,11 +258,17 @@ class APIController {
     }
     
     func fetchLocalTrucks(latitude: String, longitude: String, radius: Int, completion: @escaping (Result<[TruckListing], NetworkError>) -> Void) {
-        let path = "trucks?latitude=$\(latitude)&longitude=$\(longitude)&radius=$\(radius)"
-        guard let request = getRequest(url: baseURL, urlPathComponent: path) else {
-            completion(.failure(.otherError))
-            return
-        }
+        let url = trucksURL
+        let radiusString = String(radius)
+        var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
+        urlComponents?.queryItems = [URLQueryItem(name: "latitude", value: latitude),
+                                     URLQueryItem(name: "longitude", value: longitude),
+                                     URLQueryItem(name: "radius", value: radiusString)]
+        guard let bearer = bearer,
+              let requestURL = urlComponents?.url else { return }
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.get.rawValue
+        request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
         dataLoader.dataRequest(with: request) { data, response, error in
             if let error = error {
                 NSLog("Error receiving truck data: \(error)")
