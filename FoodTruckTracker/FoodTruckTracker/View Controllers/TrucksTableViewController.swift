@@ -11,24 +11,30 @@ class TrucksTableViewController: UITableViewController {
     
     // MARK: - Properties
     
-    var filteredTrucks: [TruckListing]?
+    var filteredTrucks: [TruckListing]? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
-    // MARK: - Table view data source
+    // MARK: - TableView Datasource
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         filteredTrucks?.count ?? 0
     }
 
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TruckListCell", for: indexPath) as? TruckListTableViewCell,
-//              let index = tableView.indexPath(for: cell) else { fatalError("Error") }
-//        cell.truck = filteredTrucks[index.row]
-//        return cell
-//    }
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TruckListCell", for: indexPath) as? TruckListTableViewCell else { fatalError("Error") }
+        if let filteredTrucks = filteredTrucks,
+           !filteredTrucks.isEmpty {
+            cell.truck = filteredTrucks[indexPath.row]
+        }
+        return cell
+    }
 
     // MARK: - Navigation
 
