@@ -37,6 +37,7 @@ class ProfileTableViewCell: UITableViewCell {
     }
     
     @IBAction func editMenuButton(_ sender: UIButton) {
+        delegate?.didTapButton(cell: self)
     }
     
     // MARK: - Private Functions
@@ -45,6 +46,11 @@ class ProfileTableViewCell: UITableViewCell {
         truckNameLabel.text = truck?.name
         cuisineTypeLabel.text = truck?.cuisine
         updateImageView()
+        guard let userRole = APIController.shared.userRole else { return }
+        if userRole != .owner {
+            editTruckBtn.isHidden = true
+            editMenuBtn.isHidden = true
+        }
     }
     
     private func updateImageView() {

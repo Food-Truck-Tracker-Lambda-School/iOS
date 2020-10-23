@@ -206,7 +206,7 @@ class APIController {
         var url = trucksURL
         let rating = Rating(userId: bearer.id, rating: ratingInt)
         if let itemId = itemId {
-            url = url.appendingPathComponent("\(truckId)/menu/\(itemId)/ratings")
+            url = url.appendingPathComponent("\(truckId)/menu/\(itemId)")
         } else {
             url = url.appendingPathComponent("\(truckId)/ratings")
         }

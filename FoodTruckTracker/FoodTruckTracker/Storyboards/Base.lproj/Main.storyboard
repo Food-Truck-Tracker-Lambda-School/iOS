@@ -41,7 +41,7 @@
                                     <constraint firstAttribute="height" constant="40" id="7uA-uJ-m8O"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ekM-uH-uoV">
                                 <rect key="frame" x="20" y="614" width="374" height="40"/>
@@ -96,6 +96,7 @@
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w0n-Bw-oL0">
                                 <rect key="frame" x="20" y="483" width="374" height="40"/>
+                                <color key="backgroundColor" name="FTBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="5YY-1q-J0e"/>
                                 </constraints>
@@ -104,6 +105,7 @@
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xef-oQ-PEy">
                                 <rect key="frame" x="20" y="538" width="374" height="40"/>
+                                <color key="backgroundColor" name="FTBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="ZW4-2e-TP6"/>
                                 </constraints>
@@ -112,11 +114,12 @@
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sdQ-C4-p1p">
                                 <rect key="frame" x="20" y="593" width="374" height="40"/>
+                                <color key="backgroundColor" name="FTBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="De1-Lo-jYa"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J3n-t5-2QH">
                                 <rect key="frame" x="20" y="708" width="374" height="60"/>
@@ -134,6 +137,7 @@
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="d9C-wG-IT3">
                                 <rect key="frame" x="20" y="648" width="374" height="41"/>
+                                <color key="backgroundColor" name="FTBorderColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="32h-fB-QLR"/>
                                 </constraints>
@@ -198,7 +202,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="HfR-8i-Yaz" kind="show" id="M17-Zr-luG"/>
+                                    <segue destination="HfR-8i-Yaz" kind="show" identifier="showDetailFromMapSegue" id="M17-Zr-luG"/>
                                 </connections>
                             </button>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="adu-nN-k6X">
@@ -288,7 +292,7 @@
                                                             <constraint firstAttribute="height" constant="25" id="fGQ-wc-P9M"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                        <state key="normal" title="Ratings">
+                                                        <state key="normal" title="Rate this Truck">
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <connections>
@@ -328,7 +332,7 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <state key="normal" title="Favorite">
+                                                        <state key="normal" title="Add to Favorites">
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <connections>
@@ -361,8 +365,8 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lu4-jX-KMN">
                                                 <rect key="frame" x="270" y="0.0" width="127" height="80"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Avg:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ICg-ZV-Mfn">
-                                                        <rect key="frame" x="50.5" y="51" width="26.5" height="25"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Average Rating:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ICg-ZV-Mfn">
+                                                        <rect key="frame" x="8" y="51" width="95.5" height="25"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="25" id="iF7-fo-GVx"/>
                                                         </constraints>
@@ -379,7 +383,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XnZ-fl-eht">
-                                                        <rect key="frame" x="80" y="51" width="8" height="25"/>
+                                                        <rect key="frame" x="106.5" y="51" width="8" height="25"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="25" id="vrU-SK-T06"/>
                                                         </constraints>
@@ -394,7 +398,7 @@
                                                     <constraint firstItem="FlA-ev-j3P" firstAttribute="top" secondItem="lu4-jX-KMN" secondAttribute="top" constant="5" id="a5i-6i-4ht"/>
                                                     <constraint firstItem="FlA-ev-j3P" firstAttribute="centerX" secondItem="lu4-jX-KMN" secondAttribute="centerX" id="aBe-CD-hr7"/>
                                                     <constraint firstItem="XnZ-fl-eht" firstAttribute="leading" secondItem="ICg-ZV-Mfn" secondAttribute="trailing" constant="3" id="dCO-KN-Tfw"/>
-                                                    <constraint firstItem="ICg-ZV-Mfn" firstAttribute="centerX" secondItem="lu4-jX-KMN" secondAttribute="centerX" id="kZ4-zv-izz"/>
+                                                    <constraint firstItem="ICg-ZV-Mfn" firstAttribute="centerX" secondItem="lu4-jX-KMN" secondAttribute="centerX" constant="-8" id="kZ4-zv-izz"/>
                                                     <constraint firstItem="ICg-ZV-Mfn" firstAttribute="centerY" secondItem="XnZ-fl-eht" secondAttribute="centerY" id="nUO-nn-9NQ"/>
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
@@ -433,7 +437,7 @@
                                             <constraint firstAttribute="height" constant="40" id="5qX-B2-KeY"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <state key="normal" title="Go To Location">
+                                        <state key="normal" title="Get Directions">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
@@ -632,13 +636,7 @@
                             <constraint firstAttribute="bottom" secondItem="B81-UE-HrB" secondAttribute="bottom" id="w7c-jA-fuW"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="uut-LM-GFe">
-                        <barButtonItem key="rightBarButtonItem" title="Test" id="Sez-Fa-eVP">
-                            <connections>
-                                <segue destination="NIV-19-htB" kind="show" id="3mE-Xo-pll"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="uut-LM-GFe"/>
                     <connections>
                         <outlet property="tableView" destination="B81-UE-HrB" id="kuD-SZ-GPv"/>
                     </connections>
@@ -691,6 +689,17 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="rating"/>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PNi-cS-FMw">
+                                        <rect key="frame" x="294" y="23" width="80" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                        <state key="normal" title="Rate Item">
+                                            <color key="titleColor" systemColor="labelColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="rateItemButton:" destination="NIV-19-htB" eventType="touchUpInside" id="KfV-aL-HPD"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                             </view>
@@ -739,7 +748,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Item Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W0a-fC-9gB">
-                                        <rect key="frame" x="14" y="14" width="346" height="34"/>
+                                        <rect key="frame" x="14" y="14" width="228" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
@@ -754,6 +763,13 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Price" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a3g-jA-del">
+                                        <rect key="frame" x="277" y="21" width="80" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <userDefinedRuntimeAttributes>
@@ -777,6 +793,12 @@
                         <outlet property="collectionView" destination="vqv-cT-Ii6" id="kS4-Dl-2BR"/>
                         <outlet property="itemDescriptionTextView" destination="e4o-HT-fpf" id="He7-So-U0z"/>
                         <outlet property="itemNameLabel" destination="W0a-fC-9gB" id="lvB-Qo-LVI"/>
+                        <outlet property="itemPriceLabel" destination="a3g-jA-del" id="Xxb-D0-tty"/>
+                        <outlet property="star1" destination="kdD-T8-SeV" id="vb5-ka-ean"/>
+                        <outlet property="star2" destination="v9Y-wW-YKw" id="Q2y-bt-3RP"/>
+                        <outlet property="star3" destination="OfN-aM-kLQ" id="WjM-0t-Bxr"/>
+                        <outlet property="star4" destination="sMy-aT-dpc" id="JoD-A7-eCh"/>
+                        <outlet property="star5" destination="L16-Tu-LXJ" id="RCF-D9-Jdl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Vq-qv-YYt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1430,6 +1452,7 @@
                                                             </userDefinedRuntimeAttributes>
                                                             <connections>
                                                                 <action selector="editMenuButton:" destination="d7n-cK-8w0" eventType="touchUpInside" id="h4P-XB-LRm"/>
+                                                                <segue destination="aOy-Yx-u1q" kind="show" identifier="editMenuSegue" id="6hf-Dv-Zg3"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -1484,7 +1507,6 @@
                     <connections>
                         <outlet property="tableView" destination="DMr-r4-owY" id="OYl-5Y-y8y"/>
                         <segue destination="s50-3W-ZhD" kind="show" id="pch-RZ-ISo"/>
-                        <segue destination="aOy-Yx-u1q" kind="show" id="dff-EE-8SZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tyn-Ry-KxE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1502,8 +1524,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="160-XH-Dgi" kind="relationship" relationship="viewControllers" id="hVh-XA-qj4"/>
                         <segue destination="TBh-rt-sqH" kind="relationship" relationship="viewControllers" id="U4Y-ZB-8Oq"/>
+                        <segue destination="160-XH-Dgi" kind="relationship" relationship="viewControllers" id="C1l-q8-zux"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a7l-Ox-pBT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1548,7 +1570,7 @@
             </objects>
             <point key="canvasLocation" x="430" y="1529"/>
         </scene>
-        <!--Trucks Table View Controller-->
+        <!--Truck List-->
         <scene sceneID="lza-Ao-fxD">
             <objects>
                 <tableViewController id="Bfy-7O-CJg" customClass="TrucksTableViewController" customModule="FoodTruckTracker" customModuleProvider="target" sceneMemberID="viewController">
@@ -1609,7 +1631,7 @@
                             <outlet property="delegate" destination="Bfy-7O-CJg" id="LRR-ed-qfw"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="uXg-LX-ELM"/>
+                    <navigationItem key="navigationItem" title="Truck List" id="uXg-LX-ELM"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uc3-n6-Jba" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1737,7 +1759,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="eaZ-gi-HUj"/>
         <segue reference="EjX-se-itk"/>
-        <segue reference="GPm-UU-iNa"/>
         <segue reference="M17-Zr-luG"/>
     </inferredMetricsTieBreakers>
     <resources>
@@ -1752,6 +1773,9 @@
         <image name="suit.heart" catalog="system" width="128" height="109"/>
         <namedColor name="FTBackgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="FTBorderColor">
+            <color red="0.75400000810623169" green="0.75400000810623169" blue="0.75400000810623169" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

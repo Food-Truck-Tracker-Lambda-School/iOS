@@ -95,6 +95,7 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
     
     private func updateViews() {
         guard let truck = truck else { return }
+        title = truck.name
         truckNameLabel.text = truck.name
         cuisineTypeLabel.text = truck.cuisine
         let average = averageRating(truck)
@@ -162,14 +163,12 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
         APIController.shared.postRating(ratingInt: rating, truckId: identifer, itemId: nil) { result in
             switch result {
             case .success(true):
+                self.presentFTAlertOnMainThread(title: "Thank you!", message: "We appreciate you taking the time to rate this truck.", buttonTitle: "Ok")
                 DispatchQueue.main.async {
-                    self.presentFTAlertOnMainThread(title: "Thank you!", message: "We appreciate you taking the time to rate this truck.", buttonTitle: "Ok")
                     self.updateAverageRating()
                 }
             default:
-                DispatchQueue.main.async {
-                    self.presentFTAlertOnMainThread(title: "Sorry!", message: "Unable to rate this truck.", buttonTitle: "Ok")
-                }
+                self.presentFTAlertOnMainThread(title: "Sorry!", message: "Unable to rate this truck.", buttonTitle: "Ok")
             }
         }
     }

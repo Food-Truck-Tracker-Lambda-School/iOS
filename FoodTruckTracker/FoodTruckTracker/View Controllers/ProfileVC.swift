@@ -49,16 +49,25 @@ class ProfileVC: UIViewController {
                 let truck = fetchedResultsController.object(at: indexPath)
                 editTruckVC.truck = truck
             }
+        } else if segue.identifier == "editMenuSegue" {
+            if let editMenuVC = segue.destination as? CreateMenuVC,
+               let indexPath = tableView.indexPathForSelectedRow {
+                let truck = fetchedResultsController.object(at: indexPath)
+                editMenuVC.truck = truck
+            }
         }
     }
     
     // MARK: - Private Functions
     
     private func updateView() {
-        if APIController.shared.currentUser?.roleId == 2 {
+        guard let userRole = APIController.shared.userRole else { return }
+        if userRole == .owner {
             navigationItem.rightBarButtonItem?.isEnabled = true
             navigationItem.rightBarButtonItem?.tintColor = .systemGray
+            title = "My Trucks"
         } else {
+            title = "My Favorite Trucks"
             navigationItem.rightBarButtonItem?.isEnabled = false
             navigationItem.rightBarButtonItem?.tintColor = .clear
         }

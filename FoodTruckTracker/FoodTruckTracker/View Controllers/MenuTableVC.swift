@@ -44,6 +44,8 @@ class MenuTableVC: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        guard let truck = truck else { return }
+        title = "Menu for \(truck.name)"
     }
     
     // MARK: - Navigation
@@ -51,9 +53,11 @@ class MenuTableVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showMenuDetailVC" {
             if let detailVC = segue.destination as? MenuDetailVC,
+               let truck = truck,
                let menu = menu,
                let index = tableView.indexPathForSelectedRow {
                 detailVC.item = menu[index.row]
+                detailVC.truck = truck
             }
         }
     }

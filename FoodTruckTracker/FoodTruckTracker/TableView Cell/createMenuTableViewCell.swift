@@ -26,13 +26,12 @@ class CreateMenuTableViewCell: UITableViewCell {
         }
     }
     
-    
     func updateView() {
         guard let menuItem = menuItem else { return }
-        
         menuItemName.text = menuItem.name
         menuDescriptionLabel.text = menuItem.description
-        menuItemPriceLabel.text = "$\(menuItem.price)"
+        let priceString = String(format: "%.2f", menuItem.price)
+        menuItemPriceLabel.text = "$\(priceString)"
     }//
     
 
