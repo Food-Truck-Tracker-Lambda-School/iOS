@@ -42,6 +42,7 @@ class APIController {
     private lazy var trucksURL = baseURL.appendingPathComponent("trucks")
     private lazy var dinerURL = baseURL.appendingPathComponent("diner")
     private lazy var ownerURL = baseURL.appendingPathComponent("operator")
+    private lazy var photoURL = baseURL.appendingPathComponent("photos")
     
     // MARK: - Functions - Public
     
@@ -87,7 +88,6 @@ class APIController {
                     self.currentUser = try JSONDecoder().decode(User.self, from: data)
                     self.bearer = try JSONDecoder().decode(Bearer.self, from: data)
                     self.checkLastUser()
-                    self.getFavorites { _ in }
                     completion(.success(true))
                 } catch {
                     NSLog("Error decoding bearer: \(error)")
@@ -257,6 +257,12 @@ class APIController {
         }
     }
     
+    /// uses coordinates and a radius in miles to fetch local trucks
+    /// - Parameters:
+    ///   - latitude: accepts a String for latitude coordinate
+    ///   - longitude: accepts a String for longitude coordinate
+    ///   - radius: accepts a radius in miles
+    ///   - completion: returns an array of [TruckListing]
     func fetchLocalTrucks(latitude: String, longitude: String, radius: Int, completion: @escaping (Result<[TruckListing], NetworkError>) -> Void) {
         let url = trucksURL
         let radiusString = String(radius)
@@ -376,27 +382,6 @@ class APIController {
         }
     }
     
-    func fetchImage(at urlString: String, completion: @escaping (Result<UIImage, NetworkError>) -> Void) {
-        let imageURL = URL(string: urlString)!
-        var request = URLRequest(url: imageURL)
-        request.httpMethod = HTTPMethod.get.rawValue
-        let task = URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                print("Error receiving image: \(urlString), error: \(error)")
-                completion(.failure(.tryAgain))
-                return
-            }
-            guard let data = data else {
-                print("No data received from fetchImage")
-                completion(.failure(.noData))
-                return
-            }
-            let image = UIImage(data: data)!
-                completion(.success(image))
-        }
-        task.resume()
-        }
-    
     // MARK: - Truck Functions - POST Requests
     
     /// creates a new truck; only for owners
@@ -407,9 +392,13 @@ class APIController {
         guard let bearer = bearer,
               userRole == .owner else { return }
         let url = ownerURL.appendingPathComponent("\(bearer.id)/trucks")
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         postDataTask(url: url, postData: truck) { result in
             switch result {
             case .success(true):
+                if let truckRep = self.convertListingToRepresentation(listing: truck) {
+                    Truck(truckRepresentation: truckRep, context: context)
+                }
                 completion(.success(true))
             case .failure(.failedEncoding):
                 completion(.failure(.failedEncoding))
@@ -418,6 +407,11 @@ class APIController {
             default:
                 completion(.failure(.tryAgain))
             }
+        }
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            print("Error fetching trucks for IDs: \(error)")
         }
     }
     
@@ -517,6 +511,90 @@ class APIController {
             completion(.failure(.failedEncoding))
         }
     }
+    
+    // MARK: - Image Functions
+    
+    /// posts an image to the server, collects the photoId and photoUrl, and updates the TruckListing or MenuItem
+    /// - Parameters:
+    ///   - photoData: accepts photo Data
+    ///   - truckId: accepts TruckListing.identifier
+    ///   - itemId: accepts optional MenuItem.id, set to nil when adding an image to a TruckListing
+    ///   - completion: calls updateTruckWithPhoto or updateMenuItemWithPhoto to update server
+    func postImage(photoData: Data, truckId: Int, itemId: Int?, completion: @escaping (Result<Photo, NetworkError>) -> Void) {
+        guard let bearer = bearer,
+              userRole == .owner else { return }
+        let postData = PhotoData(userId: bearer.id, file: photoData)
+        var request = postRequest(for: photoURL)
+        var jsonData: Data
+        do {
+            jsonData = try JSONEncoder().encode(postData)
+            request.httpBody = jsonData
+            request.httpMethod = HTTPMethod.post.rawValue
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
+            dataLoader.dataRequest(with: request) { data, response, error in
+                if let error = error {
+                    NSLog("Post failed with error: \(error)")
+                    completion(.failure(.otherError))
+                    return
+                }
+                if let response = response as? HTTPURLResponse,
+                   !(200...210 ~= response.statusCode) {
+                    NSLog("Error: failed response")
+                    completion(.failure(.failedResponse))
+                    return
+                }
+                guard let data = data else {
+                    NSLog("Data was not received")
+                    completion(.failure(.noData))
+                    return
+                }
+                do {
+                    let photo = try JSONDecoder().decode(Photo.self, from: data)
+                    if let itemId = itemId {
+                        self.updateMenuItemWithPhoto(photo: photo, truckId: truckId, itemId: itemId) { _ in
+                            completion(.success(photo))
+                        }
+                    } else {
+                        self.updateTruckWithPhoto(photo: photo, truckId: truckId) { _ in
+                            completion(.success(photo))
+                        }
+                    }
+                } catch {
+                    NSLog("Error decoding photo: \(error)")
+                    completion(.failure(.failedDecoding))
+                }
+            }
+        } catch {
+            NSLog("Error encoding data: \(error)")
+            completion(.failure(.failedEncoding))
+        }
+    }
+    
+    /// fetches an image using a urlString
+    /// - Parameters:
+    ///   - urlString: accepts a String for URL
+    ///   - completion: returns UIImage
+    func fetchImage(at urlString: String, completion: @escaping (Result<UIImage, NetworkError>) -> Void) {
+        let imageURL = URL(string: urlString)!
+        var request = URLRequest(url: imageURL)
+        request.httpMethod = HTTPMethod.get.rawValue
+        let task = URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                print("Error receiving image: \(urlString), error: \(error)")
+                completion(.failure(.tryAgain))
+                return
+            }
+            guard let data = data else {
+                print("No data received from fetchImage")
+                completion(.failure(.noData))
+                return
+            }
+            let image = UIImage(data: data)!
+                completion(.success(image))
+        }
+        task.resume()
+        }
     
     // MARK: - Functions - Private
     
@@ -687,6 +765,63 @@ class APIController {
                 }
             }
             defaults.set(userId, forKey: "userId")
+        }
+    }
+    
+    /// called in postImage if the image is for a TruckListing, sends the photoId and photoUrl to the server, updates CoreData
+    /// - Parameters:
+    ///   - photo: accepts a Photo from the completion of postImage
+    ///   - truckId: accepts TruckListing.identifier
+    ///   - completion: successful completion updates TruckListing in server and Truck in CoreData
+    private func updateTruckWithPhoto(photo: Photo, truckId: Int, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+        guard let bearer = bearer,
+              userRole == .owner else { return }
+        let url = ownerURL.appendingPathComponent("\(bearer.id)/trucks/\(truckId)")
+        var request = URLRequest(url: url)
+        do {
+            let jsonData = try JSONEncoder().encode(photo)
+            request.httpBody = jsonData
+            request.httpMethod = HTTPMethod.put.rawValue
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
+            dataLoader.dataRequest(with: request) { _, response, error in
+                if let error = error {
+                    NSLog("PUT failed with error: \(error)")
+                    completion(.failure(.otherError))
+                    return
+                }
+                if let response = response as? HTTPURLResponse,
+                   !(200...210 ~= response.statusCode) {
+                    NSLog("Error: failed response")
+                    completion(.failure(.failedResponse))
+                    return
+                }
+                self.getFavorites { _ in }
+                completion(.success(true))
+            }
+        } catch {
+            NSLog("Error encoding data: \(error)")
+            completion(.failure(.failedEncoding))
+        }
+    }
+    
+    /// called in postImage if the image os for a MenuItem, sends the photoId and photoUrl to the server
+    /// - Parameters:
+    ///   - photo: accepts a Photo from the completion of postImage
+    ///   - truckId: accepts TruckListing.identifier
+    ///   - itemId: accepts MenuItem.id
+    ///   - completion: updates MenuItem in server
+    private func updateMenuItemWithPhoto(photo: Photo, truckId: Int, itemId: Int, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+        guard let bearer = bearer,
+              userRole == .owner else { return }
+        let url = ownerURL.appendingPathComponent("\(bearer.id)/trucks/\(truckId)/menu/\(itemId)/photos")
+        postDataTask(url: url, postData: photo) { result in
+            switch result {
+            case .success(true):
+                completion(.success(true))
+            default:
+                completion(.failure(.tryAgain))
+            }
         }
     }
     

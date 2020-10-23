@@ -7,7 +7,7 @@
 
 import UIKit
 
-fileprivate var containerView: UIView!
+private var containerView: UIView!
 
 extension UIViewController {
 
@@ -50,5 +50,3 @@ extension UIViewController {
     }
 
 }//
-
-

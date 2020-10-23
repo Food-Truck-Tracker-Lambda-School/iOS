@@ -41,9 +41,7 @@ class CreateMenuVC: UIViewController {
         
         let item = MenuItem(name: name, price: price, description: description)
         
-        APIController.shared.createMenuItem(item: item, truckId: identifier) { result in
-            
-        }
+        APIController.shared.createMenuItem(item: item, truckId: identifier) { _ in }
     }
     
 

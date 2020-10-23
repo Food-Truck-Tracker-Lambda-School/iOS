@@ -76,6 +76,7 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
             return
         }
         APIController.shared.addTruckToFavorites(truckId: identifer)
+        self.presentFTAlertOnMainThread(title: "Success!", message: "This truck has been added to your favorites.", buttonTitle: "Ok")
     }
     
     
@@ -123,6 +124,7 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
         default:
             avgRatingLabel.text = String(average)
         }
+        updateImageView()
     }
     
     private func createAnnotation() {
@@ -182,6 +184,7 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
             case .success(true):
                 DispatchQueue.main.async {
                     self.presentFTAlertOnMainThread(title: "Thank you!", message: "We appreciate you taking the time to rate this truck.", buttonTitle: "Ok")
+                    self.updateAverageRating()
                 }
             default:
                 DispatchQueue.main.async {
@@ -197,6 +200,44 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
             return Int(ratingSum / truck.ratings.count)
         } else {
             return 0
+        }
+    }
+    
+    private func updateAverageRating() {
+        guard let truck = truck,
+              let identifier = truck.identifier else { return }
+        APIController.shared.fetchRatings(truckId: identifier, itemId: nil) { result in
+            switch result {
+            case .success(let ratings):
+                DispatchQueue.main.async {
+                    let ratingSum = ratings.reduce(0, +)
+                    let average = Int(ratingSum / ratings.count)
+                    switch average {
+                    case 0:
+                        self.avgRatingLabel.text = "N/A"
+                    default:
+                        self.avgRatingLabel.text = String(average)
+                    }
+                }
+            default:
+                return
+            }
+        }
+    }
+    
+    private func updateImageView() {
+        guard let truck = truck,
+              let imageString = truck.imageString,
+              !imageString.isEmpty else { return }
+        APIController.shared.fetchImage(at: imageString) { result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self.truckImageView.image = image
+                }
+            default:
+                return
+            }
         }
     }
     

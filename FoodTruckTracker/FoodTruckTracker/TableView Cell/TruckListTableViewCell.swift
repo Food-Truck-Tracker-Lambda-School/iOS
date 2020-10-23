@@ -29,7 +29,23 @@ class TruckListTableViewCell: UITableViewCell {
     private func updateViews() {
         truckNameLabel.text = truck?.name
         cuisineTypeLabel.text = truck?.cuisine
-        truckImageView.image = UIImage(named: "FoodTruckPhoto")
+        updateImageView()
+    }
+    
+    private func updateImageView() {
+        guard let truck = truck,
+              let imageString = truck.imageString,
+              !imageString.isEmpty else { return }
+        APIController.shared.fetchImage(at: imageString) { result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self.truckImageView.image = image
+                }
+            default:
+                return
+            }
+        }
     }
 
 }

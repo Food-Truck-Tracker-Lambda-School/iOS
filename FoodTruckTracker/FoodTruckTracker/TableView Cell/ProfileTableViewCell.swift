@@ -14,8 +14,8 @@ class ProfileTableViewCell: UITableViewCell {
     @IBOutlet private weak var truckNameLabel: UILabel!
     @IBOutlet private weak var cuisineTypeLabel: UILabel!
     
-    @IBOutlet weak var editTruckBtn: UIButton!
-    @IBOutlet weak var editMenuBtn: UIButton!
+    @IBOutlet private weak var editTruckBtn: UIButton!
+    @IBOutlet private weak var editMenuBtn: UIButton!
     
     // MARK: - Properties
     static let resuseIdentifier = "ProfileTableCell"

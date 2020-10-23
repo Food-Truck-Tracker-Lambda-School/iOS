@@ -40,7 +40,7 @@ class SignUpVC: UIViewController {
         }
         
         var isOperator: Int = 1
-        switch operatorSegmentedControl.selectedSegmentIndex  {
+        switch operatorSegmentedControl.selectedSegmentIndex {
         case 1:
             isOperator = 2
         default:

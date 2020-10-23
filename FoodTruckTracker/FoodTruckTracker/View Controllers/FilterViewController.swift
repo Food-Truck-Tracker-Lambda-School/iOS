@@ -197,4 +197,17 @@ extension FilterViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         cuisineTypes[row]
     }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let pickerLabel = UILabel()
+        let titleData = cuisineTypes[row]
+        let myTitle = NSAttributedString(string: titleData,
+                                         attributes: [NSAttributedString.Key.font: UIFont(name: "Noteworthy-Bold", size: 20.0)!,
+                                                      NSAttributedString.Key.foregroundColor: UIColor.black])
+        pickerLabel.attributedText = myTitle
+        pickerLabel.textAlignment = .center
+        let color = UIColor(red: 215 / 255, green: 127 / 255, blue: 255 / 255, alpha: 0.7)
+        pickerLabel.backgroundColor = color
+        return pickerLabel
+    }
 }

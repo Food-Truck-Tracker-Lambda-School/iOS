@@ -22,7 +22,9 @@ class LoginVC: UIViewController {
         
     }
     
-
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
     
     @IBAction func loginButton(_ sender: UIButton) {
 //        presentFTAlertOnMainThread(title: "No Information", message: "Please provide an username and password to Login", buttonTitle: "Ok")
@@ -35,16 +37,18 @@ class LoginVC: UIViewController {
         
         let user = ReturningUser(username: username, password: password)
         
-        APIController.shared.signIn(existingAccount: user, newAccount: nil) { (result) in
+        APIController.shared.signIn(existingAccount: user, newAccount: nil) { result in
             
             switch result {
-            case .success(let success):
+            case .success(true):
                 DispatchQueue.main.async {
                     self.performSegue(withIdentifier: "LoginGoToTabBarSegue", sender: nil)
                 }
             case .failure(let error):
                 print("Failed to Login \(error)")
                 self.presentFTAlertOnMainThread(title: "Wrong User", message: "Please provide the correct user information.", buttonTitle: "Ok")
+            default:
+                return
             }
         }
         

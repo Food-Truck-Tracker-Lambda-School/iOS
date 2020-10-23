@@ -31,12 +31,12 @@ class ProfileVC: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        APIController.shared.getFavorites { _ in }
         updateView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        APIController.shared.getFavorites { _ in }
     }
     
     func updateView() {

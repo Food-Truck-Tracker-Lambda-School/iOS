@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -205,7 +206,7 @@
                             </mapView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="UMU-CK-ZIA"/>
-                        <color key="backgroundColor" red="0.84465640779999995" green="0.51457053419999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.84313725490196079" green="0.49803921568627452" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="gU6-K1-zLv" firstAttribute="top" secondItem="adu-nN-k6X" secondAttribute="bottom" constant="20" id="1h9-bE-psb"/>
                             <constraint firstItem="UMU-CK-ZIA" firstAttribute="trailing" secondItem="adu-nN-k6X" secondAttribute="trailing" constant="20" id="CGP-W2-9sz"/>
@@ -567,7 +568,7 @@
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JpG-Bc-JHn">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JpG-Bc-JHn">
                                                                     <rect key="frame" x="132" y="0.0" width="122" height="17"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <nil key="textColor"/>
@@ -615,6 +616,7 @@
                                             <outlet property="itemImageView" destination="log-kc-UbX" id="OX2-mv-19l"/>
                                             <outlet property="itemNameLabel" destination="lHF-la-GzC" id="8pV-id-xkL"/>
                                             <outlet property="itemPriceLabel" destination="fb2-uK-O9g" id="8ZQ-ux-IZy"/>
+                                            <outlet property="itemRatingLabel" destination="JpG-Bc-JHn" id="Ao3-vu-ris"/>
                                             <segue destination="NIV-19-htB" kind="show" identifier="showMenuDetailVC" id="GPm-UU-iNa"/>
                                         </connections>
                                     </tableViewCell>
@@ -1471,7 +1473,7 @@
         <scene sceneID="lza-Ao-fxD">
             <objects>
                 <tableViewController id="Bfy-7O-CJg" customClass="TrucksTableViewController" customModule="FoodTruckTracker" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="0R4-J1-T14">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="0R4-J1-T14">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1483,25 +1485,37 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xUS-Jo-fbc">
-                                            <rect key="frame" x="20" y="11" width="80" height="80"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xUS-Jo-fbc">
+                                            <rect key="frame" x="12" y="10" width="80" height="80"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="80" id="WLa-ba-wnR"/>
+                                                <constraint firstAttribute="width" constant="80" id="hzk-hb-aqM"/>
+                                            </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Truck Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lTf-S7-JWd">
-                                            <rect key="frame" x="108" y="11" width="113" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Truck Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lTf-S7-JWd">
+                                            <rect key="frame" x="102" y="21" width="113" height="24"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cuisine Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ye-52-EmV">
-                                            <rect key="frame" x="108" y="68" width="98" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cuisine Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ye-52-EmV">
+                                            <rect key="frame" x="102" y="68" width="98" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="2Ye-52-EmV" firstAttribute="leading" secondItem="xUS-Jo-fbc" secondAttribute="trailing" constant="10" id="3Lw-D2-chS"/>
+                                        <constraint firstAttribute="bottom" secondItem="xUS-Jo-fbc" secondAttribute="bottom" constant="10" id="EHt-Tz-u2H"/>
+                                        <constraint firstItem="lTf-S7-JWd" firstAttribute="leading" secondItem="xUS-Jo-fbc" secondAttribute="trailing" constant="10" id="Nqu-Py-cNS"/>
+                                        <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="lTf-S7-JWd" secondAttribute="trailing" constant="100" id="bMJ-Zw-IAv"/>
+                                        <constraint firstItem="lTf-S7-JWd" firstAttribute="top" secondItem="8QS-2T-K5y" secondAttribute="topMargin" constant="10" id="kkZ-Gh-tGP"/>
+                                        <constraint firstItem="2Ye-52-EmV" firstAttribute="bottom" secondItem="8QS-2T-K5y" secondAttribute="bottomMargin" id="oMX-Yn-2fp"/>
+                                        <constraint firstItem="xUS-Jo-fbc" firstAttribute="leading" secondItem="8QS-2T-K5y" secondAttribute="leading" constant="12" id="uB5-ot-524"/>
+                                        <constraint firstItem="xUS-Jo-fbc" firstAttribute="top" secondItem="8QS-2T-K5y" secondAttribute="top" constant="10" id="xU2-KC-QtY"/>
+                                        <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="2Ye-52-EmV" secondAttribute="trailing" constant="100" id="zVK-K8-skN"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="cuisineTypeLabel" destination="2Ye-52-EmV" id="mnk-Zm-D2b"/>
@@ -1530,27 +1544,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Filter by Cuisine Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IrM-gJ-7Ce">
-                                <rect key="frame" x="126" y="37" width="163" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter by Cuisine Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IrM-gJ-7Ce">
+                                <rect key="frame" x="132" y="30" width="150.5" height="27.5"/>
+                                <fontDescription key="fontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f8a-xF-TtX">
-                                <rect key="frame" x="0.0" y="81" width="414" height="162"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f8a-xF-TtX">
+                                <rect key="frame" x="47" y="57.5" width="320" height="216"/>
                             </pickerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Filter by Minimum Average Rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bJq-hI-7Vg">
-                                <rect key="frame" x="80" y="277" width="254" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter by Minimum Average Rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bJq-hI-7Vg">
+                                <rect key="frame" x="86.5" y="313.5" width="241.5" height="27.5"/>
+                                <fontDescription key="fontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Y7n-ET-2Qt">
-                                <rect key="frame" x="70" y="327" width="274" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Y7n-ET-2Qt">
+                                <rect key="frame" x="78.5" y="351" width="257" height="32"/>
+                                <color key="backgroundColor" red="0.84313725490196079" green="0.49803921568627452" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
                                 <segments>
                                     <segment title="Any"/>
                                     <segment title="1"/>
@@ -1560,32 +1571,52 @@
                                     <segment title="5"/>
                                 </segments>
                             </segmentedControl>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Filter by Location - within 25 miles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jtU-EB-7OG">
-                                <rect key="frame" x="84" y="411" width="260" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter by Location - within 25 miles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jtU-EB-7OG">
+                                <rect key="frame" x="83" y="422" width="248" height="27.5"/>
+                                <fontDescription key="fontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="25" minValue="1" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="nIk-wr-gjN">
-                                <rect key="frame" x="47" y="465" width="321" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="25" minValue="1" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="nIk-wr-gjN">
+                                <rect key="frame" x="55" y="459.5" width="304" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="rxb-y9-d11"/>
+                                </constraints>
+                                <color key="minimumTrackTintColor" red="0.84313725490000002" green="0.49803921569999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <connections>
                                     <action selector="radiusChanged:" destination="eZO-Li-BiO" eventType="valueChanged" id="6f7-eh-vVn"/>
                                 </connections>
                             </slider>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfl-rV-807">
-                                <rect key="frame" x="165" y="572" width="85" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfl-rV-807">
+                                <rect key="frame" x="104" y="539.5" width="206" height="72"/>
+                                <color key="backgroundColor" red="0.84313725490000002" green="0.49803921569999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="20"/>
+                                <color key="tintColor" name="FTBackgroundColor"/>
+                                <inset key="contentEdgeInsets" minX="50" minY="20" maxX="50" maxY="20"/>
                                 <state key="normal" title="Apply Filters"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="applyFilters:" destination="eZO-Li-BiO" eventType="touchUpInside" id="g8m-Rt-VdD"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8lD-um-209">
-                                <rect key="frame" x="166" y="640" width="82" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8lD-um-209">
+                                <rect key="frame" x="123.5" y="651.5" width="167" height="58"/>
+                                <color key="backgroundColor" red="0.84313725490000002" green="0.49803921569999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="17"/>
+                                <color key="tintColor" name="FTBackgroundColor"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="15" maxX="40" maxY="15"/>
                                 <state key="normal" title="Clear Filters"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="clearFilters" destination="eZO-Li-BiO" eventType="touchUpInside" id="xBq-6i-vuP"/>
                                 </connections>
@@ -1593,6 +1624,24 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="m96-pd-RZJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="bJq-hI-7Vg" firstAttribute="centerX" secondItem="aMK-2T-UAX" secondAttribute="centerX" id="3XZ-e3-h60"/>
+                            <constraint firstItem="pfl-rV-807" firstAttribute="centerX" secondItem="aMK-2T-UAX" secondAttribute="centerX" id="A2k-VY-Uo1"/>
+                            <constraint firstItem="Y7n-ET-2Qt" firstAttribute="top" secondItem="bJq-hI-7Vg" secondAttribute="bottom" constant="10" id="C3i-NH-eHR"/>
+                            <constraint firstItem="nIk-wr-gjN" firstAttribute="top" secondItem="jtU-EB-7OG" secondAttribute="bottom" constant="10" id="GP0-Vz-2vI"/>
+                            <constraint firstItem="Y7n-ET-2Qt" firstAttribute="centerX" secondItem="aMK-2T-UAX" secondAttribute="centerX" id="Htb-cK-E4C"/>
+                            <constraint firstItem="f8a-xF-TtX" firstAttribute="centerX" secondItem="aMK-2T-UAX" secondAttribute="centerX" id="LrS-7a-4mt"/>
+                            <constraint firstItem="pfl-rV-807" firstAttribute="top" secondItem="nIk-wr-gjN" secondAttribute="bottom" constant="50" id="NtV-ej-DJE"/>
+                            <constraint firstItem="8lD-um-209" firstAttribute="top" secondItem="pfl-rV-807" secondAttribute="bottom" constant="40" id="Oia-wy-Gsr"/>
+                            <constraint firstItem="8lD-um-209" firstAttribute="centerX" secondItem="aMK-2T-UAX" secondAttribute="centerX" id="ZEi-2u-Crl"/>
+                            <constraint firstItem="f8a-xF-TtX" firstAttribute="top" secondItem="IrM-gJ-7Ce" secondAttribute="bottom" id="aVB-Yt-vyg"/>
+                            <constraint firstItem="nIk-wr-gjN" firstAttribute="centerX" secondItem="aMK-2T-UAX" secondAttribute="centerX" id="b8h-8e-lml"/>
+                            <constraint firstItem="jtU-EB-7OG" firstAttribute="top" secondItem="Y7n-ET-2Qt" secondAttribute="bottom" constant="40" id="dYc-sH-puM"/>
+                            <constraint firstItem="IrM-gJ-7Ce" firstAttribute="centerX" secondItem="aMK-2T-UAX" secondAttribute="centerX" id="p1H-Lw-NAu"/>
+                            <constraint firstItem="IrM-gJ-7Ce" firstAttribute="top" secondItem="m96-pd-RZJ" secondAttribute="top" constant="30" id="phf-UT-Xpf"/>
+                            <constraint firstItem="bJq-hI-7Vg" firstAttribute="top" secondItem="f8a-xF-TtX" secondAttribute="bottom" constant="40" id="vYL-pY-7CA"/>
+                            <constraint firstItem="jtU-EB-7OG" firstAttribute="centerX" secondItem="aMK-2T-UAX" secondAttribute="centerX" id="w6k-5l-ThO"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="distanceSlider" destination="nIk-wr-gjN" id="mGR-TM-ppe"/>
@@ -1609,7 +1658,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="eaZ-gi-HUj"/>
         <segue reference="GPm-UU-iNa"/>
-        <segue reference="UVU-XZ-r0O"/>
+        <segue reference="M17-Zr-luG"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="FoodTruckPhoto" width="600" height="405"/>
@@ -1621,6 +1670,9 @@
         <image name="rating" width="359" height="345"/>
         <image name="spoon" width="517" height="512"/>
         <image name="suit.heart" catalog="system" width="128" height="109"/>
+        <namedColor name="FTBackgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

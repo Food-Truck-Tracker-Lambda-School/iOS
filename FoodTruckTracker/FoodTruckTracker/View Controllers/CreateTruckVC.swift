@@ -12,7 +12,7 @@ class CreateTruckVC: UIViewController {
     // Outlets
     @IBOutlet private weak var truckImageView: UIImageView!
     @IBOutlet private weak var truckNameTextField: UITextField!
-    @IBOutlet weak var cuisineTypePickerView: UIPickerView!
+    @IBOutlet private weak var cuisineTypePickerView: UIPickerView!
     
     // MARK: - Properties
     
@@ -34,7 +34,7 @@ class CreateTruckVC: UIViewController {
         let cuisineId = cuisineTypePickerView.selectedRow(inComponent: 0)
         let truck = TruckListing(name: name, location: location, cuisineId: cuisineId)
         
-        APIController.shared.createTruck(truck: truck) { (result) in
+        APIController.shared.createTruck(truck: truck) { result in
             switch result {
             case .success(let success): // (let truck)
                 
