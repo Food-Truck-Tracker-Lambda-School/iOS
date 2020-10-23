@@ -93,26 +93,6 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
     
     // MARK: - Private Functions
     
-//    private func reverseGeocode(address: String, completion: @escaping(CLPlacemark) -> Void) {
-//
-//        let geoCoder = CLGeocoder()
-//
-//        geoCoder.geocodeAddressString(address) { placemarks, error in
-//
-//            if let error = error {
-//                print(error.localizedDescription)
-//                return
-//            }
-//
-//            guard let placemarks = placemarks,
-//                let placemark = placemarks.first else {
-//                    return
-//            }
-//
-//            completion(placemark)
-//        }
-//    }
-    
     private func updateViews() {
         guard let truck = truck else { return }
         truckNameLabel.text = truck.name

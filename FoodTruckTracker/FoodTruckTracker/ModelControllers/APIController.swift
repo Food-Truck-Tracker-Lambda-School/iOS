@@ -302,6 +302,42 @@ class APIController {
         }
     }
     
+    func fetchSingleTruck(truck: Truck, completion: @escaping (Result<TruckListing, NetworkError>) -> Void) {
+        guard let bearer = bearer else { return }
+        let ownerId = bearer.id
+        let truckId = String(truck.identifier)
+        let path = "\(ownerId)/trucks/\(truckId)"
+        guard let request = getRequest(url: ownerURL, urlPathComponent: path) else {
+            completion(.failure(.otherError))
+            return
+        }
+        dataLoader.dataRequest(with: request) { data, response, error in
+            if let error = error {
+                NSLog("Error receiving truck data: \(error)")
+                completion(.failure(.tryAgain))
+                return
+            }
+            if let response = response as? HTTPURLResponse,
+                response.statusCode != 200 {
+                NSLog("Error: failed response \(response)")
+                completion(.failure(.failedResponse))
+                return
+            }
+            guard let data = data else {
+                NSLog("No data received from fetchAllTrucks")
+                completion(.failure(.noData))
+                return
+            }
+            do {
+                let truckListing = try JSONDecoder().decode(TruckListing.self, from: data)
+                completion(.success(truckListing))
+            } catch {
+                NSLog("Error decoding truck data: \(error)")
+                completion(.failure(.failedDecoding))
+            }
+        }
+    }
+    
     /// use fetchRatings to fetch an array [Int] of ratings for a particular truck or menu item
     /// - Parameters:
     ///   - truckId: TruckListing.identifier or TruckRepresentation.identifier

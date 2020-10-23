@@ -791,20 +791,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EhB-I3-YQH">
-                                <rect key="frame" x="20" y="128" width="374" height="374"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="374" id="8UJ-4E-GQt"/>
-                                    <constraint firstAttribute="width" constant="374" id="QJ9-RH-AsY"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Truck Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9VI-tf-kt2">
-                                <rect key="frame" x="20" y="522" width="374" height="40"/>
+                                <rect key="frame" x="20" y="118" width="374" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="cmh-TM-hK4"/>
                                 </constraints>
@@ -818,44 +806,134 @@
                                     <constraint firstAttribute="height" constant="60" id="ubM-sg-e3Q"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
-                                <state key="normal" title="Create Menu">
+                                <state key="normal" title="Save">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="createMenuButton:" destination="dLg-iO-dLg" eventType="touchUpInside" id="Wtj-TK-69A"/>
+                                    <action selector="saveButton:" destination="dLg-iO-dLg" eventType="touchUpInside" id="bk3-Dg-kWJ"/>
                                 </connections>
                             </button>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KkG-8M-i7t">
-                                <rect key="frame" x="20" y="582" width="374" height="170"/>
+                                <rect key="frame" x="20" y="178" width="374" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="goY-CT-xOG"/>
+                                </constraints>
                             </pickerView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="123 Main St, Anytown, CA 98765" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gvH-zG-NYM">
+                                <rect key="frame" x="20" y="345" width="257" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Latitude" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="njN-mW-ba7">
+                                <rect key="frame" x="20" y="393" width="105" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EnO-QB-0Ll">
+                                <rect key="frame" x="297" y="348" width="97" height="28"/>
+                                <color key="backgroundColor" systemColor="labelColor"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                <state key="normal" title="Use Address">
+                                    <color key="titleColor" name="FTBackgroundColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="useAddressButton:" destination="dLg-iO-dLg" eventType="touchUpInside" id="eVD-q8-PP7"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FTE-i8-u4i">
+                                <rect key="frame" x="270" y="396" width="124" height="28"/>
+                                <color key="backgroundColor" systemColor="labelColor"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                <state key="normal" title="Use Coordinates">
+                                    <color key="titleColor" name="FTBackgroundColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="useCoordinatesButton:" destination="dLg-iO-dLg" eventType="touchUpInside" id="ZxK-xz-ZF3"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="4xH-sB-CKO">
+                                <rect key="frame" x="93.5" y="447" width="227" height="28"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dU5-ho-9do">
+                                        <rect key="frame" x="0.0" y="0.0" width="125" height="28"/>
+                                        <color key="backgroundColor" systemColor="labelColor"/>
+                                        <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                        <state key="normal" title="Use My Location">
+                                            <color key="titleColor" name="FTBackgroundColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="useMyLocationButton:" destination="dLg-iO-dLg" eventType="touchUpInside" id="clA-am-GmD"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jL5-c1-Q9l">
+                                        <rect key="frame" x="155" y="0.0" width="72" height="28"/>
+                                        <color key="backgroundColor" systemColor="labelColor"/>
+                                        <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                        <state key="normal" title="Clear Pin">
+                                            <color key="titleColor" name="FTBackgroundColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="clearPinsButton:" destination="dLg-iO-dLg" eventType="touchUpInside" id="pb4-TU-OYO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Longitude" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="muv-8C-Kfj">
+                                <rect key="frame" x="145" y="393" width="105" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="AI9-B8-bTJ">
+                                <rect key="frame" x="20" y="505" width="374" height="237"/>
+                            </mapView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Djm-bm-1ym"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="muv-8C-Kfj" firstAttribute="width" secondItem="njN-mW-ba7" secondAttribute="width" id="1zW-NJ-ns5"/>
+                            <constraint firstItem="AI9-B8-bTJ" firstAttribute="centerX" secondItem="FrB-VW-9oq" secondAttribute="centerX" id="3Dl-g5-hDB"/>
+                            <constraint firstItem="gcw-fW-x7E" firstAttribute="top" secondItem="AI9-B8-bTJ" secondAttribute="bottom" constant="30" id="3oQ-Zd-xNx"/>
+                            <constraint firstItem="AI9-B8-bTJ" firstAttribute="leading" secondItem="Djm-bm-1ym" secondAttribute="leading" constant="20" id="3pb-NB-qnW"/>
+                            <constraint firstItem="muv-8C-Kfj" firstAttribute="leading" secondItem="njN-mW-ba7" secondAttribute="trailing" constant="20" id="6dv-ql-0i1"/>
+                            <constraint firstItem="FTE-i8-u4i" firstAttribute="top" secondItem="EnO-QB-0Ll" secondAttribute="bottom" constant="20" id="7PV-b4-P44"/>
+                            <constraint firstItem="njN-mW-ba7" firstAttribute="centerY" secondItem="FTE-i8-u4i" secondAttribute="centerY" id="APx-Od-6hD"/>
+                            <constraint firstItem="EnO-QB-0Ll" firstAttribute="top" secondItem="KkG-8M-i7t" secondAttribute="bottom" constant="20" id="Apw-lj-ZUG"/>
                             <constraint firstItem="Djm-bm-1ym" firstAttribute="trailing" secondItem="gcw-fW-x7E" secondAttribute="trailing" constant="20" id="Brz-em-C1f"/>
+                            <constraint firstItem="4xH-sB-CKO" firstAttribute="top" secondItem="njN-mW-ba7" secondAttribute="bottom" constant="20" id="DHn-UL-tSe"/>
+                            <constraint firstItem="gvH-zG-NYM" firstAttribute="centerY" secondItem="EnO-QB-0Ll" secondAttribute="centerY" id="DYI-en-XVN"/>
+                            <constraint firstItem="Djm-bm-1ym" firstAttribute="trailing" secondItem="AI9-B8-bTJ" secondAttribute="trailing" constant="20" id="FAh-wr-TSw"/>
                             <constraint firstItem="Djm-bm-1ym" firstAttribute="trailing" secondItem="9VI-tf-kt2" secondAttribute="trailing" constant="20" id="FI0-qd-r2C"/>
-                            <constraint firstItem="gcw-fW-x7E" firstAttribute="top" secondItem="KkG-8M-i7t" secondAttribute="bottom" constant="20" id="G05-Ae-TWS"/>
+                            <constraint firstItem="9VI-tf-kt2" firstAttribute="top" secondItem="Djm-bm-1ym" secondAttribute="top" constant="30" id="FLj-Cq-wyH"/>
                             <constraint firstItem="Djm-bm-1ym" firstAttribute="bottom" secondItem="gcw-fW-x7E" secondAttribute="bottom" constant="30" id="Ggb-gc-hct"/>
+                            <constraint firstItem="EnO-QB-0Ll" firstAttribute="leading" secondItem="gvH-zG-NYM" secondAttribute="trailing" constant="20" id="Hqx-zV-LVS"/>
+                            <constraint firstItem="muv-8C-Kfj" firstAttribute="centerY" secondItem="FTE-i8-u4i" secondAttribute="centerY" id="KGm-VN-KbQ"/>
                             <constraint firstItem="9VI-tf-kt2" firstAttribute="leading" secondItem="Djm-bm-1ym" secondAttribute="leading" constant="20" id="Ne3-lt-Rhr"/>
+                            <constraint firstItem="njN-mW-ba7" firstAttribute="leading" secondItem="Djm-bm-1ym" secondAttribute="leading" constant="20" id="R9a-tb-wI2"/>
+                            <constraint firstAttribute="trailing" secondItem="EnO-QB-0Ll" secondAttribute="trailing" constant="20" id="RLY-br-TVQ"/>
+                            <constraint firstItem="AI9-B8-bTJ" firstAttribute="top" secondItem="4xH-sB-CKO" secondAttribute="bottom" constant="30" id="RU6-BP-zN6"/>
+                            <constraint firstAttribute="trailing" secondItem="FTE-i8-u4i" secondAttribute="trailing" constant="20" id="Se7-LE-pQq"/>
                             <constraint firstItem="KkG-8M-i7t" firstAttribute="leading" secondItem="Djm-bm-1ym" secondAttribute="leading" constant="20" id="TSo-tk-xDd"/>
                             <constraint firstItem="gcw-fW-x7E" firstAttribute="leading" secondItem="Djm-bm-1ym" secondAttribute="leading" constant="20" id="aHn-KT-pDv"/>
-                            <constraint firstItem="EhB-I3-YQH" firstAttribute="top" secondItem="Djm-bm-1ym" secondAttribute="top" constant="40" id="aKs-Jb-0Zd"/>
                             <constraint firstItem="Djm-bm-1ym" firstAttribute="trailing" secondItem="KkG-8M-i7t" secondAttribute="trailing" constant="20" id="aeT-0k-ykR"/>
-                            <constraint firstItem="9VI-tf-kt2" firstAttribute="top" secondItem="EhB-I3-YQH" secondAttribute="bottom" constant="20" id="dA6-Qp-Cp4"/>
                             <constraint firstItem="KkG-8M-i7t" firstAttribute="top" secondItem="9VI-tf-kt2" secondAttribute="bottom" constant="20" id="lCu-Ob-8OT"/>
-                            <constraint firstItem="EhB-I3-YQH" firstAttribute="leading" secondItem="9VI-tf-kt2" secondAttribute="leading" id="y2e-0f-fJE"/>
+                            <constraint firstItem="FTE-i8-u4i" firstAttribute="leading" secondItem="muv-8C-Kfj" secondAttribute="trailing" constant="20" id="uV8-AP-Olg"/>
+                            <constraint firstItem="gvH-zG-NYM" firstAttribute="leading" secondItem="Djm-bm-1ym" secondAttribute="leading" constant="20" id="wfy-dh-GXX"/>
+                            <constraint firstItem="4xH-sB-CKO" firstAttribute="centerX" secondItem="FrB-VW-9oq" secondAttribute="centerX" id="wqJ-Kl-Q8L"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="jqk-dj-qqk"/>
                     <connections>
+                        <outlet property="addressTextField" destination="gvH-zG-NYM" id="ZAo-e6-v7T"/>
                         <outlet property="cuisineTypePickerView" destination="KkG-8M-i7t" id="gyn-yB-EnE"/>
-                        <outlet property="truckImageView" destination="EhB-I3-YQH" id="3nA-YR-kPe"/>
+                        <outlet property="latitudeTextField" destination="njN-mW-ba7" id="Gfe-db-njJ"/>
+                        <outlet property="longitudeTextField" destination="muv-8C-Kfj" id="adi-fS-ZEw"/>
+                        <outlet property="mapView" destination="AI9-B8-bTJ" id="Jtm-aT-Sc1"/>
                         <outlet property="truckNameTextField" destination="9VI-tf-kt2" id="cVD-mA-NAq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aJz-Jh-Rbd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1628" y="3063"/>
+            <point key="canvasLocation" x="-1628.985507246377" y="3062.9464285714284"/>
         </scene>
         <!--Edit TruckVC-->
         <scene sceneID="UFe-oM-d5N">
@@ -1336,6 +1414,7 @@
                                                             </userDefinedRuntimeAttributes>
                                                             <connections>
                                                                 <action selector="editTruckButton:" destination="d7n-cK-8w0" eventType="touchUpInside" id="vne-9h-1Wo"/>
+                                                                <segue destination="dLg-iO-dLg" kind="show" identifier="editTruckSegue" id="oCi-aj-k26"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HCf-7f-kwy">
@@ -1398,7 +1477,7 @@
                     <navigationItem key="navigationItem" title="Profile" id="sbF-R4-COC">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="uC0-l9-Lzd">
                             <connections>
-                                <segue destination="dLg-iO-dLg" kind="show" id="EjX-se-itk"/>
+                                <segue destination="dLg-iO-dLg" kind="show" identifier="createTruckSegue" id="EjX-se-itk"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1657,6 +1736,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="eaZ-gi-HUj"/>
+        <segue reference="EjX-se-itk"/>
         <segue reference="GPm-UU-iNa"/>
         <segue reference="M17-Zr-luG"/>
     </inferredMetricsTieBreakers>

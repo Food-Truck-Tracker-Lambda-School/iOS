@@ -10,8 +10,11 @@ import CoreData
 
 class ProfileVC: UIViewController {
     
-    // Outlets
+    // MARK: - Outlets
+    
     @IBOutlet private weak var tableView: UITableView!
+    
+    // MARK: - Properties
     
     lazy var fetchedResultsController: NSFetchedResultsController<Truck> = {
         let fetchRequest: NSFetchRequest<Truck> = Truck.fetchRequest()
@@ -27,6 +30,8 @@ class ProfileVC: UIViewController {
         return frc
     }()
 
+    // MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -35,11 +40,21 @@ class ProfileVC: UIViewController {
         updateView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "editTruckSegue" {
+            if let editTruckVC = segue.destination as? CreateTruckVC,
+               let indexPath = tableView.indexPathForSelectedRow {
+                let truck = fetchedResultsController.object(at: indexPath)
+                editTruckVC.truck = truck
+            }
+        }
     }
     
-    func updateView() {
+    // MARK: - Private Functions
+    
+    private func updateView() {
         if APIController.shared.currentUser?.roleId == 2 {
             navigationItem.rightBarButtonItem?.isEnabled = true
             navigationItem.rightBarButtonItem?.tintColor = .systemGray
@@ -65,6 +80,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableViewCell.resuseIdentifier, for: indexPath) as? ProfileTableViewCell else { fatalError("Error") }
         cell.truck = fetchedResultsController.object(at: indexPath)
+        cell.delegate = self
         return cell
     }
     
@@ -138,4 +154,11 @@ extension ProfileVC: NSFetchedResultsControllerDelegate {
         }
     }
     
+}
+
+extension ProfileVC: ProfileCellDelegate {
+    func didTapButton(cell: ProfileTableViewCell) {
+        let indexPath = tableView.indexPath(for: cell)
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+    }
 }

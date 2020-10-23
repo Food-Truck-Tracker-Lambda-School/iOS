@@ -11,9 +11,11 @@ import MapKit
 class SearchVC: UIViewController {
     
     // MARK: - Outlets
+    
     @IBOutlet private weak var mapKit: MKMapView!
     
     // MARK: - Properties
+    
     fileprivate let locationManager = CLLocationManager()
     var span = MKCoordinateSpan(latitudeDelta: 0.15, longitudeDelta: 0.15)
     var userLocation: CLLocationCoordinate2D?
