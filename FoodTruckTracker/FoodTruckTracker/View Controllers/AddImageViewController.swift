@@ -51,11 +51,13 @@ class AddImageViewController: UIViewController {
         guard let image = image,
               let imageData = image.jpegData(compressionQuality: 0.1),
               let truckId = truckListing?.identifier else { return }
+        let filename = getDocumentsDirectory().appendingPathComponent("copy.jpg")
+        try? imageData.write(to: filename)
         var itemId: Int?
         if let item = item {
             itemId = item.id
         }
-        APIController.shared.postImage(photoData: imageData, truckId: truckId, itemId: itemId) { result in
+        APIController.shared.postImageFile(photoFile: filename, truckId: truckId, itemId: itemId) { result in
             switch result {
             case .success(true):
                 self.presentFTAlertOnMainThread(title: "Success", message: "Your image has been uploaded.", buttonTitle: "OK")
@@ -99,6 +101,11 @@ class AddImageViewController: UIViewController {
         picker.allowsEditing = true
         picker.delegate = self
         self.present(picker, animated: true, completion: nil)
+    }
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
     }
 
 }

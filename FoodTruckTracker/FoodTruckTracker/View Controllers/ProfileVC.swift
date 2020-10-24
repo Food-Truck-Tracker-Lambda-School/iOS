@@ -55,6 +55,12 @@ class ProfileVC: UIViewController {
                 let truck = fetchedResultsController.object(at: indexPath)
                 editMenuVC.truck = truck
             }
+        } else if segue.identifier == "truckImageSegue" {
+            if let imageVC = segue.destination as? AddImageViewController,
+               let indexPath = tableView.indexPathForSelectedRow {
+                let truck = fetchedResultsController.object(at: indexPath)
+                imageVC.truck = truck
+            }
         }
     }
     
@@ -72,7 +78,6 @@ class ProfileVC: UIViewController {
             navigationItem.rightBarButtonItem?.tintColor = .clear
         }
     }
-    
 
 } // ProfileVC
 
@@ -91,15 +96,6 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         cell.truck = fetchedResultsController.object(at: indexPath)
         cell.delegate = self
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let sb = UIStoryboard(name: "Main", bundle: nil)
-        if let vc = sb.instantiateViewController(withIdentifier: "AddImageViewController") as? AddImageViewController {
-                let truck = fetchedResultsController.object(at: indexPath)
-                vc.truck = truck
-            self.present(vc, animated: true, completion: nil)
-        }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

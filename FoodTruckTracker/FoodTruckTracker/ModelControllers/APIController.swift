@@ -68,30 +68,21 @@ class APIController {
             request = postRequest(for: url)
             request.httpBody = jsonData
             dataLoader.dataRequest(with: request) { data, response, error in
-                if let error = error {
-                    NSLog("Login failed with error: \(error)")
-                    completion(.failure(.failedLogin))
-                    return
-                }
-                if let response = response as? HTTPURLResponse,
-                   !(200...210 ~= response.statusCode) {
-                    NSLog("Error: failed response")
-                    completion(.failure(.failedResponse))
-                    return
-                }
-                guard let data = data else {
-                    NSLog("Data was not received")
-                    completion(.failure(.noData))
-                    return
-                }
-                do {
-                    self.currentUser = try JSONDecoder().decode(User.self, from: data)
-                    self.bearer = try JSONDecoder().decode(Bearer.self, from: data)
-                    self.checkLastUser()
-                    completion(.success(true))
-                } catch {
-                    NSLog("Error decoding bearer: \(error)")
-                    completion(.failure(.noToken))
+                self.checkResponse(for: "signIn", data, response, error) { result in
+                    switch result {
+                    case .success(let data):
+                        do {
+                            self.currentUser = try JSONDecoder().decode(User.self, from: data)
+                            self.bearer = try JSONDecoder().decode(Bearer.self, from: data)
+                            self.checkLastUser()
+                            completion(.success(true))
+                        } catch {
+                            NSLog("Error decoding bearer: \(error)")
+                            completion(.failure(.noToken))
+                        }
+                    default:
+                        completion(.failure(.failedLogin))
+                    }
                 }
             }
         } catch {
@@ -120,35 +111,25 @@ class APIController {
             return
         }
         dataLoader.dataRequest(with: request) { data, response, error in
-            if let error = error {
-                NSLog("Error receiving truck data: \(error)")
-                completion(.failure(.tryAgain))
-                return
-            }
-            if let response = response as? HTTPURLResponse,
-                response.statusCode != 200 {
-                NSLog("Error: failed response \(response)")
-                completion(.failure(.failedResponse))
-                return
-            }
-            guard let data = data,
-                  !data.isEmpty else {
-                NSLog("No data received from getFavorites")
-                completion(.failure(.noData))
-                return
-            }
-            do {
-                var trucks: [TruckListing] = []
-                if let _trucks = try? JSONDecoder().decode([TruckListing].self, from: data) {
-                    trucks = _trucks
+            self.checkResponse(for: "getFavorites", data, response, error) { result in
+                switch result {
+                case .success(let data):
+                    do {
+                        var trucks: [TruckListing] = []
+                        if let _trucks = try? JSONDecoder().decode([TruckListing].self, from: data) {
+                            trucks = _trucks
+                        }
+                        if !trucks.isEmpty {
+                            try self.syncTrucksWithCoreData(trucks: trucks)
+                        }
+                        completion(.success(true))
+                    } catch {
+                        NSLog("Error decoding truck data: \(error)")
+                        completion(.failure(.failedDecoding))
+                    }
+                default:
+                    completion(.failure(.failedResponse))
                 }
-                if !trucks.isEmpty {
-                    try self.syncTrucksWithCoreData(trucks: trucks)
-                }
-                completion(.success(true))
-            } catch {
-                NSLog("Error decoding truck data: \(error)")
-                completion(.failure(.failedDecoding))
             }
         }
     }
@@ -231,28 +212,19 @@ class APIController {
             return
         }
         dataLoader.dataRequest(with: request) { data, response, error in
-            if let error = error {
-                NSLog("Error receiving truck data: \(error)")
-                completion(.failure(.tryAgain))
-                return
-            }
-            if let response = response as? HTTPURLResponse,
-                response.statusCode != 200 {
-                NSLog("Error: failed response \(response)")
-                completion(.failure(.failedResponse))
-                return
-            }
-            guard let data = data else {
-                NSLog("No data received from fetchAllTrucks")
-                completion(.failure(.noData))
-                return
-            }
-            do {
-                let trucks = try JSONDecoder().decode([TruckListing].self, from: data)
-                completion(.success(trucks))
-            } catch {
-                NSLog("Error decoding truck data: \(error)")
-                completion(.failure(.failedDecoding))
+            self.checkResponse(for: "fetchAllTrucks", data, response, error) { result in
+                switch result {
+                case .success(let data):
+                    do {
+                        let trucks = try JSONDecoder().decode([TruckListing].self, from: data)
+                        completion(.success(trucks))
+                    } catch {
+                        NSLog("Error decoding truck data: \(error)")
+                        completion(.failure(.failedDecoding))
+                    }
+                default:
+                    completion(.failure(.failedResponse))
+                }
             }
         }
     }
@@ -276,28 +248,19 @@ class APIController {
         request.httpMethod = HTTPMethod.get.rawValue
         request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
         dataLoader.dataRequest(with: request) { data, response, error in
-            if let error = error {
-                NSLog("Error receiving truck data: \(error)")
-                completion(.failure(.tryAgain))
-                return
-            }
-            if let response = response as? HTTPURLResponse,
-                response.statusCode != 200 {
-                NSLog("Error: failed response \(response)")
-                completion(.failure(.failedResponse))
-                return
-            }
-            guard let data = data else {
-                NSLog("No data received from fetchLocalTrucks")
-                completion(.failure(.noData))
-                return
-            }
-            do {
-                let trucks = try JSONDecoder().decode([TruckListing].self, from: data)
-                completion(.success(trucks))
-            } catch {
-                NSLog("Error decoding truck data: \(error)")
-                completion(.failure(.failedDecoding))
+            self.checkResponse(for: "fetchLocalTrucks", data, response, error) { result in
+                switch result {
+                case .success(let data):
+                    do {
+                        let trucks = try JSONDecoder().decode([TruckListing].self, from: data)
+                        completion(.success(trucks))
+                    } catch {
+                        NSLog("Error decoding truck data: \(error)")
+                        completion(.failure(.failedDecoding))
+                    }
+                default:
+                    completion(.failure(.failedResponse))
+                }
             }
         }
     }
@@ -312,28 +275,19 @@ class APIController {
             return
         }
         dataLoader.dataRequest(with: request) { data, response, error in
-            if let error = error {
-                NSLog("Error receiving truck data: \(error)")
-                completion(.failure(.tryAgain))
-                return
-            }
-            if let response = response as? HTTPURLResponse,
-                response.statusCode != 200 {
-                NSLog("Error: failed response \(response)")
-                completion(.failure(.failedResponse))
-                return
-            }
-            guard let data = data else {
-                NSLog("No data received from fetchAllTrucks")
-                completion(.failure(.noData))
-                return
-            }
-            do {
-                let truckListing = try JSONDecoder().decode(TruckListing.self, from: data)
-                completion(.success(truckListing))
-            } catch {
-                NSLog("Error decoding truck data: \(error)")
-                completion(.failure(.failedDecoding))
+            self.checkResponse(for: "fetchSingleTruck", data, response, error) { result in
+                switch result {
+                case .success(let data):
+                    do {
+                        let truckListing = try JSONDecoder().decode(TruckListing.self, from: data)
+                        completion(.success(truckListing))
+                    } catch {
+                        NSLog("Error decoding truck data: \(error)")
+                        completion(.failure(.failedDecoding))
+                    }
+                default:
+                    completion(.failure(.failedResponse))
+                }
             }
         }
     }
@@ -355,28 +309,19 @@ class APIController {
             return
         }
         dataLoader.dataRequest(with: request) { data, response, error in
-            if let error = error {
-                NSLog("Error receiving rating data: \(error)")
-                completion(.failure(.tryAgain))
-                return
-            }
-            if let response = response as? HTTPURLResponse,
-                response.statusCode != 200 {
-                NSLog("Error: failed response \(response)")
-                completion(.failure(.failedResponse))
-                return
-            }
-            guard let data = data else {
-                NSLog("No data received from fetchTruckRatings")
-                completion(.failure(.noData))
-                return
-            }
-            do {
-                let ratings = try JSONDecoder().decode([Int].self, from: data)
-                completion(.success(ratings))
-            } catch {
-                NSLog("Error decoding rating data: \(error)")
-                completion(.failure(.failedDecoding))
+            self.checkResponse(for: "fetchRatings", data, response, error) { result in
+                switch result {
+                case .success(let data):
+                    do {
+                        let ratings = try JSONDecoder().decode([Int].self, from: data)
+                        completion(.success(ratings))
+                    } catch {
+                        NSLog("Error decoding rating data: \(error)")
+                        completion(.failure(.failedDecoding))
+                    }
+                default:
+                    completion(.failure(.failedResponse))
+                }
             }
         }
     }
@@ -392,28 +337,19 @@ class APIController {
             return
         }
         dataLoader.dataRequest(with: request) { data, response, error in
-            if let error = error {
-                NSLog("Error receiving menu data: \(error)")
-                completion(.failure(.tryAgain))
-                return
-            }
-            if let response = response as? HTTPURLResponse,
-                response.statusCode != 200 {
-                NSLog("Error: failed response \(response)")
-                completion(.failure(.failedResponse))
-                return
-            }
-            guard let data = data else {
-                NSLog("No data received from fetchTruckMenu")
-                completion(.failure(.noData))
-                return
-            }
-            do {
-                let menu = try JSONDecoder().decode([MenuItem].self, from: data)
-                completion(.success(menu))
-            } catch {
-                NSLog("Error decoding menu data: \(error)")
-                completion(.failure(.failedDecoding))
+            self.checkResponse(for: "fetchTruckMenu", data, response, error) { result in
+                switch result {
+                case .success(let data):
+                    do {
+                        let menu = try JSONDecoder().decode([MenuItem].self, from: data)
+                        completion(.success(menu))
+                    } catch {
+                        NSLog("Error decoding menu data: \(error)")
+                        completion(.failure(.failedDecoding))
+                    }
+                default:
+                    completion(.failure(.failedResponse))
+                }
             }
         }
     }
@@ -528,19 +464,10 @@ class APIController {
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
             dataLoader.dataRequest(with: request) { _, response, error in
-                if let error = error {
-                    NSLog("PUT failed with error: \(error)")
-                    completion(.failure(.otherError))
-                    return
+                self.checkResponse(for: "editTruck", nil, response, error) { _ in
+                    self.getFavorites { _ in }
+                    completion(.success(true))
                 }
-                if let response = response as? HTTPURLResponse,
-                   !(200...210 ~= response.statusCode) {
-                    NSLog("Error: failed response")
-                    completion(.failure(.failedResponse))
-                    return
-                }
-                self.getFavorites { _ in }
-                completion(.success(true))
             }
         } catch {
             NSLog("Error encoding data: \(error)")
@@ -567,43 +494,67 @@ class APIController {
             request.httpBody = jsonData
             request.httpMethod = HTTPMethod.post.rawValue
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//            request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
+            request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
             dataLoader.dataRequest(with: request) { data, response, error in
-                if let error = error {
-                    NSLog("Post failed with error: \(error)")
-                    completion(.failure(.otherError))
-                    return
-                }
-                if let response = response as? HTTPURLResponse,
-                   !(200...210 ~= response.statusCode) {
-                    NSLog("Error: failed response")
-                    completion(.failure(.failedResponse))
-                    return
-                }
-                guard let data = data else {
-                    NSLog("Data was not received")
-                    completion(.failure(.noData))
-                    return
-                }
-                do {
-                    let photo = try JSONDecoder().decode(Photo.self, from: data)
-                    if let itemId = itemId {
-                        self.updateMenuItemWithPhoto(photo: photo, truckId: truckId, itemId: itemId) { _ in
-                            completion(.success(true))
+                self.checkResponse(for: "postImage", data, response, error) { result in
+                    switch result {
+                    case .success(let data):
+                        do {
+                            let photo = try JSONDecoder().decode(Photo.self, from: data)
+                            if let itemId = itemId {
+                                self.updateMenuItemWithPhoto(photo: photo, truckId: truckId, itemId: itemId) { _ in
+                                    completion(.success(true))
+                                }
+                            } else {
+                                self.updateTruckWithPhoto(photo: photo, truckId: truckId) { _ in
+                                    completion(.success(true))
+                                }
+                            }
+                        } catch {
+                            NSLog("Error decoding photo: \(error)")
+                            completion(.failure(.failedDecoding))
                         }
-                    } else {
-                        self.updateTruckWithPhoto(photo: photo, truckId: truckId) { _ in
-                            completion(.success(true))
-                        }
+                    default:
+                        completion(.failure(.failedResponse))
                     }
-                } catch {
-                    NSLog("Error decoding photo: \(error)")
-                    completion(.failure(.failedDecoding))
                 }
             }
         } catch {
             NSLog("Error encoding data: \(error)")
             completion(.failure(.failedEncoding))
+        }
+    }
+    
+    func postImageFile(photoFile: URL, truckId: Int, itemId: Int?, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+        guard let bearer = bearer,
+              userRole == .owner else { return }
+//        let url = photoURL.appendingPathComponent(String(bearer.id))
+        var request = postRequest(for: photoURL)
+        request.httpMethod = HTTPMethod.post.rawValue
+        request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
+        dataLoader.uploadRequest(with: request, file: photoFile) { data, response, error in
+            self.checkResponse(for: "postImageFile", data, response, error) { result in
+                switch result {
+                case .success(let data):
+                    do {
+                        let photo = try JSONDecoder().decode(Photo.self, from: data)
+                        if let itemId = itemId {
+                            self.updateMenuItemWithPhoto(photo: photo, truckId: truckId, itemId: itemId) { _ in
+                                completion(.success(true))
+                            }
+                        } else {
+                            self.updateTruckWithPhoto(photo: photo, truckId: truckId) { _ in
+                                completion(.success(true))
+                            }
+                        }
+                    } catch {
+                        NSLog("Error decoding photo: \(error)")
+                        completion(.failure(.failedDecoding))
+                    }
+                default:
+                    completion(.failure(.failedResponse))
+                }
+            }
         }
     }
     
@@ -615,19 +566,17 @@ class APIController {
         let imageURL = URL(string: urlString)!
         var request = URLRequest(url: imageURL)
         request.httpMethod = HTTPMethod.get.rawValue
-        let task = URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                print("Error receiving image: \(urlString), error: \(error)")
-                completion(.failure(.tryAgain))
-                return
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            self.checkResponse(for: "fetchImage", data, response, error) { result in
+                switch result {
+                case .success(let data):
+                    if let image = UIImage(data: data) {
+                        completion(.success(image))
+                    }
+                default:
+                    completion(.failure(.failedResponse))
+                }
             }
-            guard let data = data else {
-                print("No data received from fetchImage")
-                completion(.failure(.noData))
-                return
-            }
-            let image = UIImage(data: data)!
-                completion(.success(image))
         }
         task.resume()
         }
@@ -660,18 +609,14 @@ class APIController {
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
             dataLoader.dataRequest(with: request) { _, response, error in
-                if let error = error {
-                    NSLog("Post failed with error: \(error)")
-                    completion(.failure(.otherError))
-                    return
+                self.checkResponse(for: "postDataTask", nil, response, error) { result in
+                    switch result {
+                    case .success:
+                        completion(.success(true))
+                    default:
+                        completion(.failure(.failedResponse))
+                    }
                 }
-                if let response = response as? HTTPURLResponse,
-                   !(200...210 ~= response.statusCode) {
-                    NSLog("Error: failed response")
-                    completion(.failure(.failedResponse))
-                    return
-                }
-                completion(.success(true))
             }
         } catch {
             NSLog("Error encoding data: \(error)")
@@ -689,17 +634,14 @@ class APIController {
         request.httpMethod = HTTPMethod.delete.rawValue
         request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
         dataLoader.dataRequest(with: request) { _, response, error in
-            if let error = error {
-                NSLog("Delete failed with error: \(error)")
-                completion(.failure(.otherError))
-                return
+            self.checkResponse(for: "deleteDataTask", nil, response, error) { result in
+                switch result {
+                case .success:
+                    completion(.success(true))
+                default:
+                    completion(.failure(.failedResponse))
+                }
             }
-            guard let response = response as? HTTPURLResponse,
-                  response.statusCode == 204 else {
-                completion(.failure(.failedResponse))
-                return
-            }
-            completion(.success(true))
         }
     }
     
@@ -821,19 +763,15 @@ class APIController {
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
             dataLoader.dataRequest(with: request) { _, response, error in
-                if let error = error {
-                    NSLog("PUT failed with error: \(error)")
-                    completion(.failure(.otherError))
-                    return
+                self.checkResponse(for: "deleteDataTask", nil, response, error) { result in
+                    switch result {
+                    case .success:
+                        self.getFavorites { _ in }
+                        completion(.success(true))
+                    default:
+                        completion(.failure(.failedResponse))
+                    }
                 }
-                if let response = response as? HTTPURLResponse,
-                   !(200...210 ~= response.statusCode) {
-                    NSLog("Error: failed response")
-                    completion(.failure(.failedResponse))
-                    return
-                }
-                self.getFavorites { _ in }
-                completion(.success(true))
             }
         } catch {
             NSLog("Error encoding data: \(error)")
@@ -859,6 +797,27 @@ class APIController {
                 completion(.failure(.tryAgain))
             }
         }
+    }
+    
+    private func checkResponse(for taskDescription: String, _ data: Data?, _ response: URLResponse?, _ error: Error?, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+        if let error = error {
+            NSLog("\(taskDescription) failed with error: \(error)")
+            completion(.failure(.otherError))
+            return
+        }
+        if let response = response as? HTTPURLResponse,
+           !(200...210 ~= response.statusCode) {
+            NSLog("\(taskDescription) failed response - \(response)")
+            completion(.failure(.failedResponse))
+            return
+        }
+        guard let data = data,
+              !data.isEmpty else {
+            NSLog("Data was not received from \(taskDescription)")
+            completion(.failure(.noData))
+            return
+        }
+        completion(.success(data))
     }
     
 }

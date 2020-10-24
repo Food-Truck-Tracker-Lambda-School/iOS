@@ -1195,7 +1195,7 @@
                                             <outlet property="menuItemImageView" destination="Alq-Jk-cMp" id="B0c-Td-fb4"/>
                                             <outlet property="menuItemName" destination="P19-KS-5HW" id="zgM-TE-T4o"/>
                                             <outlet property="menuItemPriceLabel" destination="CWZ-Jd-YWm" id="BlZ-PG-27U"/>
-                                            <segue destination="s50-3W-ZhD" kind="presentation" identifier="itemImageSegue" trigger="accessoryAction" id="CMK-TF-pTW"/>
+                                            <segue destination="s50-3W-ZhD" kind="presentation" identifier="itemImageSegue" id="qU4-bG-sSg"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1335,7 +1335,7 @@
                                             <outlet property="editTruckBtn" destination="Smf-qP-syQ" id="Hmb-ZY-qIu"/>
                                             <outlet property="truckImageView" destination="Xpl-75-7Lg" id="flP-cl-9uZ"/>
                                             <outlet property="truckNameLabel" destination="2Jk-2F-mOh" id="Xyg-nT-C2u"/>
-                                            <segue destination="s50-3W-ZhD" kind="presentation" identifier="truckImageSegue" trigger="accessoryAction" id="H1B-sN-WVg"/>
+                                            <segue destination="s50-3W-ZhD" kind="presentation" identifier="truckImageSegue" id="Zqu-9d-Sju"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1610,7 +1610,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="pAX-6e-3NP"/>
-        <segue reference="CMK-TF-pTW"/>
+        <segue reference="Zqu-9d-Sju"/>
         <segue reference="EjX-se-itk"/>
         <segue reference="M17-Zr-luG"/>
     </inferredMetricsTieBreakers>
