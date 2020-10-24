@@ -11,4 +11,3 @@ extension UIColor {
     static let FTBackgroundColor = UIColor(named: "BPBackgroundColor")
     static let FTBorderColor = UIColor(named: "FTBorderColor")
 }
-

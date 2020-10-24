@@ -76,6 +76,7 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
             return
         }
         APIController.shared.addTruckToFavorites(truckId: identifer)
+        self.presentFTAlertOnMainThread(title: "Success!", message: "This truck has been added to your favorites.", buttonTitle: "Ok")
     }
     
     
@@ -92,29 +93,19 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
     
     // MARK: - Private Functions
     
-    private func reverseGeocode(address: String, completion: @escaping(CLPlacemark) -> Void) {
-        
-        let geoCoder = CLGeocoder()
-        
-        geoCoder.geocodeAddressString(address) { placemarks, error in
-            
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            guard let placemarks = placemarks,
-                let placemark = placemarks.first else {
-                    return
-            }
-            
-            completion(placemark)
-        }
-    }
-    
     private func updateViews() {
-        truckNameLabel.text = truck?.name
-        cuisineTypeLabel.text = truck?.cuisine
+        guard let truck = truck else { return }
+        title = truck.name
+        truckNameLabel.text = truck.name
+        cuisineTypeLabel.text = truck.cuisine
+        let average = averageRating(truck)
+        switch average {
+        case 0:
+            avgRatingLabel.text = "0"
+        default:
+            avgRatingLabel.text = String(average)
+        }
+        updateImageView()
     }
     
     private func createAnnotation() {
@@ -169,16 +160,62 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
             self.presentFTAlertOnMainThread(title: "Sorry!", message: "Unable to rate this truck.", buttonTitle: "Ok")
             return
         }
-        APIController.shared.postRating(rating: rating, truckId: identifer, itemId: nil) { result in
+        APIController.shared.postRating(ratingInt: rating, truckId: identifer, itemId: nil) { result in
             switch result {
             case .success(true):
+                self.presentFTAlertOnMainThread(title: "Thank you!", message: "We appreciate you taking the time to rate this truck.", buttonTitle: "Ok")
                 DispatchQueue.main.async {
-                    self.presentFTAlertOnMainThread(title: "Thank you!", message: "We appreciate you taking the time to rate this truck.", buttonTitle: "Ok")
+                    self.updateAverageRating()
                 }
             default:
+                self.presentFTAlertOnMainThread(title: "Sorry!", message: "Unable to rate this truck.", buttonTitle: "Ok")
+            }
+        }
+    }
+    
+    private func averageRating(_ truck: TruckListing) -> Int {
+        if !truck.ratings.isEmpty {
+            let ratingSum = truck.ratings.reduce(0, +)
+            return Int(ratingSum / truck.ratings.count)
+        } else {
+            return 0
+        }
+    }
+    
+    private func updateAverageRating() {
+        guard let truck = truck,
+              let identifier = truck.identifier else { return }
+        APIController.shared.fetchRatings(truckId: identifier, itemId: nil) { result in
+            switch result {
+            case .success(let ratings):
                 DispatchQueue.main.async {
-                    self.presentFTAlertOnMainThread(title: "Sorry!", message: "Unable to rate this truck.", buttonTitle: "Ok")
+                    let ratingSum = ratings.reduce(0, +)
+                    let average = Int(ratingSum / ratings.count)
+                    switch average {
+                    case 0:
+                        self.avgRatingLabel.text = ""
+                    default:
+                        self.avgRatingLabel.text = String(average)
+                    }
                 }
+            default:
+                return
+            }
+        }
+    }
+    
+    private func updateImageView() {
+        guard let truck = truck,
+              let imageString = truck.imageString,
+              !imageString.isEmpty else { return }
+        APIController.shared.fetchImage(at: imageString) { result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self.truckImageView.image = image
+                }
+            default:
+                return
             }
         }
     }

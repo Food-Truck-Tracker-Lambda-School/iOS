@@ -10,8 +10,11 @@ import CoreData
 
 class ProfileVC: UIViewController {
     
-    // Outlets
+    // MARK: - Outlets
+    
     @IBOutlet private weak var tableView: UITableView!
+    
+    // MARK: - Properties
     
     lazy var fetchedResultsController: NSFetchedResultsController<Truck> = {
         let fetchRequest: NSFetchRequest<Truck> = Truck.fetchRequest()
@@ -27,23 +30,44 @@ class ProfileVC: UIViewController {
         return frc
     }()
 
+    // MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        APIController.shared.getFavorites { _ in }
         updateView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        APIController.shared.getFavorites { _ in }
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "editTruckSegue" {
+            if let editTruckVC = segue.destination as? CreateTruckVC,
+               let indexPath = tableView.indexPathForSelectedRow {
+                let truck = fetchedResultsController.object(at: indexPath)
+                editTruckVC.truck = truck
+            }
+        } else if segue.identifier == "editMenuSegue" {
+            if let editMenuVC = segue.destination as? CreateMenuVC,
+               let indexPath = tableView.indexPathForSelectedRow {
+                let truck = fetchedResultsController.object(at: indexPath)
+                editMenuVC.truck = truck
+            }
+        }
     }
     
-    func updateView() {
-        if APIController.shared.currentUser?.roleId == 2 {
+    // MARK: - Private Functions
+    
+    private func updateView() {
+        guard let userRole = APIController.shared.userRole else { return }
+        if userRole == .owner {
             navigationItem.rightBarButtonItem?.isEnabled = true
             navigationItem.rightBarButtonItem?.tintColor = .systemGray
+            title = "My Trucks"
         } else {
+            title = "My Favorite Trucks"
             navigationItem.rightBarButtonItem?.isEnabled = false
             navigationItem.rightBarButtonItem?.tintColor = .clear
         }
@@ -65,7 +89,17 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableViewCell.resuseIdentifier, for: indexPath) as? ProfileTableViewCell else { fatalError("Error") }
         cell.truck = fetchedResultsController.object(at: indexPath)
+        cell.delegate = self
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        if let vc = sb.instantiateViewController(withIdentifier: "AddImageViewController") as? AddImageViewController {
+                let truck = fetchedResultsController.object(at: indexPath)
+                vc.truck = truck
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -138,4 +172,11 @@ extension ProfileVC: NSFetchedResultsControllerDelegate {
         }
     }
     
+}
+
+extension ProfileVC: ProfileCellDelegate {
+    func didTapButton(cell: ProfileTableViewCell) {
+        let indexPath = tableView.indexPath(for: cell)
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
+    }
 }

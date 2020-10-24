@@ -9,7 +9,7 @@ import UIKit
 
 class CreateMenuTableViewCell: UITableViewCell {
     
-    // Outlets
+    // MARK: - Outlets
     @IBOutlet private weak var menuItemImageView: UIImageView!
     @IBOutlet private weak var menuItemName: UILabel!
   
@@ -26,25 +26,37 @@ class CreateMenuTableViewCell: UITableViewCell {
         }
     }
     
+    // MARK: - Private Functions
     
-    func updateView() {
+    private func updateView() {
         guard let menuItem = menuItem else { return }
-        
         menuItemName.text = menuItem.name
         menuDescriptionLabel.text = menuItem.description
-        menuItemPriceLabel.text = "$\(menuItem.price)"
-    }//
-    
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+        let priceString = String(format: "%.2f", menuItem.price)
+        menuItemPriceLabel.text = "$\(priceString)"
+        updateImageView()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    private func updateImageView() {
+        guard let menuItem = menuItem,
+              !menuItem.photos.isEmpty else {
+            self.menuItemImageView.image = UIImage(named: "plateFood")
+            return
+        }
+        let photo = menuItem.photos[0]
+        let imageString = photo.url
+        APIController.shared.fetchImage(at: imageString) { result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self.menuItemImageView.image = image
+                }
+            default:
+                DispatchQueue.main.async {
+                    self.menuItemImageView.image = UIImage(named: "plateFood")
+                }
+            }
+        }
     }
 
 }

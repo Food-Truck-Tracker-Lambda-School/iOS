@@ -11,9 +11,11 @@ import MapKit
 class SearchVC: UIViewController {
     
     // MARK: - Outlets
+    
     @IBOutlet private weak var mapKit: MKMapView!
     
     // MARK: - Properties
+    
     fileprivate let locationManager = CLLocationManager()
     var span = MKCoordinateSpan(latitudeDelta: 0.15, longitudeDelta: 0.15)
     var userLocation: CLLocationCoordinate2D?
@@ -25,11 +27,13 @@ class SearchVC: UIViewController {
     }
     var filters = Filters()
     var truckPins: [MKPointAnnotation] = []
+    var selectedPin: MKPointAnnotation?
 
     // MARK: - View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapKit.delegate = self
         setUpMap()
     }
     
@@ -69,6 +73,14 @@ class SearchVC: UIViewController {
                     tableVC.filteredTrucks = filteredTrucks
                 } else {
                     tableVC.filteredTrucks = trucks
+                }
+            }
+        } else if segue.identifier == "showDetailFromMapSegue" {
+            if let detailVC = segue.destination as? TruckDetailVC,
+               let pin = selectedPin {
+                let name = pin.title
+                for truck in trucks where name == truck.name {
+                    detailVC.truck = truck
                 }
             }
         }
@@ -115,6 +127,12 @@ class SearchVC: UIViewController {
     }
 
 } // SearchVC
+
+extension SearchVC: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        self.selectedPin = view.annotation as? MKPointAnnotation
+    }
+}
 
 extension SearchVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

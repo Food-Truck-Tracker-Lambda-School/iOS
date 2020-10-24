@@ -15,7 +15,23 @@ class MenuTableVC: UIViewController {
     
     // MARK: - Properties
     
-    var truck: TruckListing?
+    var truck: TruckListing? {
+        didSet {
+            guard let truck = truck,
+                  let identifier = truck.identifier else { return }
+            APIController.shared.fetchTruckMenu(truckId: identifier) { result in
+                switch result {
+                case .success(let truckMenu):
+                    DispatchQueue.main.async {
+                        self.menu = truckMenu
+                    }
+                default:
+                    NSLog("Failed to get menu")
+                }
+            }
+        }
+    }
+    
     lazy var menu = truck?.menu {
         didSet {
             tableView.reloadData()
@@ -28,7 +44,8 @@ class MenuTableVC: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
+        guard let truck = truck else { return }
+        title = "Menu for \(truck.name)"
     }
     
     // MARK: - Navigation
@@ -36,9 +53,11 @@ class MenuTableVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showMenuDetailVC" {
             if let detailVC = segue.destination as? MenuDetailVC,
+               let truck = truck,
                let menu = menu,
                let index = tableView.indexPathForSelectedRow {
                 detailVC.item = menu[index.row]
+                detailVC.truck = truck
             }
         }
     }

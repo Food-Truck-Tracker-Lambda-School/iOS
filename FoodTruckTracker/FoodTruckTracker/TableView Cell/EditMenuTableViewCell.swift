@@ -10,10 +10,10 @@ import UIKit
 class EditMenuTableViewCell: UITableViewCell {
     
     // Outlets
-    @IBOutlet weak var menuItemImageView: UIImageView!
-    @IBOutlet weak var menuItemNameLabel: UILabel!
-    @IBOutlet weak var menuDescriptionLabel: UILabel!
-    @IBOutlet weak var menuItemPriceLabel: UILabel!
+    @IBOutlet private weak var menuItemImageView: UIImageView!
+    @IBOutlet private weak var menuItemNameLabel: UILabel!
+    @IBOutlet private weak var menuDescriptionLabel: UILabel!
+    @IBOutlet private weak var menuItemPriceLabel: UILabel!
     
     
     // MARK: - Properties
