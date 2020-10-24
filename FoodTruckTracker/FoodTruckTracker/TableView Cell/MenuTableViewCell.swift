@@ -35,21 +35,13 @@ class MenuTableViewCell: UITableViewCell {
         updateImageView()
         averageRating()
     }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
     private func updateImageView() {
         guard let item = item,
-              !item.photos.isEmpty else { return }
+              !item.photos.isEmpty else {
+            itemImageView.image = UIImage(named: "plateFood")
+            return
+        }
         let imageString = item.photos[0].url
         APIController.shared.fetchImage(at: imageString) { result in
             switch result {
@@ -58,7 +50,7 @@ class MenuTableViewCell: UITableViewCell {
                     self.itemImageView.image = image
                 }
             default:
-                return
+                self.itemImageView.image = UIImage(named: "plateFood")
             }
         }
     }

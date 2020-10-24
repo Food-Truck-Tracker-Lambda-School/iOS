@@ -156,24 +156,29 @@ class MenuDetailVC: UIViewController {
 
 extension MenuDetailVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
     }
     
-    
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        3
+        guard let item = item else { return 1 }
+        if !item.photos.isEmpty {
+            return item.photos.count
+        } else {
+            return 1
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuCollectionViewCell.resuseIdentifier, for: indexPath) as? MenuCollectionViewCell else { fatalError("Failed \(MenuCollectionViewCell.self)") }
-    
-        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuCollectionViewCell.reuseIdentifier, for: indexPath) as? MenuCollectionViewCell else { fatalError("Failed \(MenuCollectionViewCell.self)") }
+        if let photos = item?.photos,
+           !photos.isEmpty {
+            let photo = photos[indexPath.item]
+            cell.photo = photo
+        } else {
+            cell.image = UIImage(named: "plateFood")
+        }
         return cell
     }
-    
     
 }

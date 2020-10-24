@@ -93,6 +93,15 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        if let vc = sb.instantiateViewController(withIdentifier: "AddImageViewController") as? AddImageViewController {
+                let truck = fetchedResultsController.object(at: indexPath)
+                vc.truck = truck
+            self.present(vc, animated: true, completion: nil)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         fetchedResultsController.fetchedObjects?[section].cuisine
     }

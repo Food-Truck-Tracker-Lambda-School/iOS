@@ -52,6 +52,21 @@ class CreateMenuVC: UIViewController {
         setUpView()
     }
     
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "itemImageSegue" {
+            if let imageVC = segue.destination as? AddImageViewController,
+               let indexPath = tableView.indexPathForSelectedRow,
+               let truckInfo = truckListing,
+               let menu = menu {
+                let item = menu[indexPath.row]
+                imageVC.truckListing = truckInfo
+                imageVC.item = item
+            }
+        }
+    }
+    
     // MARK: - Actions
     
     @IBAction func addMenuButton(_ sender: UIButton) {
@@ -67,7 +82,19 @@ class CreateMenuVC: UIViewController {
         APIController.shared.createMenuItem(item: item, truckId: identifier) { _ in
             self.presentFTAlertOnMainThread(title: "Success", message: "Your menu item was created.", buttonTitle: "OK")
             DispatchQueue.main.async {
-                self.setUpView()
+                self.itemNameTextField.text?.removeAll()
+                self.priceTextField.text?.removeAll()
+                self.descriptionTextField.text = "Description"
+                APIController.shared.fetchTruckMenu(truckId: identifier) { result in
+                    switch result {
+                    case .success(let truckMenu):
+                        DispatchQueue.main.async {
+                            self.menu = truckMenu
+                        }
+                    default:
+                        NSLog("Failed to get menu")
+                    }
+                }
             }
         }
     }
@@ -75,6 +102,7 @@ class CreateMenuVC: UIViewController {
     // MARK: - Private Functions
     
     private func setUpView() {
+        truckImageView.image = UIImage(named: "plateFood")
         if let truck = truck {
             APIController.shared.fetchSingleTruck(truck: truck) { result in
                 DispatchQueue.main.async {
@@ -108,6 +136,27 @@ extension CreateMenuVC: UITableViewDelegate, UITableViewDataSource {
             cell.menuItem = menu[indexPath.row]
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView,
+                            commit editingStyle: UITableViewCell.EditingStyle,
+                            forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            guard let menu = menu,
+                  let truckListing = truckListing,
+                  let truckId = truckListing.identifier else { return }
+            let item = menu[indexPath.row]
+            APIController.shared.deleteMenuItem(item: item, truckId: truckId) { result in
+                switch result {
+                case .success(let newMenu):
+                    DispatchQueue.main.async {
+                        self.menu = newMenu
+                    }
+                default:
+                    self.presentFTAlertOnMainThread(title: "Error", message: "Failed to deleted menu item.", buttonTitle: "OK")
+                }
+            }
+        }
     }
     
 }

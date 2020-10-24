@@ -556,7 +556,7 @@ class APIController {
     ///   - truckId: accepts TruckListing.identifier
     ///   - itemId: accepts optional MenuItem.id, set to nil when adding an image to a TruckListing
     ///   - completion: calls updateTruckWithPhoto or updateMenuItemWithPhoto to update server
-    func postImage(photoData: Data, truckId: Int, itemId: Int?, completion: @escaping (Result<Photo, NetworkError>) -> Void) {
+    func postImage(photoData: Data, truckId: Int, itemId: Int?, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
         guard let bearer = bearer,
               userRole == .owner else { return }
         let postData = PhotoData(userId: bearer.id, file: photoData)
@@ -567,7 +567,7 @@ class APIController {
             request.httpBody = jsonData
             request.httpMethod = HTTPMethod.post.rawValue
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
+//            request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
             dataLoader.dataRequest(with: request) { data, response, error in
                 if let error = error {
                     NSLog("Post failed with error: \(error)")
@@ -589,11 +589,11 @@ class APIController {
                     let photo = try JSONDecoder().decode(Photo.self, from: data)
                     if let itemId = itemId {
                         self.updateMenuItemWithPhoto(photo: photo, truckId: truckId, itemId: itemId) { _ in
-                            completion(.success(photo))
+                            completion(.success(true))
                         }
                     } else {
                         self.updateTruckWithPhoto(photo: photo, truckId: truckId) { _ in
-                            completion(.success(photo))
+                            completion(.success(true))
                         }
                     }
                 } catch {

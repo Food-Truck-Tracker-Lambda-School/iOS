@@ -101,7 +101,7 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
         let average = averageRating(truck)
         switch average {
         case 0:
-            avgRatingLabel.text = "N/A"
+            avgRatingLabel.text = "0"
         default:
             avgRatingLabel.text = String(average)
         }
@@ -193,7 +193,7 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
                     let average = Int(ratingSum / ratings.count)
                     switch average {
                     case 0:
-                        self.avgRatingLabel.text = "N/A"
+                        self.avgRatingLabel.text = ""
                     default:
                         self.avgRatingLabel.text = String(average)
                     }
