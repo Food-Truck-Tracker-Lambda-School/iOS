@@ -12,6 +12,7 @@
 		1A4A37AF2541F1B300593195 /* PhotoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A37AE2541F1B300593195 /* PhotoData.swift */; };
 		1A4A37B42543BFCF00593195 /* AddImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A37B32543BFCE00593195 /* AddImageViewController.swift */; };
 		1A4A37C22544F7A100593195 /* RatingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A37C12544F7A100593195 /* RatingController.swift */; };
+		1A4A37C72545EDBA00593195 /* ImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A37C62545EDB900593195 /* ImageController.swift */; };
 		1A51A5BC253CE552001D0325 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5BB253CE552001D0325 /* Photo.swift */; };
 		1A51A5D8253F3FE0001D0325 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5D7253F3FE0001D0325 /* Rating.swift */; };
 		1A51A5DD253F81CA001D0325 /* TrucksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5DC253F81CA001D0325 /* TrucksTableViewController.swift */; };
@@ -82,6 +83,7 @@
 		1A4A37AE2541F1B300593195 /* PhotoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoData.swift; sourceTree = "<group>"; };
 		1A4A37B32543BFCE00593195 /* AddImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddImageViewController.swift; sourceTree = "<group>"; };
 		1A4A37C12544F7A100593195 /* RatingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingController.swift; sourceTree = "<group>"; };
+		1A4A37C62545EDB900593195 /* ImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageController.swift; sourceTree = "<group>"; };
 		1A51A5BB253CE552001D0325 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		1A51A5D7253F3FE0001D0325 /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		1A51A5DC253F81CA001D0325 /* TrucksTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrucksTableViewController.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 			children = (
 				1A6401C5253B64A100D029DD /* APIController.swift */,
 				1A4A37C12544F7A100593195 /* RatingController.swift */,
+				1A4A37C62545EDB900593195 /* ImageController.swift */,
 			);
 			path = ModelControllers;
 			sourceTree = "<group>";
@@ -524,6 +527,7 @@
 				1A4A37B42543BFCF00593195 /* AddImageViewController.swift in Sources */,
 				86599A7F253D01F1002D47DC /* FTBodyLabel.swift in Sources */,
 				1A51A5DD253F81CA001D0325 /* TrucksTableViewController.swift in Sources */,
+				1A4A37C72545EDBA00593195 /* ImageController.swift in Sources */,
 				86018DC9253A0DD100469110 /* MenuTableVC.swift in Sources */,
 				86018DC125394CEA00469110 /* MenuTableViewCell.swift in Sources */,
 				86018DEA253A3A0E00469110 /* SignUpVC.swift in Sources */,

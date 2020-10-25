@@ -156,7 +156,7 @@ extension MenuDetailVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
         if !item.photos.isEmpty {
             return item.photos.count
         } else {
-            return 1
+            return ImageController.shared.getUIImage(nil, nil, item)?.count ?? 1
         }
     }
     
@@ -167,7 +167,9 @@ extension MenuDetailVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
             let photo = photos[indexPath.item]
             cell.photo = photo
         } else {
-            cell.image = UIImage(named: "plateFood")
+            if let photos = ImageController.shared.getUIImage(nil, nil, item) {
+                cell.image = photos[indexPath.item]
+            }
         }
         return cell
     }
