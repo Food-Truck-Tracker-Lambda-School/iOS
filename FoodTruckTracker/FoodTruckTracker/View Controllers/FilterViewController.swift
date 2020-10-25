@@ -193,7 +193,7 @@ extension FilterViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         let pickerLabel = UILabel()
         let titleData = cuisineTypes[row]
         let myTitle = NSAttributedString(string: titleData,
-                                         attributes: [NSAttributedString.Key.font: UIFont(name: "Noteworthy-Bold", size: 20.0)!,
+                                         attributes: [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Bold", size: 20.0)!,
                                                       NSAttributedString.Key.foregroundColor: UIColor.black])
         pickerLabel.attributedText = myTitle
         pickerLabel.textAlignment = .center

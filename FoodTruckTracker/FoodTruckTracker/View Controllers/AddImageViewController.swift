@@ -39,10 +39,17 @@ class AddImageViewController: UIViewController {
         if let truck = truck,
            let name = truck.name,
            item == nil {
-            titleLabel.text = "Add image for \(name)"
+            titleLabel.text = "Change image for \(name)"
+            if let imageArray = ImageController.shared.getUIImage(truck, nil, nil) {
+                imageView.image = imageArray[0]
+            }
         } else if let item = item {
             titleLabel.text = "Add image for \(item.name)"
+            if let imageArray = ImageController.shared.getUIImage(nil, nil, item) {
+                imageView.image = imageArray[0]
+            }
         }
+        presentFTAlertOnMainThread(title: "Sorry", message: "Image uploading is unavailable at this time. Please try again later.", buttonTitle: "OK")
     }
     
     // MARK: - Actions

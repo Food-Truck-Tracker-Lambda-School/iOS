@@ -39,22 +39,26 @@ class CreateMenuTableViewCell: UITableViewCell {
     }
     
     private func updateImageView() {
-        guard let menuItem = menuItem,
-              !menuItem.photos.isEmpty else {
-            self.menuItemImageView.image = UIImage(named: "plateFood")
-            return
-        }
-        let photo = menuItem.photos[0]
-        let imageString = photo.url
-        APIController.shared.fetchImage(at: imageString) { result in
-            switch result {
-            case .success(let image):
-                DispatchQueue.main.async {
-                    self.menuItemImageView.image = image
-                }
-            default:
-                DispatchQueue.main.async {
-                    self.menuItemImageView.image = UIImage(named: "plateFood")
+        if let imageArray = ImageController.shared.getUIImage(nil, nil, menuItem) {
+            menuItemImageView.image = imageArray[0]
+        } else {
+            guard let menuItem = menuItem,
+                  !menuItem.photos.isEmpty else {
+                self.menuItemImageView.image = UIImage(named: "plateFood")
+                return
+            }
+            let photo = menuItem.photos[0]
+            let imageString = photo.url
+            APIController.shared.fetchImage(at: imageString) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        self.menuItemImageView.image = image
+                    }
+                default:
+                    DispatchQueue.main.async {
+                        self.menuItemImageView.image = UIImage(named: "plateFood")
+                    }
                 }
             }
         }

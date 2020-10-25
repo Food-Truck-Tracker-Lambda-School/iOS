@@ -77,11 +77,13 @@ class SearchVC: UIViewController {
             }
         } else if segue.identifier == "showDetailFromMapSegue" {
             if let detailVC = segue.destination as? TruckDetailVC,
-               let pin = selectedPin {
-                let name = pin.title
+               let pin = selectedPin,
+               let name = pin.title {
                 for truck in trucks where name == truck.name {
                     detailVC.truck = truck
                 }
+            } else {
+                self.presentFTAlertOnMainThread(title: "Error", message: "Please select a truck.", buttonTitle: "OK")
             }
         }
     }
@@ -101,12 +103,13 @@ class SearchVC: UIViewController {
         var truckArray: [TruckListing]
         mapKit.removeAnnotations(truckPins)
         truckPins = []
+        var trucksToRemove: [Int] = []
         if !filteredTrucks.isEmpty {
             truckArray = filteredTrucks
         } else {
             truckArray = trucks
         }
-        for truck in truckArray where truck.location.count > 12 {
+        for truck in truckArray {
             let coordinateArray = truck.location.components(separatedBy: " ")
             if let latitude = Double(coordinateArray[0]),
                let longitude = Double(coordinateArray[1]),
@@ -117,7 +120,20 @@ class SearchVC: UIViewController {
                 annotation.title = truck.name
                 annotation.subtitle = cuisine
                 truckPins.append(annotation)
+            } else {
+                if let truckId = truck.identifier {
+                    trucksToRemove.append(truckId)
+                }
             }
+        }
+        var indexRemoveArray: [Int] = []
+        for truckId in trucksToRemove {
+            for index in 0..<trucks.count where trucks[index].identifier == truckId {
+                indexRemoveArray.insert(index, at: 0)
+            }
+        }
+        for index in indexRemoveArray {
+            trucks.remove(at: index)
         }
         mapKit.showAnnotations(truckPins, animated: false)
         if let mapCenter = userLocation {
