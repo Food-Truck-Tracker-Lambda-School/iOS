@@ -9,7 +9,7 @@ import UIKit
 
 class SignUpVC: UIViewController {
     
-    // Outlets
+    // MARK: - Outlets
     @IBOutlet private weak var usernameTextField: UITextField!
     @IBOutlet private weak var emailTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
@@ -17,25 +17,23 @@ class SignUpVC: UIViewController {
     @IBOutlet private weak var operatorSegmentedControl: UISegmentedControl!
     
     // MARK: - Properties
+    
     var apiController = APIController()
     let user: User? = nil
     
-
+    // MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
-
+    // MARK: - Actions
+    
     @IBAction func singUpButton(_ sender: UIButton) {
-        print("SignUp Button Tapped")
-//        presentFTAlertOnMainThread(title: "Empty Textfield", message: "Need to fill out all fields to SignUp.", buttonTitle: "Ok")
-        print("SingUp Got Tapped")
         guard let username = usernameTextField.text, !username.isEmpty,
            let email = emailTextField.text, !email.isEmpty,
            let password = passwordTextField.text, !password.isEmpty else {
-            // Alert
+            self.presentFTAlertOnMainThread(title: "Empty Text Field", message: "Please fill out all the fields to create an account.", buttonTitle: "OK")
             return
         }
         
@@ -52,17 +50,13 @@ class SignUpVC: UIViewController {
         APIController.shared.signIn(existingAccount: nil, newAccount: user, completion: { result in
             
             switch result {
-            case .success(let success):
-                // Perform Segue
-               
+            case .success:
                 DispatchQueue.main.async {
                     self.performSegue(withIdentifier: "signUpGoToTabBarSegue", sender: nil)
                 }
-                
-                print("SignUp Success \(success)")
             case .failure(let error):
-                // Alert
-                print("Failed to SignUp \(error)")
+                self.presentFTAlertOnMainThread(title: "Error", message: "Failed to create a new account. Try a different username.", buttonTitle: "OK")
+                NSLog("Error creating an account: \(error)")
             }
         })
     }//
@@ -75,7 +69,5 @@ class SignUpVC: UIViewController {
             self.apiController.userRole = .owner
         }
     }
-    
-    
 
 } // SignUpVC

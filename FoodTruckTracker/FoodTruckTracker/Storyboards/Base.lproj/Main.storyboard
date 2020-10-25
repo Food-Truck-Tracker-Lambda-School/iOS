@@ -19,8 +19,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="du0-Bd-tfw">
-                                <rect key="frame" x="20" y="729" width="374" height="60"/>
+                                <rect key="frame" x="20" y="219" width="374" height="41"/>
                                 <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                <accessibility key="accessibilityConfiguration" identifier="LoginVC.loginButton">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Login">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -35,8 +38,11 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aas-1p-Zgz">
-                                <rect key="frame" x="20" y="669" width="374" height="40"/>
+                                <rect key="frame" x="20" y="159" width="374" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <accessibility key="accessibilityConfiguration" identifier="LoginVC.passwordTextField">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="7uA-uJ-m8O"/>
                                 </constraints>
@@ -44,8 +50,11 @@
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ekM-uH-uoV">
-                                <rect key="frame" x="20" y="614" width="374" height="40"/>
+                                <rect key="frame" x="20" y="104" width="374" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <accessibility key="accessibilityConfiguration" identifier="LoginVC.usernameTextField">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="gUD-99-svH"/>
                                 </constraints>
@@ -53,7 +62,10 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3dH-wF-0Rc">
-                                <rect key="frame" x="20" y="797" width="366" height="45"/>
+                                <rect key="frame" x="20" y="268" width="366" height="30"/>
+                                <accessibility key="accessibilityConfiguration" identifier="LoginVC.createNewAccount">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
                                 <state key="normal" title="Don't have an account? Sign Up"/>
                                 <connections>
                                     <segue destination="Y8j-hx-Fnn" kind="presentation" id="rYN-9J-Uo3"/>
@@ -61,6 +73,9 @@
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <accessibility key="accessibilityConfiguration" identifier="LoginVC">
+                            <accessibilityTraits key="traits" notEnabled="YES"/>
+                        </accessibility>
                         <constraints>
                             <constraint firstItem="3dH-wF-0Rc" firstAttribute="top" secondItem="du0-Bd-tfw" secondAttribute="bottom" constant="8" symbolic="YES" id="1fv-Uw-fB4"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ekM-uH-uoV" secondAttribute="trailing" constant="20" id="34c-sn-pyi"/>
@@ -68,14 +83,12 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aas-1p-Zgz" secondAttribute="trailing" constant="20" id="HMk-xJ-Hu6"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3dH-wF-0Rc" secondAttribute="trailing" constant="28" id="NgX-nn-e4G"/>
                             <constraint firstItem="du0-Bd-tfw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="ZIm-PQ-rbE"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="du0-Bd-tfw" secondAttribute="bottom" constant="73" id="fE2-Pb-UJR"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="3dH-wF-0Rc" secondAttribute="bottom" constant="20" id="izU-bB-Fku"/>
+                            <constraint firstItem="ekM-uH-uoV" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="gA5-zU-6Sa"/>
                             <constraint firstItem="ekM-uH-uoV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="kNe-ce-mzA"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="du0-Bd-tfw" secondAttribute="trailing" constant="20" id="pX1-LR-RtL"/>
                             <constraint firstItem="du0-Bd-tfw" firstAttribute="top" secondItem="aas-1p-Zgz" secondAttribute="bottom" constant="20" id="rMj-wu-rot"/>
                             <constraint firstItem="aas-1p-Zgz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="tZl-Fj-140"/>
                             <constraint firstItem="aas-1p-Zgz" firstAttribute="top" secondItem="ekM-uH-uoV" secondAttribute="bottom" constant="15" id="x4C-18-LfF"/>
-                            <constraint firstItem="du0-Bd-tfw" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="685" id="zWG-BR-Bfc"/>
                         </constraints>
                     </view>
                     <connections>
@@ -98,8 +111,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w0n-Bw-oL0">
-                                <rect key="frame" x="20" y="483" width="374" height="40"/>
+                                <rect key="frame" x="20" y="60" width="374" height="40"/>
                                 <color key="backgroundColor" name="FTBackgroundColor"/>
+                                <accessibility key="accessibilityConfiguration" identifier="SignUpVC.usernameTextField">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="5YY-1q-J0e"/>
                                 </constraints>
@@ -107,8 +123,11 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xef-oQ-PEy">
-                                <rect key="frame" x="20" y="538" width="374" height="40"/>
+                                <rect key="frame" x="20" y="115" width="374" height="40"/>
                                 <color key="backgroundColor" name="FTBackgroundColor"/>
+                                <accessibility key="accessibilityConfiguration" identifier="SignUpVC.emailTextField">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="ZW4-2e-TP6"/>
                                 </constraints>
@@ -116,8 +135,11 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sdQ-C4-p1p">
-                                <rect key="frame" x="20" y="593" width="374" height="40"/>
+                                <rect key="frame" x="20" y="170" width="374" height="40"/>
                                 <color key="backgroundColor" name="FTBackgroundColor"/>
+                                <accessibility key="accessibilityConfiguration" identifier="SignUpVC.passwordTextField">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="De1-Lo-jYa"/>
                                 </constraints>
@@ -125,8 +147,9 @@
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J3n-t5-2QH">
-                                <rect key="frame" x="20" y="708" width="374" height="60"/>
+                                <rect key="frame" x="20" y="285" width="374" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <accessibility key="accessibilityConfiguration" identifier="SignUpVC.signUpButton"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="Wpu-uo-xTj"/>
                                 </constraints>
@@ -139,7 +162,7 @@
                                 </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="d9C-wG-IT3">
-                                <rect key="frame" x="20" y="648" width="374" height="41"/>
+                                <rect key="frame" x="20" y="225" width="374" height="41"/>
                                 <color key="backgroundColor" name="FTBorderColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="32h-fB-QLR"/>
@@ -155,6 +178,9 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="YRq-bu-gBF"/>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <accessibility key="accessibilityConfiguration" identifier="SignUpVC">
+                            <accessibilityTraits key="traits" notEnabled="YES"/>
+                        </accessibility>
                         <constraints>
                             <constraint firstItem="YRq-bu-gBF" firstAttribute="trailing" secondItem="xef-oQ-PEy" secondAttribute="trailing" constant="20" id="1nm-ju-quq"/>
                             <constraint firstItem="d9C-wG-IT3" firstAttribute="leading" secondItem="YRq-bu-gBF" secondAttribute="leading" constant="20" id="4xJ-tW-Ixz"/>
@@ -163,7 +189,6 @@
                             <constraint firstItem="YRq-bu-gBF" firstAttribute="trailing" secondItem="d9C-wG-IT3" secondAttribute="trailing" constant="20" id="Ns1-dD-I1K"/>
                             <constraint firstItem="xef-oQ-PEy" firstAttribute="leading" secondItem="YRq-bu-gBF" secondAttribute="leading" constant="20" id="XtB-YV-GWm"/>
                             <constraint firstItem="J3n-t5-2QH" firstAttribute="top" secondItem="d9C-wG-IT3" secondAttribute="bottom" constant="20" id="aIv-P9-v4f"/>
-                            <constraint firstItem="YRq-bu-gBF" firstAttribute="bottom" secondItem="J3n-t5-2QH" secondAttribute="bottom" constant="40" id="bdx-ZY-ITU"/>
                             <constraint firstItem="YRq-bu-gBF" firstAttribute="trailing" secondItem="J3n-t5-2QH" secondAttribute="trailing" constant="20" id="bt5-g9-82A"/>
                             <constraint firstItem="d9C-wG-IT3" firstAttribute="top" secondItem="sdQ-C4-p1p" secondAttribute="bottom" constant="15" id="eM8-qM-ImI"/>
                             <constraint firstItem="w0n-Bw-oL0" firstAttribute="leading" secondItem="YRq-bu-gBF" secondAttribute="leading" constant="20" id="ijD-bb-oym"/>
@@ -171,6 +196,7 @@
                             <constraint firstItem="YRq-bu-gBF" firstAttribute="trailing" secondItem="w0n-Bw-oL0" secondAttribute="trailing" constant="20" id="naC-Sz-Xas"/>
                             <constraint firstItem="J3n-t5-2QH" firstAttribute="leading" secondItem="YRq-bu-gBF" secondAttribute="leading" constant="20" id="pDQ-FQ-w1i"/>
                             <constraint firstItem="sdQ-C4-p1p" firstAttribute="top" secondItem="xef-oQ-PEy" secondAttribute="bottom" constant="15" id="ym0-6a-KkB"/>
+                            <constraint firstItem="w0n-Bw-oL0" firstAttribute="top" secondItem="YRq-bu-gBF" secondAttribute="top" constant="60" id="yy4-gL-Qd8"/>
                         </constraints>
                     </view>
                     <connections>

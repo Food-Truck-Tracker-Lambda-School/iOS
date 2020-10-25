@@ -11,7 +11,8 @@ import CoreLocation
 
 class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
-    // Outlets
+    // MARK: - Outlets
+    
     @IBOutlet private weak var truckImageView: UIImageView!
     @IBOutlet private weak var truckNameLabel: UILabel!
     @IBOutlet private weak var cuisineTypeLabel: UILabel!
@@ -21,6 +22,7 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
     
     
     // MARK: - Properties
+    
     private let locationManager = CLLocationManager()
     var truck: TruckListing?
     var location: CLLocationCoordinate2D?
@@ -98,13 +100,8 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
         title = truck.name
         truckNameLabel.text = truck.name
         cuisineTypeLabel.text = truck.cuisine
-        let average = averageRating(truck)
-        switch average {
-        case 0:
-            avgRatingLabel.text = "0"
-        default:
-            avgRatingLabel.text = String(average)
-        }
+        let average = RatingController.shared.averageRating(ratings: truck.ratings)
+        avgRatingLabel.text = String(average)
         updateImageView()
     }
     
@@ -173,15 +170,6 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
         }
     }
     
-    private func averageRating(_ truck: TruckListing) -> Int {
-        if !truck.ratings.isEmpty {
-            let ratingSum = truck.ratings.reduce(0, +)
-            return Int(ratingSum / truck.ratings.count)
-        } else {
-            return 0
-        }
-    }
-    
     private func updateAverageRating() {
         guard let truck = truck,
               let identifier = truck.identifier else { return }
@@ -189,8 +177,7 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
             switch result {
             case .success(let ratings):
                 DispatchQueue.main.async {
-                    let ratingSum = ratings.reduce(0, +)
-                    let average = Int(ratingSum / ratings.count)
+                    let average = RatingController.shared.averageRating(ratings: ratings)
                     switch average {
                     case 0:
                         self.avgRatingLabel.text = ""

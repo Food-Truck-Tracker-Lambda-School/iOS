@@ -32,6 +32,8 @@ class ProfileTableViewCell: UITableViewCell {
         }
     }
     
+    // MARK: - Actions
+    
     @IBAction func editTruckButton(_ sender: UIButton) {
         delegate?.didTapButton(cell: self)
     }
