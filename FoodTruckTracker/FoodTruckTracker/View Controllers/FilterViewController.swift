@@ -113,22 +113,13 @@ class FilterViewController: UIViewController {
         return newArray
     }
     
-    private func averageRating(_ truck: TruckListing) -> Int {
-        if !truck.ratings.isEmpty {
-            let ratingSum = truck.ratings.reduce(0, +)
-            return Int(ratingSum / truck.ratings.count)
-        } else {
-            return 0
-        }
-    }
-    
     private func filterByRating(_ trucks: [TruckListing]) -> [TruckListing] {
         let ratingSelection = ratingControl.selectedSegmentIndex
         filters?.ratingSelection = ratingSelection
         var newArray: [TruckListing] = []
         if ratingSelection != 0 {
             for truck in trucks {
-                let average = averageRating(truck)
+                let average = RatingController.shared.averageRating(ratings: truck.ratings)
                 if average >= ratingSelection {
                     newArray.append(truck)
                 }

@@ -10,6 +10,7 @@ import UIKit
 class CreateMenuTableViewCell: UITableViewCell {
     
     // MARK: - Outlets
+    
     @IBOutlet private weak var menuItemImageView: UIImageView!
     @IBOutlet private weak var menuItemName: UILabel!
   

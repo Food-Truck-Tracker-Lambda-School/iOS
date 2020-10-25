@@ -9,36 +9,34 @@ import UIKit
 
 class LoginVC: UIViewController {
     
-    // Outlets
+    // MARK: - Outlets
+    
     @IBOutlet private weak var usernameTextField: UITextField!
     @IBOutlet private weak var passwordTexxtField: UITextField!
     @IBOutlet private weak var loginBtn: UIButton!
     
-    
+    // MARK: - View Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-   
-        
     }
+    
+    // MARK: - Actions
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
     
     @IBAction func loginButton(_ sender: UIButton) {
-//        presentFTAlertOnMainThread(title: "No Information", message: "Please provide an username and password to Login", buttonTitle: "Ok")
-        
         guard let username = usernameTextField.text, !username.isEmpty,
               let password = passwordTexxtField.text, !password.isEmpty else {
-            // Alert
+            self.presentFTAlertOnMainThread(title: "No Information", message: "Please provide a valid username and password to login.", buttonTitle: "OK")
             return
         }
         
         let user = ReturningUser(username: username, password: password)
         
         APIController.shared.signIn(existingAccount: user, newAccount: nil) { result in
-            
             switch result {
             case .success(true):
                 DispatchQueue.main.async {
@@ -51,8 +49,6 @@ class LoginVC: UIViewController {
                 return
             }
         }
-        
     }//
     
-
 }//

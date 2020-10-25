@@ -24,7 +24,7 @@ class TruckListTableViewCell: UITableViewCell {
         }
     }
     
-    // MARK: - Actions
+    // MARK: - Private Functions
     
     private func updateViews() {
         truckNameLabel.text = truck?.name

@@ -264,4 +264,16 @@ class FoodTruckTrackerTests: XCTestCase {
         XCTAssertTrue(success)
     }
     
+    func testAverageRating() {
+        let ratings = [5, 4, 3, 4, 5]
+        let average = RatingController.shared.averageRating(ratings: ratings)
+        XCTAssertEqual(average, 4)
+    }
+    
+    func testAverageRatingReturnsStars() {
+        let ratings = [5, 4, 3, 4, 5]
+        let average = RatingController.shared.averageRatingReturnsStars(ratings: ratings)
+        XCTAssertEqual(average, "⭐️⭐️⭐️⭐️")
+    }
+    
 }

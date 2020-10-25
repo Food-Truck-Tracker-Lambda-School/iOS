@@ -20,4 +20,10 @@ class MockLoader: NetworkDataLoader {
         }
     }
     
+    func uploadRequest(with request: URLRequest, file: URL, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            completion(self.data, self.response, self.error)
+        }
+    }
+    
 }

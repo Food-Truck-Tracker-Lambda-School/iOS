@@ -16,6 +16,7 @@ disabled_rules: # rule identifiers to exclude from running
   - trailing_comma
   - unused_optional_binding
   - untyped_error_in_catch
+  - line_length
   - vertical_parameter_alignment # does not work with tab indentation: https://github.com/realm/SwiftLint/issues/1573
 
 excluded: # paths to ignore during linting.

@@ -26,6 +26,8 @@ class MenuTableViewCell: UITableViewCell {
         }
     }
     
+    // MARK: - Private Functions
+    
     private func updateView() {
         guard let item = item else { return }
         itemNameLabel.text = item.name
@@ -61,22 +63,8 @@ class MenuTableViewCell: UITableViewCell {
             itemRatingLabel.text = "No ratings yet"
             return
         }
-        let ratingSum = item.ratings.reduce(0, +)
-        let average = Int(ratingSum / item.ratings.count)
-        switch average {
-        case 1:
-            itemRatingLabel.text = "⭐️"
-        case 2:
-            itemRatingLabel.text = "⭐️⭐️"
-        case 3:
-            itemRatingLabel.text = "⭐️⭐️⭐️"
-        case 4:
-            itemRatingLabel.text = "⭐️⭐️⭐️⭐️"
-        case 5:
-            itemRatingLabel.text = "⭐️⭐️⭐️⭐️⭐️"
-        default:
-            itemRatingLabel.text = "No Ratings"
-        }
+        let ratingString = RatingController.shared.averageRatingReturnsStars(ratings: item.ratings)
+        itemRatingLabel.text = ratingString
     }
 
 }

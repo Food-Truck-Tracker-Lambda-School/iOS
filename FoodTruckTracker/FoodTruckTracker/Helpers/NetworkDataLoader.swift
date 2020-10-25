@@ -11,4 +11,5 @@ protocol NetworkDataLoader {
     
     func dataRequest(with request: URLRequest, completion: @escaping (Data?, URLResponse?, Error?) -> Void)
     
+    func uploadRequest(with request: URLRequest, file: URL, completion: @escaping (Data?, URLResponse?, Error?) -> Void)
 }

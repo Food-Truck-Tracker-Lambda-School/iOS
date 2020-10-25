@@ -57,7 +57,7 @@ class MenuDetailVC: UIViewController {
     
     private func ratingView() {
         guard let item = item else { return }
-        let average = averageRating(item)
+        let average = RatingController.shared.averageRating(ratings: item.ratings)
         showAllStars()
         switch average {
         case 1:
@@ -96,15 +96,6 @@ class MenuDetailVC: UIViewController {
         star3.isHidden = false
         star4.isHidden = false
         star5.isHidden = false
-    }
-    
-    private func averageRating(_ item: MenuItem) -> Int {
-        if !item.ratings.isEmpty {
-            let ratingSum = item.ratings.reduce(0, +)
-            return Int(ratingSum / item.ratings.count)
-        } else {
-            return 0
-        }
     }
     
     private func setUpRating() {
