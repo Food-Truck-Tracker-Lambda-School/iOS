@@ -557,6 +557,7 @@
                     <connections>
                         <outlet property="avgRatingLabel" destination="XnZ-fl-eht" id="nAE-Xa-Aid"/>
                         <outlet property="cuisineTypeLabel" destination="UEh-xs-JjX" id="KxD-vN-b9r"/>
+                        <outlet property="favoritesButtonText" destination="r6O-Uj-dCy" id="hUg-rT-6nz"/>
                         <outlet property="mapView" destination="XJ1-7y-rtg" id="Bzw-mE-cec"/>
                         <outlet property="truckImageView" destination="vCq-yG-eMU" id="i3U-5Y-AXj"/>
                         <outlet property="truckNameLabel" destination="Bqu-8i-Hzb" id="aZR-Ih-N9p"/>

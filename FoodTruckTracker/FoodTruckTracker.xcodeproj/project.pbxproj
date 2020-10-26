@@ -13,6 +13,7 @@
 		1A4A37B42543BFCF00593195 /* AddImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A37B32543BFCE00593195 /* AddImageViewController.swift */; };
 		1A4A37C22544F7A100593195 /* RatingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A37C12544F7A100593195 /* RatingController.swift */; };
 		1A4A37C72545EDBA00593195 /* ImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A37C62545EDB900593195 /* ImageController.swift */; };
+		1A4A37CC2546222B00593195 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A37CB2546222B00593195 /* ArrayExtension.swift */; };
 		1A51A5BC253CE552001D0325 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5BB253CE552001D0325 /* Photo.swift */; };
 		1A51A5D8253F3FE0001D0325 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5D7253F3FE0001D0325 /* Rating.swift */; };
 		1A51A5DD253F81CA001D0325 /* TrucksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A51A5DC253F81CA001D0325 /* TrucksTableViewController.swift */; };
@@ -84,6 +85,7 @@
 		1A4A37B32543BFCE00593195 /* AddImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddImageViewController.swift; sourceTree = "<group>"; };
 		1A4A37C12544F7A100593195 /* RatingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingController.swift; sourceTree = "<group>"; };
 		1A4A37C62545EDB900593195 /* ImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageController.swift; sourceTree = "<group>"; };
+		1A4A37CB2546222B00593195 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		1A51A5BB253CE552001D0325 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		1A51A5D7253F3FE0001D0325 /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		1A51A5DC253F81CA001D0325 /* TrucksTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrucksTableViewController.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				1A6401CB253B682000D029DD /* Constants.swift */,
 				1A6401DF253B7C8600D029DD /* NetworkDataLoader.swift */,
 				1A6401E4253B7CC000D029DD /* URLSession+NetworkDataLoader.swift */,
+				1A4A37CB2546222B00593195 /* ArrayExtension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -518,6 +521,7 @@
 				1A51A5D8253F3FE0001D0325 /* Rating.swift in Sources */,
 				86599A9B253D1318002D47DC /* UIColor.swift in Sources */,
 				1A6401CC253B682000D029DD /* Constants.swift in Sources */,
+				1A4A37CC2546222B00593195 /* ArrayExtension.swift in Sources */,
 				1A6401E5253B7CC000D029DD /* URLSession+NetworkDataLoader.swift in Sources */,
 				86599A67253CF3A2002D47DC /* FTAlert.swift in Sources */,
 				1A4A37C22544F7A100593195 /* RatingController.swift in Sources */,

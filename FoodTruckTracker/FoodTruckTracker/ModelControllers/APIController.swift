@@ -136,7 +136,7 @@ class APIController {
     
     /// adds truck to diner favorites by sending to server and updating CoreData; userRole must be diner
     /// - Parameter truckId: accepts TruckListing.identifier
-    func addTruckToFavorites(truckId: Int) {
+    func addTruckToFavorites(truckId: Int, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
         guard let bearer = bearer,
               userRole == .diner else { return }
         let data = ["truckId": truckId]
@@ -145,8 +145,10 @@ class APIController {
             switch result {
             case .success(true):
                 self.getFavorites { _ in }
+                completion(.success(true))
             default:
                 NSLog("Failed to add truck to favorites")
+                completion(.failure(.failedResponse))
             }
         }
     }
@@ -528,16 +530,25 @@ class APIController {
     func postImageFile(photoFile: URL, truckId: Int, itemId: Int?, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
         guard let bearer = bearer,
               userRole == .owner else { return }
-//        let url = photoURL.appendingPathComponent(String(bearer.id))
-        var request = postRequest(for: photoURL)
+        let url = photoURL.appendingPathComponent(String(bearer.id))
+        var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.post.rawValue
         request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
-        dataLoader.uploadRequest(with: request, file: photoFile) { data, response, error in
-            self.checkResponse(for: "postImageFile", data, response, error) { result in
+        request.setValue("multipart/form-data", forHTTPHeaderField: "Content-Type")
+        var data = Data()
+        let boundary = createBoundary()!
+        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+        data.append("Content-Disposition: form-data; name=\"photo\"; filename=\"photo.png\"\r\n".data(using: .utf8)!)
+        data.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
+        data.append(photoFile.dataRepresentation)
+        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+        request.httpBody = data
+        dataLoader.uploadRequest(with: request, from: data) { dataResponse, response, error in
+            self.checkResponse(for: "postImageFile", dataResponse, response, error) { result in
                 switch result {
-                case .success(let data):
+                case .success(let dataResponse):
                     do {
-                        let photo = try JSONDecoder().decode(Photo.self, from: data)
+                        let photo = try JSONDecoder().decode(Photo.self, from: dataResponse)
                         if let itemId = itemId {
                             self.updateMenuItemWithPhoto(photo: photo, truckId: truckId, itemId: itemId) { _ in
                                 completion(.success(true))
@@ -556,6 +567,22 @@ class APIController {
                 }
             }
         }
+    }
+    
+    private func createBoundary() -> String? {
+        let lowerCaseLettersInASCII = UInt8(ascii: "a")...UInt8(ascii: "z")
+        let upperCaseLettersInASCII = UInt8(ascii: "A")...UInt8(ascii: "Z")
+        let digitsInASCII = UInt8(ascii: "0")...UInt8(ascii: "9")
+     
+        let sequenceOfRanges = [lowerCaseLettersInASCII, upperCaseLettersInASCII, digitsInASCII].joined()
+        guard let toString = String(data: Data(sequenceOfRanges), encoding: .utf8) else { return nil }
+     
+        var randomString = ""
+        for _ in 0..<20 { randomString += String(toString.randomElement()!) }
+     
+        let boundary = String(repeating: "-", count: 20) + randomString + "\(Int(Date.timeIntervalSinceReferenceDate))"
+     
+        return boundary
     }
     
     /// fetches an image using a urlString
@@ -609,7 +636,7 @@ class APIController {
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
             dataLoader.dataRequest(with: request) { _, response, error in
-                self.checkResponse(for: "postDataTask", nil, response, error) { result in
+                self.checkResponse(for: "postDataTask", jsonData, response, error) { result in
                     switch result {
                     case .success:
                         completion(.success(true))
@@ -677,7 +704,7 @@ class APIController {
     /// - Throws: CoreDataStack.shared.save is a throwing function
     private func syncTrucksWithCoreData(trucks: [TruckListing]) throws {
         let context = CoreDataStack.shared.container.newBackgroundContext()
-        let identifiersToFetch = trucks.compactMap({ $0.identifier })
+        let identifiersToFetch = trucks.compactMap({ $0.identifier }).removingDuplicates()
         let listingsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, trucks))
         var trucksToCreate = listingsByID
         let fetchRequest: NSFetchRequest<Truck> = Truck.fetchRequest()
