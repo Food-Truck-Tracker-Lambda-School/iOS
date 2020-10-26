@@ -8,6 +8,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import CoreData
 
 class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
@@ -17,6 +18,7 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
     @IBOutlet private weak var truckNameLabel: UILabel!
     @IBOutlet private weak var cuisineTypeLabel: UILabel!
     @IBOutlet private weak var avgRatingLabel: UILabel!
+    @IBOutlet private weak var favoritesButtonText: UIButton!
     
     @IBOutlet private weak var mapView: MKMapView!
     
@@ -25,6 +27,7 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
     
     private let locationManager = CLLocationManager()
     var truck: TruckListing?
+    var isFavorite: Bool = false
     var location: CLLocationCoordinate2D?
     
     // MARK: - View Lifecycle
@@ -32,7 +35,7 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
-        
+        checkFavorites()
         self.mapView.delegate = self
         
         locationManager.delegate = self
@@ -75,15 +78,24 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
             self.presentFTAlertOnMainThread(title: "Error", message: "Only diners can add a truck to favorites.", buttonTitle: "Ok")
             return
         }
+        guard !isFavorite else {
+            self.presentFTAlertOnMainThread(title: "Already in Favorites", message: "You already added this truck to your favorites.", buttonTitle: "OK")
+            return
+        }
         guard let truck = truck,
               let identifer = truck.identifier else {
             self.presentFTAlertOnMainThread(title: "Sorry!", message: "Unable to add to favorites.", buttonTitle: "Ok")
             return
         }
-        APIController.shared.addTruckToFavorites(truckId: identifer)
-        self.presentFTAlertOnMainThread(title: "Success!", message: "This truck has been added to your favorites.", buttonTitle: "Ok")
+        APIController.shared.addTruckToFavorites(truckId: identifer) { result in
+            switch result {
+            case .success:
+                self.presentFTAlertOnMainThread(title: "Success!", message: "This truck has been added to your favorites.", buttonTitle: "Ok")
+            default:
+                self.presentFTAlertOnMainThread(title: "Something went wrong", message: "This truck was not added to favorites.", buttonTitle: "OK")
+            }
+        }
     }
-    
     
     @IBAction func goToLocationGPS(_ sender: UIButton) {
         guard let location = location else { return }
@@ -123,6 +135,29 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
                 mapView.addAnnotation(annotation)
                 let region = MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
                 mapView.setRegion(region, animated: true)
+            }
+        }
+    }
+    
+    private func checkFavorites() {
+        var favoritesIds: [Int] = []
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        let fetchRequest: NSFetchRequest<Truck> = Truck.fetchRequest()
+        context.performAndWait {
+            do {
+                let favoriteTrucks = try context.fetch(fetchRequest)
+                guard !favoriteTrucks.isEmpty else { return }
+                for truck in favoriteTrucks {
+                    favoritesIds.append(Int(truck.identifier))
+                }
+                if let truckId = truck?.identifier {
+                    if favoritesIds.contains(truckId) {
+                        isFavorite = true
+                        favoritesButtonText.setTitle("In Favorites", for: .normal)
+                    }
+                }
+            } catch {
+                return
             }
         }
     }

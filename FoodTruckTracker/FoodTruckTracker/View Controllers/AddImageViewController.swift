@@ -49,17 +49,22 @@ class AddImageViewController: UIViewController {
                 imageView.image = imageArray[0]
             }
         }
-        presentFTAlertOnMainThread(title: "Sorry", message: "Image uploading is unavailable at this time. Please try again later.", buttonTitle: "OK")
+//        presentFTAlertOnMainThread(title: "Sorry", message: "Image uploading is unavailable at this time. Please try again later.", buttonTitle: "OK")
     }
     
     // MARK: - Actions
     
     @IBAction func saveImageButton(_ sender: UIButton) {
         guard let image = image,
-              let imageData = image.jpegData(compressionQuality: 0.1),
+              let imageData = image.pngData(),
               let truckId = truckListing?.identifier else { return }
-        let filename = getDocumentsDirectory().appendingPathComponent("copy.jpg")
-        try? imageData.write(to: filename)
+        let filename = getDocumentsDirectory().appendingPathComponent("photo.png")
+        do {
+            try imageData.write(to: filename)
+        } catch {
+            print("failed to write to filename")
+            return
+        }
         var itemId: Int?
         if let item = item {
             itemId = item.id
