@@ -289,7 +289,7 @@
         <!--Truck DetailVC-->
         <scene sceneID="A1h-cS-6wh">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="HfR-8i-Yaz" customClass="TruckDetailVC" customModule="FoodTruckTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TruckDetailVC" hidesBottomBarWhenPushed="YES" id="HfR-8i-Yaz" customClass="TruckDetailVC" customModule="FoodTruckTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CQ2-g0-xjh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1394,7 +1394,7 @@
                                             <outlet property="editTruckBtn" destination="Smf-qP-syQ" id="Hmb-ZY-qIu"/>
                                             <outlet property="truckImageView" destination="Xpl-75-7Lg" id="flP-cl-9uZ"/>
                                             <outlet property="truckNameLabel" destination="2Jk-2F-mOh" id="Xyg-nT-C2u"/>
-                                            <segue destination="s50-3W-ZhD" kind="presentation" identifier="truckImageSegue" id="Zqu-9d-Sju"/>
+                                            <segue destination="s50-3W-ZhD" kind="presentation" identifier="truckImageSegue" id="N2V-Ea-2b0"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1693,7 +1693,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="pAX-6e-3NP"/>
-        <segue reference="Zqu-9d-Sju"/>
+        <segue reference="N2V-Ea-2b0"/>
         <segue reference="EjX-se-itk"/>
         <segue reference="M17-Zr-luG"/>
     </inferredMetricsTieBreakers>

@@ -153,7 +153,11 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
                 if let truckId = truck?.identifier {
                     if favoritesIds.contains(truckId) {
                         isFavorite = true
-                        favoritesButtonText.setTitle("In Favorites", for: .normal)
+                        if APIController.shared.userRole == .owner {
+                            favoritesButtonText.setTitle("My Truck", for: .normal)
+                        } else {
+                            favoritesButtonText.setTitle("In Favorites", for: .normal)
+                        }
                     }
                 }
             } catch {

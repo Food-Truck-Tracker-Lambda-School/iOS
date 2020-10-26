@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import Cloudinary
 
 class APIController {
     
@@ -267,10 +268,13 @@ class APIController {
         }
     }
     
-    func fetchSingleTruck(truck: Truck, completion: @escaping (Result<TruckListing, NetworkError>) -> Void) {
+    /// fetches a single TruckListing using the truck's identifier
+    /// - Parameters:
+    ///   - truckId: accepts an identifier - Int
+    ///   - completion: returns the truck associated with the truck identifier
+    func fetchSingleTruck(truckId: Int, completion: @escaping (Result<TruckListing, NetworkError>) -> Void) {
         guard let bearer = bearer else { return }
         let ownerId = bearer.id
-        let truckId = String(truck.identifier)
         let path = "\(ownerId)/trucks/\(truckId)"
         guard let request = getRequest(url: ownerURL, urlPathComponent: path) else {
             completion(.failure(.otherError))
@@ -486,103 +490,45 @@ class APIController {
     ///   - itemId: accepts optional MenuItem.id, set to nil when adding an image to a TruckListing
     ///   - completion: calls updateTruckWithPhoto or updateMenuItemWithPhoto to update server
     func postImage(photoData: Data, truckId: Int, itemId: Int?, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
-        guard let bearer = bearer,
-              userRole == .owner else { return }
-        let postData = PhotoData(userId: bearer.id, file: photoData)
-        var request = postRequest(for: photoURL)
-        var jsonData: Data
-        do {
-            jsonData = try JSONEncoder().encode(postData)
-            request.httpBody = jsonData
-            request.httpMethod = HTTPMethod.post.rawValue
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
-            dataLoader.dataRequest(with: request) { data, response, error in
-                self.checkResponse(for: "postImage", data, response, error) { result in
-                    switch result {
-                    case .success(let data):
-                        do {
-                            let photo = try JSONDecoder().decode(Photo.self, from: data)
-                            if let itemId = itemId {
-                                self.updateMenuItemWithPhoto(photo: photo, truckId: truckId, itemId: itemId) { _ in
-                                    completion(.success(true))
-                                }
-                            } else {
-                                self.updateTruckWithPhoto(photo: photo, truckId: truckId) { _ in
-                                    completion(.success(true))
-                                }
-                            }
-                        } catch {
-                            NSLog("Error decoding photo: \(error)")
-                            completion(.failure(.failedDecoding))
-                        }
-                    default:
-                        completion(.failure(.failedResponse))
-                    }
-                }
+        guard userRole == .owner else { return }
+//        let config = CLDConfiguration(cloudName: "dcg21nfwp", apiKey: "247559134527916")
+        let config = CLDConfiguration(cloudName: "communitycalendar1")
+        let cloudinary = CLDCloudinary(configuration: config)
+        cloudinary.createUploader().upload(data: photoData, uploadPreset: "ComCal", completionHandler: { result, error in
+            if let error = error {
+                NSLog("Error posting image to Cloudinary \(error)")
+                completion(.failure(.otherError))
             }
-        } catch {
-            NSLog("Error encoding data: \(error)")
-            completion(.failure(.failedEncoding))
-        }
-    }
-    
-    func postImageFile(photoFile: URL, truckId: Int, itemId: Int?, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
-        guard let bearer = bearer,
-              userRole == .owner else { return }
-        let url = photoURL.appendingPathComponent(String(bearer.id))
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.post.rawValue
-        request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
-        request.setValue("multipart/form-data", forHTTPHeaderField: "Content-Type")
-        var data = Data()
-        let boundary = createBoundary()!
-        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-        data.append("Content-Disposition: form-data; name=\"photo\"; filename=\"photo.png\"\r\n".data(using: .utf8)!)
-        data.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
-        data.append(photoFile.dataRepresentation)
-        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
-        request.httpBody = data
-        dataLoader.uploadRequest(with: request, from: data) { dataResponse, response, error in
-            self.checkResponse(for: "postImageFile", dataResponse, response, error) { result in
-                switch result {
-                case .success(let dataResponse):
-                    do {
-                        let photo = try JSONDecoder().decode(Photo.self, from: dataResponse)
+            if let result = result {
+                DispatchQueue.main.async {
+                    let resultString = result.secureUrl
+                    print(resultString as Any)
+                    if let resultString = resultString {
                         if let itemId = itemId {
-                            self.updateMenuItemWithPhoto(photo: photo, truckId: truckId, itemId: itemId) { _ in
-                                completion(.success(true))
+                            let photo = Photo(id: itemId, url: resultString)
+                            self.updateMenuItemWithPhoto(photo: photo, truckId: truckId, itemId: itemId) { result in
+                                switch result {
+                                case .success:
+                                    completion(.success(true))
+                                default:
+                                    completion(.failure(.otherError))
+                                }
                             }
                         } else {
-                            self.updateTruckWithPhoto(photo: photo, truckId: truckId) { _ in
-                                completion(.success(true))
+                            let photo = Photo(id: truckId, url: resultString)
+                            self.updateTruckWithPhoto(photo: photo, truckId: truckId) { result in
+                                    switch result {
+                                    case .success:
+                                        completion(.success(true))
+                                    default:
+                                        completion(.failure(.otherError))
+                                    }
                             }
                         }
-                    } catch {
-                        NSLog("Error decoding photo: \(error)")
-                        completion(.failure(.failedDecoding))
                     }
-                default:
-                    completion(.failure(.failedResponse))
                 }
             }
-        }
-    }
-    
-    private func createBoundary() -> String? {
-        let lowerCaseLettersInASCII = UInt8(ascii: "a")...UInt8(ascii: "z")
-        let upperCaseLettersInASCII = UInt8(ascii: "A")...UInt8(ascii: "Z")
-        let digitsInASCII = UInt8(ascii: "0")...UInt8(ascii: "9")
-     
-        let sequenceOfRanges = [lowerCaseLettersInASCII, upperCaseLettersInASCII, digitsInASCII].joined()
-        guard let toString = String(data: Data(sequenceOfRanges), encoding: .utf8) else { return nil }
-     
-        var randomString = ""
-        for _ in 0..<20 { randomString += String(toString.randomElement()!) }
-     
-        let boundary = String(repeating: "-", count: 20) + randomString + "\(Int(Date.timeIntervalSinceReferenceDate))"
-     
-        return boundary
+        })
     }
     
     /// fetches an image using a urlString
@@ -826,6 +772,13 @@ class APIController {
         }
     }
     
+    /// a helper function that checks data, response, and error from a data task
+    /// - Parameters:
+    ///   - taskDescription: accepts a String containing the function name where the data task is called for printing responses
+    ///   - data: pass in the data received from the data task
+    ///   - response: pass in the response received from the data task
+    ///   - error: pass in the error received from the data task
+    ///   - completion: returns either success(data) or failure(NetworkError)
     private func checkResponse(for taskDescription: String, _ data: Data?, _ response: URLResponse?, _ error: Error?, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         if let error = error {
             NSLog("\(taskDescription) failed with error: \(error)")

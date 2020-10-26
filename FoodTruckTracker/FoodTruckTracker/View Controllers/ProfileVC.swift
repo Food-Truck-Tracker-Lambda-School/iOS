@@ -56,6 +56,9 @@ class ProfileVC: UIViewController {
                 editMenuVC.truck = truck
             }
         } else if segue.identifier == "truckImageSegue" {
+            guard APIController.shared.userRole == .owner else {
+                return
+            }
             if let imageVC = segue.destination as? AddImageViewController,
                let indexPath = tableView.indexPathForSelectedRow {
                 let truck = fetchedResultsController.object(at: indexPath)
