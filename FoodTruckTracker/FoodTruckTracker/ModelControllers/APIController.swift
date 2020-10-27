@@ -491,8 +491,8 @@ class APIController {
     ///   - completion: calls updateTruckWithPhoto or updateMenuItemWithPhoto to update server
     func postImage(photoData: Data, truckId: Int, itemId: Int?, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
         guard userRole == .owner else { return }
-//        let config = CLDConfiguration(cloudName: "dcg21nfwp", apiKey: "247559134527916")
-        let config = CLDConfiguration(cloudName: "communitycalendar1")
+//        let config = CLDConfiguration(cloudName: "dcg21nfwp", apiKey: "247559134527916") // uploadPreset "ml_default"
+        let config = CLDConfiguration(cloudName: "communitycalendar1") // uploadPreset "ComCal"
         let cloudinary = CLDCloudinary(configuration: config)
         cloudinary.createUploader().upload(data: photoData, uploadPreset: "ComCal", completionHandler: { result, error in
             if let error = error {
@@ -517,12 +517,12 @@ class APIController {
                         } else {
                             let photo = Photo(id: truckId, url: resultString)
                             self.updateTruckWithPhoto(photo: photo, truckId: truckId) { result in
-                                    switch result {
-                                    case .success:
-                                        completion(.success(true))
-                                    default:
-                                        completion(.failure(.otherError))
-                                    }
+                                switch result {
+                                case .success:
+                                    completion(.success(true))
+                                default:
+                                    completion(.failure(.otherError))
+                                }
                             }
                         }
                     }
@@ -607,14 +607,18 @@ class APIController {
         request.httpMethod = HTTPMethod.delete.rawValue
         request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
         dataLoader.dataRequest(with: request) { _, response, error in
-            self.checkResponse(for: "deleteDataTask", nil, response, error) { result in
-                switch result {
-                case .success:
-                    completion(.success(true))
-                default:
-                    completion(.failure(.failedResponse))
-                }
+            if let error = error {
+                NSLog("Delete data task failed with error: \(error)")
+                completion(.failure(.otherError))
+                return
             }
+            if let response = response as? HTTPURLResponse,
+               !(200...210 ~= response.statusCode) {
+                NSLog("Delete data task failed response - \(response)")
+                completion(.failure(.failedResponse))
+                return
+            }
+            completion(.success(true))
         }
     }
     
@@ -729,14 +733,16 @@ class APIController {
               userRole == .owner else { return }
         let url = ownerURL.appendingPathComponent("\(bearer.id)/trucks/\(truckId)")
         var request = URLRequest(url: url)
+        let urlString = photo.url
+        let data = ["photoUrl": urlString]
         do {
-            let jsonData = try JSONEncoder().encode(photo)
+            let jsonData = try JSONEncoder().encode(data)
             request.httpBody = jsonData
             request.httpMethod = HTTPMethod.put.rawValue
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("Bearer \(bearer.token)", forHTTPHeaderField: "Authorization")
             dataLoader.dataRequest(with: request) { _, response, error in
-                self.checkResponse(for: "deleteDataTask", nil, response, error) { result in
+                self.checkResponse(for: "updateTruckWithPhoto", nil, response, error) { result in
                     switch result {
                     case .success:
                         self.getFavorites { _ in }

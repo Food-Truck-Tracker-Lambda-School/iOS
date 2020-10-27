@@ -56,8 +56,19 @@ class ProfileTableViewCell: UITableViewCell {
     }
     
     private func updateImageView() {
-        if let imageArray = ImageController.shared.getUIImage(truck, nil, nil) {
-            truckImageView.image = imageArray[0]
+        if let truck = truck,
+           let imageString = ImageController.shared.truckImageStrings[Int(truck.identifier)],
+           !imageString.isEmpty {
+            APIController.shared.fetchImage(at: imageString) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        self.truckImageView.image = image
+                    }
+                default:
+                    return
+                }
+            }
         } else {
             guard let truck = truck,
                   let imageString = truck.imageString,

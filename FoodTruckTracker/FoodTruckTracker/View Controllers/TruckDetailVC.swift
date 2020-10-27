@@ -234,8 +234,20 @@ class TruckDetailVC: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
     }
     
     private func updateImageView() {
-        if let imageArray = ImageController.shared.getUIImage(nil, truck, nil) {
-            truckImageView.image = imageArray[0]
+        if let truck = truck,
+           let identifier = truck.identifier,
+           let imageString = ImageController.shared.truckImageStrings[identifier],
+           !imageString.isEmpty {
+            APIController.shared.fetchImage(at: imageString) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        self.truckImageView.image = image
+                    }
+                default:
+                    return
+                }
+            }
         } else {
             guard let truck = truck,
                   let imageString = truck.imageString,

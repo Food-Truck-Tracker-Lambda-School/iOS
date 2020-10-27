@@ -39,8 +39,20 @@ class MenuTableViewCell: UITableViewCell {
     }
     
     private func updateImageView() {
-        if let imageArray = ImageController.shared.getUIImage(nil, nil, item) {
-            itemImageView.image = imageArray[0]
+        if let item = item,
+           let identifier = item.id,
+           let imageString = ImageController.shared.itemImageStrings[identifier],
+           !imageString.isEmpty {
+            APIController.shared.fetchImage(at: imageString) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        self.itemImageView.image = image
+                    }
+                default:
+                    return
+                }
+            }
         } else {
             guard let item = item,
                   !item.photos.isEmpty else {

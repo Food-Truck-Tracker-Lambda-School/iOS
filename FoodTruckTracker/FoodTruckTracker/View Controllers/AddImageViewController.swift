@@ -35,20 +35,8 @@ class AddImageViewController: UIViewController {
         imageView.layer.borderColor = UIColor.darkGray.cgColor
         imageView.layer.borderWidth = 2
         setUpImage()
-        if let truck = truck,
-           let name = truck.name,
-           item == nil {
-            titleLabel.text = "Change image for \(name)"
-            if let imageArray = ImageController.shared.getUIImage(truck, nil, nil) {
-                imageView.image = imageArray[0]
-            }
-        } else if let item = item {
-            titleLabel.text = "Add image for \(item.name)"
-            if let imageArray = ImageController.shared.getUIImage(nil, nil, item) {
-                imageView.image = imageArray[0]
-            }
-        }
-        presentFTAlertOnMainThread(title: "Sorry", message: "Image uploading is unavailable at this time. Please try again later.", buttonTitle: "OK") // Remove when image uploading is available
+        loadImageView()
+//        presentFTAlertOnMainThread(title: "Sorry", message: "Image uploading is unavailable at this time. Please try again later.", buttonTitle: "OK") // Remove when image uploading is available
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,7 +46,7 @@ class AddImageViewController: UIViewController {
             self.presentFTAlertOnMainThread(title: "Sorry!", message: "You cannot edit this truck.", buttonTitle: "OK")
             return
         }
-        dismiss(animated: true, completion: nil) // Remove when image uploading is available
+//        dismiss(animated: true, completion: nil) // Remove when image uploading is available
     }
     
     // MARK: - Actions
@@ -109,6 +97,42 @@ class AddImageViewController: UIViewController {
         imageView.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentPicker))
         imageView.addGestureRecognizer(tapGesture)
+    }
+    
+    private func loadImageView() {
+        if let truck = truck,
+           let name = truck.name,
+           item == nil {
+            titleLabel.text = "Change image for \(name)"
+            if let imageString = ImageController.shared.truckImageStrings[Int(truck.identifier)],
+               !imageString.isEmpty {
+                APIController.shared.fetchImage(at: imageString) { result in
+                    switch result {
+                    case .success(let image):
+                        DispatchQueue.main.async {
+                            self.imageView.image = image
+                        }
+                    default:
+                        return
+                    }
+                }
+            }
+        } else if let item = item,
+                  let identifier = item.id,
+                  let imageString = ImageController.shared.itemImageStrings[identifier],
+                  !imageString.isEmpty {
+            titleLabel.text = "Add image for \(item.name)"
+            APIController.shared.fetchImage(at: imageString) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        self.imageView.image = image
+                    }
+                default:
+                    return
+                }
+            }
+        }
     }
 
     @objc func presentPicker() {
