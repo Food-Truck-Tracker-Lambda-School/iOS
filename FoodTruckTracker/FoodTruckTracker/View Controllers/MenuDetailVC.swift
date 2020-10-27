@@ -152,11 +152,12 @@ extension MenuDetailVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let item = item else { return 1 }
+        guard let item = item,
+              let identifier = item.id else { return 1 }
         if !item.photos.isEmpty {
             return item.photos.count
         } else {
-            return ImageController.shared.getUIImage(nil, nil, item)?.count ?? 1
+            return ImageController.shared.itemImageCounts[identifier] ?? 1
         }
     }
     
@@ -167,9 +168,8 @@ extension MenuDetailVC: UICollectionViewDelegateFlowLayout, UICollectionViewData
             let photo = photos[indexPath.item]
             cell.photo = photo
         } else {
-            if let photos = ImageController.shared.getUIImage(nil, nil, item) {
-                cell.image = photos[indexPath.item]
-            }
+            cell.itemId = item?.id
+            cell.indexPath = indexPath.item
         }
         return cell
     }

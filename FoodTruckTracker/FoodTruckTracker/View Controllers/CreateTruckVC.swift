@@ -155,7 +155,8 @@ class CreateTruckVC: UIViewController {
     
     private func setUpView() {
         if let truck = truck {
-            APIController.shared.fetchSingleTruck(truck: truck) { result in
+            let truckId = Int(truck.identifier)
+            APIController.shared.fetchSingleTruck(truckId: truckId) { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let truckData):

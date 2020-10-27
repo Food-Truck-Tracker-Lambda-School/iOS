@@ -14,7 +14,6 @@ class AddImageViewController: UIViewController {
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var imageView: UIImageView!
     
-    
     // MARK: - Properties
     
     var truck: Truck? {
@@ -36,40 +35,32 @@ class AddImageViewController: UIViewController {
         imageView.layer.borderColor = UIColor.darkGray.cgColor
         imageView.layer.borderWidth = 2
         setUpImage()
-        if let truck = truck,
-           let name = truck.name,
-           item == nil {
-            titleLabel.text = "Change image for \(name)"
-            if let imageArray = ImageController.shared.getUIImage(truck, nil, nil) {
-                imageView.image = imageArray[0]
-            }
-        } else if let item = item {
-            titleLabel.text = "Add image for \(item.name)"
-            if let imageArray = ImageController.shared.getUIImage(nil, nil, item) {
-                imageView.image = imageArray[0]
-            }
+        loadImageView()
+//        presentFTAlertOnMainThread(title: "Sorry", message: "Image uploading is unavailable at this time. Please try again later.", buttonTitle: "OK") // Remove when image uploading is available
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard APIController.shared.userRole == .owner else {
+            dismiss(animated: true, completion: nil)
+            self.presentFTAlertOnMainThread(title: "Sorry!", message: "You cannot edit this truck.", buttonTitle: "OK")
+            return
         }
-//        presentFTAlertOnMainThread(title: "Sorry", message: "Image uploading is unavailable at this time. Please try again later.", buttonTitle: "OK")
+//        dismiss(animated: true, completion: nil) // Remove when image uploading is available
     }
     
     // MARK: - Actions
     
     @IBAction func saveImageButton(_ sender: UIButton) {
         guard let image = image,
-              let imageData = image.pngData(),
-              let truckId = truckListing?.identifier else { return }
-        let filename = getDocumentsDirectory().appendingPathComponent("photo.png")
-        do {
-            try imageData.write(to: filename)
-        } catch {
-            print("failed to write to filename")
-            return
-        }
+              let imageData = image.jpegData(compressionQuality: 0.9),
+              let truckId = truckListing?.identifier,
+        APIController.shared.userRole == .owner else { return }
         var itemId: Int?
         if let item = item {
             itemId = item.id
         }
-        APIController.shared.postImageFile(photoFile: filename, truckId: truckId, itemId: itemId) { result in
+        APIController.shared.postImage(photoData: imageData, truckId: truckId, itemId: itemId) { result in
             switch result {
             case .success(true):
                 self.presentFTAlertOnMainThread(title: "Success", message: "Your image has been uploaded.", buttonTitle: "OK")
@@ -86,7 +77,8 @@ class AddImageViewController: UIViewController {
     
     private func fetchTruckListing() {
         if let truck = truck {
-            APIController.shared.fetchSingleTruck(truck: truck) { result in
+            let truckId = Int(truck.identifier)
+            APIController.shared.fetchSingleTruck(truckId: truckId) { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let truckData):
@@ -105,6 +97,42 @@ class AddImageViewController: UIViewController {
         imageView.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentPicker))
         imageView.addGestureRecognizer(tapGesture)
+    }
+    
+    private func loadImageView() {
+        if let truck = truck,
+           let name = truck.name,
+           item == nil {
+            titleLabel.text = "Change image for \(name)"
+            if let imageString = ImageController.shared.truckImageStrings[Int(truck.identifier)],
+               !imageString.isEmpty {
+                APIController.shared.fetchImage(at: imageString) { result in
+                    switch result {
+                    case .success(let image):
+                        DispatchQueue.main.async {
+                            self.imageView.image = image
+                        }
+                    default:
+                        return
+                    }
+                }
+            }
+        } else if let item = item,
+                  let identifier = item.id,
+                  let imageString = ImageController.shared.itemImageStrings[identifier],
+                  !imageString.isEmpty {
+            titleLabel.text = "Add image for \(item.name)"
+            APIController.shared.fetchImage(at: imageString) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        self.imageView.image = image
+                    }
+                default:
+                    return
+                }
+            }
+        }
     }
 
     @objc func presentPicker() {

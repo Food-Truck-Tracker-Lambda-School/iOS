@@ -104,7 +104,8 @@ class CreateMenuVC: UIViewController {
     private func setUpView() {
         truckImageView.image = UIImage(named: "plateFood")
         if let truck = truck {
-            APIController.shared.fetchSingleTruck(truck: truck) { result in
+            let truckId = (Int(truck.identifier))
+            APIController.shared.fetchSingleTruck(truckId: truckId) { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let truckData):

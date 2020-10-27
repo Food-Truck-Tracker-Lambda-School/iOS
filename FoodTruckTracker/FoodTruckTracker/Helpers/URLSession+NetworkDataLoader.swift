@@ -16,11 +16,4 @@ extension URLSession: NetworkDataLoader {
         task.resume()
     }
     
-    func uploadRequest(with request: URLRequest, from data: Data, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        let task = self.uploadTask(with: request, from: data) { data, response, error in
-            completion(data, response, error)
-        }
-        task.resume()
-    }
-    
 }
